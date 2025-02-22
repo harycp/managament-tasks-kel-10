@@ -15,8 +15,11 @@ TunTask adalah platform manajemen tugas yang dikhususkan untuk himpunan atau org
 ## Mockup Halaman Utama
 
 Halaman utama TunTask dirancang melalui beberapa tahapan desain:
+![Hi-FI Main Tuntask](hi-fimockuptuntask.png)
 
 ## Desain Database Tuntask
+
+![Desain Database](DATABASEDIAGRAMTUNTASK.png)
 
 ### One-to-Many (1:N)
 
