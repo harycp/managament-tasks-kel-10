@@ -38,7 +38,6 @@ Project Tuntask menggunakan dependency manager bernama NPM. Untuk menginstall de
 npm install
 ```
 
-
 # HOW TO UPDATE THE PROJECT WITH GIT VERSION CONTROL SYSTEM
 
 #### 1. Membuat branch baru setiap menambahkan fitur baru
@@ -56,19 +55,18 @@ git checkout -b feat/fe-landing-page
 git checkout -b feat/be-auth-user
 ```
 
-
-#### 3. Jangan lupa untuk selalu ngemerge code program dari branch master agar selalu up to date dan tidak conflict
+#### 3. Jangan lupa untuk selalu ngepull code program dari branch master agar selalu up to date dan tidak conflict
 
 Contoh:
 
 ```git
-git merge master
+git pull master
 ```
 
-atau 
+atau
 
 ```git
-git merge feature-branch
+git pull feature-branch
 ```
 
 #### 2. Melakukan commit setiap aktivitas yang dilakukan
@@ -98,6 +96,66 @@ Contoh:
 
 ```git
 git push origin namaBranch
+```
+
+#### Struktur Folder
+
+```
+task-management/
+│── api-gateway/               # API Gateway Service
+│   ├── src/
+│   │   ├── routes/
+│   │   ├── middlewares/
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── utils/
+│   │   ├── app.js
+│   │   ├── server.js
+│   ├── package.json
+│   ├── .env
+│   ├── README.md
+│
+│── services/
+│   ├── user-service/
+│   │   ├── src/
+│   │   │   ├── models/
+│   │   │   ├── controllers/
+│   │   │   ├── services/
+│   │   │   ├── routes/
+│   │   │   ├── utils/
+│   │   │   ├── database/
+│   │   │   ├── app.js
+│   │   │   ├── server.js
+│   │   ├── package.json
+│   │   ├── Dockerfile
+│   │   ├── .env
+│   │   ├── README.md
+│   │
+│   ├── workspace-service/     # Service untuk workspace & keanggotaan tim
+│   ├── board-service/         # Service untuk board & proyek
+│   ├── project-service/       # Service untuk tugas, list, label, komentar
+│   ├── notification-service/  # Service untuk notifikasi real-time
+│
+│── frontend/                  # Frontend menggunakan Vue.js
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── store/
+│   │   ├── router/
+│   │   ├── main.js
+│   │   ├── App.vue
+│   ├── public/
+│   ├── package.json
+│   ├── vite.config.js
+│
+│── database/                  # Konfigurasi database
+│   ├── migrations/
+│   ├── seeders/
+│   ├── schemas.sql
+│
+│── docker-compose.yml          # Konfigurasi Docker Compose untuk semua service
+│── README.md
+
 ```
 
 ## Tentang Tuntask
