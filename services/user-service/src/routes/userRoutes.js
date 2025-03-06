@@ -3,6 +3,7 @@ const userController = require("../controllers/userController");
 const authenticate = require("../middleware/authMiddleware");
 
 const userRoleController = require("../controllers/userRoleController");
+const permissionController = require("../controllers/permissionController");
 const router = express.Router();
 
 // API FOR AUTH AND CRUD USER
@@ -20,5 +21,12 @@ router.get("/roles", userRoleController.getRoles);
 router.get("/roles/:id", userRoleController.getRoleById);
 router.put("/roles/:id", userRoleController.updateRole);
 router.delete("/roles/:id", userRoleController.deleteRole);
+
+// API FOR PERMISSION
+router.post("/permissions", permissionController.createPermission);
+router.get("/permissions", permissionController.getPermissions);
+router.get("/permissions/:id", permissionController.getPermissionById);
+router.put("/permissions/:id", permissionController.updatePermission);
+router.delete("/permissions/:id", permissionController.deletePermission);
 
 module.exports = router;
