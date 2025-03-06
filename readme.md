@@ -69,6 +69,19 @@ atau
 git pull feature-branch
 ```
 
+#### 2. Melakukan add setiap aktivitas yang dilakukan
+
+##### untuk add langsung semuanya (biasanya emang selalu ini yg dipake)
+```git
+git add .
+```
+
+atau
+
+```git
+git add <spesifik yg pengen di add>
+```
+
 #### 2. Melakukan commit setiap aktivitas yang dilakukan
 
 Format commit adalah sebagai berikut:
