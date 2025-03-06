@@ -45,7 +45,7 @@ npm install
 Format penamaan branch baru adalah sebagai berikut:
 
 ```
-git checkout -b feat/<services>-<fitur>
+git checkout -b feat/<nama-folder>-<fitur>
 ```
 
 Contoh:
