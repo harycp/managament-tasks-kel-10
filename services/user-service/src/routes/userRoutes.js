@@ -5,6 +5,7 @@ const authenticate = require("../middleware/authMiddleware");
 const userRoleController = require("../controllers/userRoleController");
 const permissionController = require("../controllers/permissionController");
 const rolePermissionController = require("../controllers/rolePermissionController");
+const userRoleAssignmentController = require("../controllers/userRoleAssignmentsController");
 const router = express.Router();
 
 // API FOR AUTH AND CRUD USER
@@ -44,6 +45,28 @@ router.put(
 router.delete(
   "/rolePermissions/:id",
   rolePermissionController.deleteRolePermission
+);
+
+// API FOR USER ROLE ASSIGNMENT
+router.post(
+  "/userRoleAssignments",
+  userRoleAssignmentController.createUserRoleAssignment
+);
+router.get(
+  "/userRoleAssignments",
+  userRoleAssignmentController.getUserRoleAssignments
+);
+router.get(
+  "/userRoleAssignments/:id",
+  userRoleAssignmentController.getUserRoleAssignmentById
+);
+router.put(
+  "/userRoleAssignments/:id",
+  userRoleAssignmentController.updateUserRoleAssignment
+);
+router.delete(
+  "/userRoleAssignments/:id",
+  userRoleAssignmentController.deleteUserRoleAssignment
 );
 
 module.exports = router;

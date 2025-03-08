@@ -4,6 +4,7 @@ const userRole = require("./userRoles");
 const permission = require("./permissions");
 
 const rolePermission = require("./rolePermission");
+const userRoleAssignment = require("./useRoleAssignments");
 
 userRole.belongsToMany(permission, {
   through: rolePermission,
@@ -16,12 +17,12 @@ permission.belongsToMany(userRole, {
 });
 
 userRole.belongsToMany(User, {
-  through: "userRoleAssignments",
+  through: userRoleAssignment,
   foreignKey: "role_id",
 });
 
 User.belongsToMany(userRole, {
-  through: "userRoleAssignments",
+  through: userRoleAssignment,
   foreignKey: "user_id",
 });
 

@@ -1,9 +1,7 @@
-const bcrypt = require("bcryptjs");
 const permissionModel = require("../models/permissions");
 const userRole = require("../models/userRoles");
 
 const rolePermission = require("../models/rolePermission");
-const RolePermission = require("../models/rolePermission");
 const { where } = require("sequelize");
 
 const createRolePermission = async (rolePermissionData) => {
@@ -48,21 +46,21 @@ const updateRolePermission = async (id, rolePermissionData) => {
 
   if (existingRolePermission) throw new Error("Role Permission already exists");
 
-  const [updatedRows] = await RolePermission.update(
+  const [updatedRows] = await rolePermission.update(
     { role_id, permission_id },
     { where: { id }, returning: true }
   );
 
   if (updatedRows === 0) return null;
 
-  return await RolePermission.findByPk(id);
+  return await rolePermission.findByPk(id);
 };
 
 const deleteRolePermission = async (id) => {
-  const rolePermission = await RolePermission.findByPk(id);
-  if (!rolePermission) return null;
-  await rolePermission.destroy();
-  return rolePermission;
+  const rolePermissionExists = await rolePermission.findByPk(id);
+  if (!rolePermissionExists) return null;
+  await rolePermissionExists.destroy();
+  return rolePermissionExists;
 };
 
 module.exports = {
