@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const sequelize = require("./database");
 const userRoutes = require("./routes/userRoutes");
+const db = require("./models");
 
 dotenv.config();
 
@@ -16,7 +17,7 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    await sequelize.sync();
+    await db.sequelize.sync();
     console.log("Database connected");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
