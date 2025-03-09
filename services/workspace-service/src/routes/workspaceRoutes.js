@@ -18,4 +18,10 @@ router.put(
   workspaceController.updateWorkspace
 );
 
+router.delete(
+  "/workspaces/:id",
+  authenticate,
+  workspaceController.deleteWorkspace
+);
+
 module.exports = router;
