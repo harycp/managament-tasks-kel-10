@@ -29,4 +29,18 @@ router.get(
   workspaceMemberController.getWorkspaceMemberById
 );
 
+router.put(
+  "/workspaceMembers/:id",
+  authenticate,
+  checkRole,
+  workspaceMemberController.updateWorkspaceMember
+);
+
+router.delete(
+  "/workspaceMembers/:id",
+  authenticate,
+  checkRole,
+  workspaceMemberController.deleteWorkspaceMember
+);
+
 module.exports = router;
