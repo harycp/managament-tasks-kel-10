@@ -14,4 +14,11 @@ router.post(
   workspaceMemberController.createWorkspaceMember
 );
 
+router.get(
+  "/workspaceMember",
+  authenticate,
+  checkRole,
+  workspaceMemberController.getWorkspaceMembers
+);
+
 module.exports = router;

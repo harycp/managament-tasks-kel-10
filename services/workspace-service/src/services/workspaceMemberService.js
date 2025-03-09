@@ -30,4 +30,32 @@ const createWorkspaceMember = async (workspaceMemberData) => {
   return workspaceMember;
 };
 
-module.exports = { createWorkspaceMember };
+const getWorkspaceMembers = async (userID) => {
+  if (!userID) throw new Error("Unauthorized: User Id is required");
+
+  const workspaces = await workspaceModel.findAll({
+    where: { owner_id: userID },
+  });
+
+  if (!workspaces.length) throw new Error("No workspaces found for this user");
+
+  const result = await Promise.all(
+    workspaces.map(async (workspace) => {
+      const members = await workspaceMemberModel.findAll({
+        where: { workspace_id: workspace.id },
+      });
+
+      return {
+        workspace: {
+          id: workspace.id,
+          name: workspace.name,
+        },
+        members: members,
+      };
+    })
+  );
+
+  return result;
+};
+
+module.exports = { createWorkspaceMember, getWorkspaceMembers };
