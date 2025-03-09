@@ -26,4 +26,19 @@ const getWorkspaces = async (req, res) => {
   }
 };
 
-module.exports = { createWorkspace, getWorkspaces };
+const getWorkspaceById = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workspaceId = req.params.id;
+    const workspace = await workspaceService.getWorkspaceById(
+      workspaceId,
+      userId
+    );
+
+    res.status(200).json({ message: "Workspace retrieved", data: workspace });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createWorkspace, getWorkspaces, getWorkspaceById };

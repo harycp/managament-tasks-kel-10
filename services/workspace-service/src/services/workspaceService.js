@@ -21,7 +21,18 @@ const getWorkspaces = async (userId) => {
   return workspaces;
 };
 
+const getWorkspaceById = async (workspaceID, userId) => {
+  if (!userId) throw new Error("Unauthorized: User Id is required");
+
+  const workspace = await workspaceModel.findOne({
+    where: { id: workspaceID, owner_id: userId },
+  });
+
+  return workspace;
+};
+
 module.exports = {
   createWorkspace,
   getWorkspaces,
+  getWorkspaceById
 };
