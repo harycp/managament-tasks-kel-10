@@ -29,4 +29,25 @@ const getWorkspaceMembers = async (req, res) => {
   }
 };
 
-module.exports = { createWorkspaceMember, getWorkspaceMembers };
+const getWorkspaceMemberById = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workspaceMemberId = req.params.id;
+    const workspaceMembers =
+      await workspaceMemberService.getWorkspaceMemberById(
+        workspaceMemberId,
+        userId
+      );
+    res
+      .status(200)
+      .json({ message: "Workspace members retrieved", data: workspaceMembers });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createWorkspaceMember,
+  getWorkspaceMembers,
+  getWorkspaceMemberById,
+};

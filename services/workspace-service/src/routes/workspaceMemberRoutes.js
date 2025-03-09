@@ -4,21 +4,29 @@ const checkRole = require("../middleware/checkRole");
 const workspaceMemberController = require("../controllers/workspaceMemberController");
 
 const express = require("express");
+const { route } = require("./workspaceRoutes");
 const router = express.Router();
 
 // API FOR WORKSPACE
 router.post(
-  "/workspaceMember",
+  "/workspaceMembers",
   authenticate,
   checkRole,
   workspaceMemberController.createWorkspaceMember
 );
 
 router.get(
-  "/workspaceMember",
+  "/workspaceMembers",
   authenticate,
   checkRole,
   workspaceMemberController.getWorkspaceMembers
+);
+
+router.get(
+  "/workspaceMembers/:id",
+  authenticate,
+  checkRole,
+  workspaceMemberController.getWorkspaceMemberById
 );
 
 module.exports = router;
