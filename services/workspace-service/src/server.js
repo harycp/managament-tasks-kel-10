@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const sequelize = require("./database");
 const workspaceRoutes = require("./routes/workspaceRoutes");
+const workspaceMemberRoutes = require("./routes/workspaceMemberRoutes");
 const db = require("./models");
 
 dotenv.config();
@@ -12,6 +13,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", workspaceRoutes);
+app.use("/api", workspaceMemberRoutes);
 
 const PORT = process.env.PORT || 5000;
 
