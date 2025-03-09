@@ -41,4 +41,27 @@ const getWorkspaceById = async (req, res) => {
   }
 };
 
-module.exports = { createWorkspace, getWorkspaces, getWorkspaceById };
+const updateWorkspace = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workspaceId = req.params.id;
+    const workspaceData = req.body;
+
+    const workspace = await workspaceService.updateWorkspace(
+      workspaceId,
+      userId,
+      workspaceData
+    );
+
+    res.status(200).json({ message: "Workspace updated", data: workspace });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createWorkspace,
+  getWorkspaces,
+  getWorkspaceById,
+  updateWorkspace,
+};

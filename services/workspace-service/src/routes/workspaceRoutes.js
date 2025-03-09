@@ -12,5 +12,10 @@ router.get(
   authenticate,
   workspaceController.getWorkspaceById
 );
+router.put(
+  "/workspaces/:id",
+  authenticate,
+  workspaceController.updateWorkspace
+);
 
 module.exports = router;
