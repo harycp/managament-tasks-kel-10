@@ -6,5 +6,6 @@ const router = express.Router();
 
 // API FOR WORKSPACE
 router.post("/workspaces", authenticate, workspaceController.createWorkspace);
+router.get("/workspaces", authenticate, workspaceController.getWorkspaces);
 
 module.exports = router;

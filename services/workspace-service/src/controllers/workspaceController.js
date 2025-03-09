@@ -9,10 +9,21 @@ const createWorkspace = async (req, res) => {
       workspaceData,
       userId
     );
-    res.status(201).json({ message: "Workspace created", workspace });
+    res.status(201).json({ message: "Workspace created", data: workspace });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
 };
 
-module.exports = { createWorkspace };
+const getWorkspaces = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workspaces = await workspaceService.getWorkspaces(userId);
+
+    res.status(200).json({ message: "Workspaces retrieved", data: workspaces });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createWorkspace, getWorkspaces };
