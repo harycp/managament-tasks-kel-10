@@ -12,6 +12,7 @@ const router = express.Router();
 router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
 
+// HARUSNYA NANTI DITANDAI, HANYA BISA ADMIN YG BISA MELIHAT ALL USERS, TAMBAHKAN MIDDLEWARE NANTI DISINI
 router.get("/users", authenticate, userController.getUsers);
 router.get("/users/:id", authenticate, userController.getUserById);
 router.put("/users/:id", authenticate, userController.updateUser);
