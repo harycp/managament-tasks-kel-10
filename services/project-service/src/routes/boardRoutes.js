@@ -11,5 +11,6 @@ router.post(
   boardController.createBoard
 );
 router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);
+router.get("/boards/:id", authenticate, boardController.getBoardById);
 
 module.exports = router;

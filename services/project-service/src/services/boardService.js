@@ -26,4 +26,9 @@ const getBoards = async (workspaceId, token) => {
   return boards;
 };
 
-module.exports = { createBoard, getBoards };
+const getBoardById = async (boardId) => {
+  const board = await boardModel.findByPk(boardId);
+  return board;
+};
+
+module.exports = { createBoard, getBoards, getBoardById };

@@ -32,4 +32,16 @@ const getBoards = async (req, res) => {
   }
 };
 
-module.exports = { createBoard, getBoards };
+const getBoardById = async (req, res) => {
+  try {
+    const boardId = req.params.id;
+
+    const board = await boardService.getBoardById(boardId);
+
+    res.status(200).json({ message: "Board retrieved", data: board });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createBoard, getBoards, getBoardById };
