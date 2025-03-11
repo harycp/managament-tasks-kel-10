@@ -57,4 +57,21 @@ const updateBoard = async (req, res) => {
   }
 };
 
-module.exports = { createBoard, getBoards, getBoardById, updateBoard };
+const deleteBoard = async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    await boardService.deleteBoard(boardId);
+
+    res.status(200).json({ message: "Board deleted", data: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createBoard,
+  getBoards,
+  getBoardById,
+  updateBoard,
+  deleteBoard,
+};

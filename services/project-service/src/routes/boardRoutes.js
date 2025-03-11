@@ -13,5 +13,6 @@ router.post(
 router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);
 router.get("/boards/:id", authenticate, boardController.getBoardById);
 router.put("/boards/:id", authenticate, boardController.updateBoard);
+router.delete("/boards/:id", authenticate, boardController.deleteBoard);
 
 module.exports = router;

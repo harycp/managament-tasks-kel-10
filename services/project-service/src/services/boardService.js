@@ -40,4 +40,18 @@ const updateBoard = async (boardId, name) => {
   return board.update({ name });
 };
 
-module.exports = { createBoard, getBoards, getBoardById, updateBoard };
+const deleteBoard = async (boardId) => {
+  const board = await boardModel.findByPk(boardId);
+
+  if (!board) throw new Error("Board not found");
+
+  return board.destroy();
+};
+
+module.exports = {
+  createBoard,
+  getBoards,
+  getBoardById,
+  updateBoard,
+  deleteBoard,
+};
