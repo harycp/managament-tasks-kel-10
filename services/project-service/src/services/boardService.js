@@ -31,4 +31,13 @@ const getBoardById = async (boardId) => {
   return board;
 };
 
-module.exports = { createBoard, getBoards, getBoardById };
+const updateBoard = async (boardId, name) => {
+  const board = await boardModel.findByPk(boardId);
+
+  if (!board) throw new Error("Board not found");
+  if (board.name === name) return board;
+
+  return board.update({ name });
+};
+
+module.exports = { createBoard, getBoards, getBoardById, updateBoard };
