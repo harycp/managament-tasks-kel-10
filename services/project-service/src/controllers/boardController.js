@@ -17,4 +17,19 @@ const createBoard = async (req, res) => {
   }
 };
 
-module.exports = { createBoard };
+const getBoards = async (req, res) => {
+  try {
+    const workspaceId = req.params.id;
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) return res.status(401).json({ message: "Unauthorized" });
+
+    const boards = await boardService.getBoards(workspaceId, token);
+
+    res.status(200).json({ message: "Boards retrieved", data: boards });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createBoard, getBoards };

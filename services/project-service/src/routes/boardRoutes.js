@@ -5,6 +5,11 @@ const boardController = require("../controllers/boardController");
 const router = express.Router();
 
 // API FOR WORKSPACE
-router.post("/boards/:id", authenticate, boardController.createBoard);
+router.post(
+  "/workspaces/:id/boards",
+  authenticate,
+  boardController.createBoard
+);
+router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);
 
 module.exports = router;
