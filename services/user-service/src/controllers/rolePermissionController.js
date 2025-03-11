@@ -7,7 +7,7 @@ const createRolePermission = async (req, res) => {
     );
     res.status(201).json({
       message: "Role Permission created successfully",
-      rolePermission,
+      data: rolePermission,
     });
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -17,7 +17,10 @@ const createRolePermission = async (req, res) => {
 const getRolePermissions = async (req, res) => {
   try {
     const rolePermissions = await rolePermissionService.getRolePermissions();
-    res.status(200).json(rolePermissions);
+    res.status(200).json({
+      message: "Role Permissions retrieved",
+      data: rolePermissions,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -30,7 +33,10 @@ const getRolePermissionById = async (req, res) => {
     );
     if (!rolePermission)
       return res.status(404).json({ message: "Role Permission not found" });
-    res.status(200).json(rolePermission);
+    res.status(200).json({
+      message: "Role Permission retrieved",
+      data: rolePermission,
+    });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -44,7 +50,10 @@ const updateRolePermission = async (req, res) => {
     );
     if (!rolePermission)
       return res.status(404).json({ message: "Role Permission not found" });
-    res.status(200).json(rolePermission);
+    res.status(200).json({
+      message: "Role Permission updated",
+      data: rolePermission,
+    });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }
@@ -57,7 +66,7 @@ const deleteRolePermission = async (req, res) => {
     );
     if (!rolePermission)
       return res.status(404).json({ message: "Role Permission not found" });
-    res.status(200).json({ message: "Role Permission deleted" });
+    res.status(200).json({ message: "Role Permission deleted", data: true });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
