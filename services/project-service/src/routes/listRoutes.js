@@ -11,5 +11,11 @@ router.post(
   checkRole,
   listController.createList
 );
+router.get(
+  "/boards/:id/lists",
+  authenticate,
+  checkRole,
+  listController.getLists
+);
 
 module.exports = router;

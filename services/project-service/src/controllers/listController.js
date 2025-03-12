@@ -1,3 +1,4 @@
+const e = require("express");
 const listService = require("../services/listService");
 
 const createList = async (req, res) => {
@@ -14,4 +15,15 @@ const createList = async (req, res) => {
   }
 };
 
-module.exports = { createList };
+const getLists = async (req, res) => {
+  try {
+    const boardId = req.params.id;
+    const list = await listService.getLists(boardId);
+
+    res.status(200).json({ message: "Lists retrieved", data: list });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createList, getLists };
