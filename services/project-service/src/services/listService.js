@@ -6,30 +6,25 @@ const boardModel = require("../models/board");
 const createList = async (boardId, name) => {
   if (!boardId) throw new Error("Unauthorized: Board Id is required");
 
-  // Cek apakah board tersedia
   const board = await boardModel.findByPk(boardId);
   if (!board) throw new Error("Board not found");
 
-  // Gunakan transaksi untuk menjaga konsistensi data
   const transaction = await listModel.sequelize.transaction();
   try {
-    // Ambil posisi tertinggi saat ini
     const maxPosition = await listModel.max("position", {
       where: { board_id: boardId },
       transaction,
     });
 
-    // Buat list baru dengan posisi setelah yang terakhir
     const newList = await listModel.create(
       {
         board_id: boardId,
         name,
-        position: (maxPosition || 0) + 1, // Jika tidak ada list, mulai dari 1
+        position: (maxPosition || 0) + 1,
       },
       { transaction }
     );
 
-    // Commit transaksi
     await transaction.commit();
 
     return newList;
@@ -38,29 +33,6 @@ const createList = async (boardId, name) => {
     throw error;
   }
 };
-
-// const getWorkspaceMembers = async (userID) => {
-//   if (!userID) throw new Error("Unauthorized: User Id is required");
-
-//   const workspaces = await workspaceModel.findAll({
-//     where: { owner_id: userID },
-//     include: [{ model: workspaceMemberModel, as: "members" }],
-//   });
-
-//   if (!workspaces.length) throw new Error("No workspaces found for this user");
-
-//   return workspaces.map((workspace) => ({
-//     workspace: {
-//       id: workspace.id,
-//       name: workspace.name,
-//     },
-//     members: workspace.members.map((member) => ({
-//       id: member.id,
-//       user_id: member.user_id,
-//       role: member.role,
-//     })),
-//   }));
-// };
 
 const getLists = async (boardId) => {
   if (!boardId) throw new Error("Unauthorized: Board Id is required");
@@ -128,10 +100,8 @@ const updateListPosition = async (listId, newPosition) => {
   const oldIndex = lists.findIndex((l) => l.id === listId);
   const [movedList] = lists.splice(oldIndex, 1);
 
-  // Masukkan list ke posisi baru
   lists.splice(newPosition - 1, 0, movedList);
 
-  // Update semua list sesuai urutan baru
   const updatePromises = lists.map((l, index) =>
     listModel.update({ position: index + 1 }, { where: { id: l.id } })
   );
