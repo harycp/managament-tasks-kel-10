@@ -1,4 +1,5 @@
-# Tuntask  ![Tuntask](https://raw.githubusercontent.com/harycp/managament-tasks-kel-10/refs/heads/master/Screenshot%202025-03-13%20002716.png)
+# Tuntask  
+<img src="https://raw.githubusercontent.com/harycp/managament-tasks-kel-10/master/Screenshot%202025-03-13%20002716.png" alt="Preview" width="500">
 
 # HOW TO CODE
 
