@@ -1,23 +1,42 @@
+const { Op, Sequelize } = require("sequelize");
+
 const listModel = require("../models/list");
 const boardModel = require("../models/board");
-const workspace = require("../../../workspace-service/src/models/workspace");
 
 const createList = async (boardId, name) => {
   if (!boardId) throw new Error("Unauthorized: Board Id is required");
+
+  // Cek apakah board tersedia
   const board = await boardModel.findByPk(boardId);
   if (!board) throw new Error("Board not found");
 
-  const existingLists = await listModel.count({
-    where: { board_id: boardId },
-  });
+  // Gunakan transaksi untuk menjaga konsistensi data
+  const transaction = await listModel.sequelize.transaction();
+  try {
+    // Ambil posisi tertinggi saat ini
+    const maxPosition = await listModel.max("position", {
+      where: { board_id: boardId },
+      transaction,
+    });
 
-  const newList = await listModel.create({
-    board_id: boardId,
-    name,
-    position: existingLists + 1,
-  });
+    // Buat list baru dengan posisi setelah yang terakhir
+    const newList = await listModel.create(
+      {
+        board_id: boardId,
+        name,
+        position: (maxPosition || 0) + 1, // Jika tidak ada list, mulai dari 1
+      },
+      { transaction }
+    );
 
-  return newList;
+    // Commit transaksi
+    await transaction.commit();
+
+    return newList;
+  } catch (error) {
+    await transaction.rollback();
+    throw error;
+  }
 };
 
 // const getWorkspaceMembers = async (userID) => {
@@ -67,6 +86,7 @@ const getListById = async (listId) => {
   const dataList = await listModel.findByPk(listId, {
     include: [{ model: boardModel, as: "board" }],
   });
+  if (!dataList) throw new Error("List not found");
 
   return {
     list: dataList,
@@ -87,4 +107,73 @@ const updateList = async (listId, name) => {
   return newList[0];
 };
 
-module.exports = { createList, getLists, getListById, updateList };
+const updateListPosition = async (listId, newPosition) => {
+  if (!listId) throw new Error("Unauthorized: List Id is required");
+
+  const list = await listModel.findByPk(listId);
+  if (!list) throw new Error("List not found");
+
+  const boardId = list.board_id;
+
+  const lists = await listModel.findAll({
+    where: { board_id: boardId },
+    order: [["position", "ASC"]],
+  });
+
+  if (newPosition < 1 || newPosition > lists.length) {
+    throw new Error("Invalid position");
+  }
+
+  // Hapus list dari posisi awal
+  const oldIndex = lists.findIndex((l) => l.id === listId);
+  const [movedList] = lists.splice(oldIndex, 1);
+
+  // Masukkan list ke posisi baru
+  lists.splice(newPosition - 1, 0, movedList);
+
+  // Update semua list sesuai urutan baru
+  const updatePromises = lists.map((l, index) =>
+    listModel.update({ position: index + 1 }, { where: { id: l.id } })
+  );
+
+  await Promise.all(updatePromises);
+
+  return lists;
+};
+
+const deleteList = async (listId) => {
+  if (!listId) throw new Error("Unauthorized: List Id is required");
+
+  const list = await listModel.findByPk(listId);
+  if (!list) throw new Error("List not found");
+
+  const boardId = list.board_id;
+  const deletedPosition = list.position;
+
+  await list.destroy();
+
+  const listsToUpdate = await listModel.findAll({
+    where: {
+      board_id: boardId,
+      position: { [Op.gt]: deletedPosition },
+    },
+    order: [["position", "ASC"]],
+  });
+
+  const updatePromises = listsToUpdate.map((l) =>
+    listModel.update({ position: l.position - 1 }, { where: { id: l.id } })
+  );
+
+  await Promise.all(updatePromises);
+
+  return { message: "List deleted successfully" };
+};
+
+module.exports = {
+  createList,
+  getLists,
+  getListById,
+  updateList,
+  updateListPosition,
+  deleteList,
+};

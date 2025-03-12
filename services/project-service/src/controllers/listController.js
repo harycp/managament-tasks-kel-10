@@ -49,4 +49,45 @@ const updateList = async (req, res) => {
   }
 };
 
-module.exports = { createList, getLists, getListById, updateList };
+const updateListPosition = async (req, res) => {
+  try {
+    const listId = req.params.id;
+    const { newPosition } = req.body;
+
+    if (!newPosition) {
+      return res.status(400).json({ error: "New position is required" });
+    }
+
+    const updatedLists = await listService.updateListPosition(
+      listId,
+      newPosition
+    );
+
+    res
+      .status(200)
+      .json({ message: "List position updated", data: updatedLists });
+  } catch (error) {
+    console.log("TYess");
+    res.status(400).json({ error: error.message });
+  }
+};
+
+const deleteList = async (req, res) => {
+  try {
+    const listId = req.params.id;
+    const list = await listService.deleteList(listId);
+
+    res.status(200).json({ message: "List deleted", data: true });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = {
+  createList,
+  getLists,
+  getListById,
+  updateList,
+  updateListPosition,
+  deleteList,
+};
