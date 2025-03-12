@@ -1,7 +1,17 @@
 const sequelize = require("../database");
 
 const board = require("./board");
-const workspace = require("../../../workspace-service/src/models/workspace");
+const list = require("./list");
 
-const db = { sequelize, workspace };
+board.hasMany(list, {
+  foreignKey: "board_id",
+  as: "lists",
+});
+
+list.belongsTo(board, {
+  foreignKey: "board_id",
+  as: "board",
+});
+
+const db = { sequelize, board, list };
 module.exports = db;
