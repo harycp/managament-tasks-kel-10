@@ -73,4 +73,18 @@ const getListById = async (listId) => {
   };
 };
 
-module.exports = { createList, getLists, getListById };
+const updateList = async (listId, name) => {
+  if (!listId) throw new Error("Unauthorized: List Id is required");
+
+  const dataList = await listModel.findByPk(listId);
+  if (!dataList) throw new Error("List not found");
+
+  const [_, newList] = await listModel.update(
+    { name },
+    { where: { id: listId }, returning: true }
+  );
+
+  return newList[0];
+};
+
+module.exports = { createList, getLists, getListById, updateList };

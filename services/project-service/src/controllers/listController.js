@@ -37,4 +37,16 @@ const getListById = async (req, res) => {
   }
 };
 
-module.exports = { createList, getLists, getListById };
+const updateList = async (req, res) => {
+  try {
+    const listId = req.params.id;
+    const name = req.body.name;
+    const list = await listService.updateList(listId, name);
+
+    res.status(200).json({ message: "List updated", data: list });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createList, getLists, getListById, updateList };

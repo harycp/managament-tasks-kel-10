@@ -18,5 +18,6 @@ router.get(
   listController.getLists
 );
 router.get("/lists/:id", authenticate, listController.getListById);
+router.put("/lists/:id", authenticate, checkRole, listController.updateList);
 
 module.exports = router;
