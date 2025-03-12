@@ -61,4 +61,16 @@ const getLists = async (boardId) => {
   };
 };
 
-module.exports = { createList, getLists };
+const getListById = async (listId) => {
+  if (!listId) throw new Error("Unauthorized: List Id is required");
+
+  const dataList = await listModel.findByPk(listId, {
+    include: [{ model: boardModel, as: "board" }],
+  });
+
+  return {
+    list: dataList,
+  };
+};
+
+module.exports = { createList, getLists, getListById };

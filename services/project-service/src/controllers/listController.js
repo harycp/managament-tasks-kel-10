@@ -26,4 +26,15 @@ const getLists = async (req, res) => {
   }
 };
 
-module.exports = { createList, getLists };
+const getListById = async (req, res) => {
+  try {
+    const listId = req.params.id;
+    const list = await listService.getListById(listId);
+
+    res.status(200).json({ message: "List retrieved", data: list });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
+module.exports = { createList, getLists, getListById };

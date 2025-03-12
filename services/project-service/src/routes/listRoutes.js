@@ -17,5 +17,6 @@ router.get(
   checkRole,
   listController.getLists
 );
+router.get("/lists/:id", authenticate, listController.getListById);
 
 module.exports = router;
