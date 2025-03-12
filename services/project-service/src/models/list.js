@@ -24,6 +24,9 @@ const list = sequelize.define(
     position: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      validate: {
+        min: 1,
+      },
     },
   },
   {

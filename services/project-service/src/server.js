@@ -6,6 +6,7 @@ const sequelize = require("./database");
 const db = require("./models");
 
 const boardRoutes = require("./routes/boardRoutes");
+const listRoutes = require("./routes/listRoutes");
 
 dotenv.config();
 
@@ -13,6 +14,7 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", boardRoutes);
+app.use("/api", listRoutes);
 
 const PORT = process.env.PORT || 5000;
 
