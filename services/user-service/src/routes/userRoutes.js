@@ -17,6 +17,7 @@ router.get("/users", authenticate, userController.getUsers);
 router.get("/users/:id", authenticate, userController.getUserById);
 router.put("/users/:id", authenticate, userController.updateUser);
 router.delete("/users/:id", authenticate, userController.deleteUser);
+router.get("/users/email/:email", authenticate, userController.getUserByEmail);
 
 // API FOR USER ROLE
 router.post("/roles", userRoleController.createRole);
