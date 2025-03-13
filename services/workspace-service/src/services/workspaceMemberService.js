@@ -128,8 +128,6 @@ const deleteWorkspaceMember = async (workspaceMemberId) => {
   return await workspaceMember.destroy();
 };
 
-module.exports = { deleteWorkspaceMember };
-
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,

@@ -17,6 +17,14 @@ const board = sequelize.define(
         key: "id",
       },
     },
+    assignee_id: {
+      type: DataTypes.UUID,
+      allowNull: true,
+      references: {
+        model: "users",
+        key: "id",
+      },
+    },
     name: {
       type: DataTypes.STRING,
       allowNull: false,
