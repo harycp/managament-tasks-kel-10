@@ -1,4 +1,6 @@
-# Tuntask
+<img src="https://raw.githubusercontent.com/harycp/managament-tasks-kel-10/master/Screenshot%202025-03-13%20002716.png" alt="Preview" width="250">
+
+<img src="https://skillicons.dev/icons?i=tailwind,vue,express,nodejs,postgresql,javascript,kafka,docker" alt="Tech Stack" />
 
 # HOW TO CODE
 
