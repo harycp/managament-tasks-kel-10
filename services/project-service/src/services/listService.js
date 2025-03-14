@@ -96,7 +96,6 @@ const updateListPosition = async (listId, newPosition) => {
     throw new Error("Invalid position");
   }
 
-  // Hapus list dari posisi awal
   const oldIndex = lists.findIndex((l) => l.id === listId);
   const [movedList] = lists.splice(oldIndex, 1);
 

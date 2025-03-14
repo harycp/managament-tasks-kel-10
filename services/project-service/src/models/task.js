@@ -1,19 +1,19 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const board = sequelize.define(
-  "board",
+const task = sequelize.define(
+  "task",
   {
     id: {
       type: DataTypes.UUID,
       defaultValue: DataTypes.UUIDV4,
       primaryKey: true,
     },
-    workspace_id: {
+    list_id: {
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: "workspaces",
+        model: "lists",
         key: "id",
       },
     },
@@ -29,10 +29,25 @@ const board = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    due_date: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    position: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 1,
+      },
+    },
   },
   {
     timestamps: true,
   }
 );
 
-module.exports = board;
+module.exports = task;

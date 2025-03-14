@@ -48,6 +48,16 @@ const deleteUser = async (id) => {
   return user;
 };
 
+const getUserByEmail = async (email) => {
+  const user = await User.findOne({ where: { email } });
+  return {
+    id: user.id,
+    username: user.username,
+    email: user.email,
+    name: user.name,
+  };
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -55,4 +65,5 @@ module.exports = {
   getUserById,
   updateUser,
   deleteUser,
+  getUserByEmail,
 };

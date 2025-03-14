@@ -6,10 +6,12 @@ const userModel = require("../../../user-service/src/models/user");
 const userRole = require("../../../user-service/src/models/userRoles");
 
 const createWorkspaceMember = async (workspaceMemberData) => {
-  const { workspace_id, user_id, role } = workspaceMemberData;
+  const { workspace_id, email, role } = workspaceMemberData;
 
-  const user = await userModel.findByPk(user_id);
+  const user = await userModel.findOne({ where: { email } });
   if (!user) throw new Error("User not found");
+
+  const user_id = user.id;
 
   const workspace = await workspaceModel.findByPk(workspace_id);
   if (!workspace) throw new Error("Workspace not found");
@@ -24,11 +26,14 @@ const createWorkspaceMember = async (workspaceMemberData) => {
   if (!isRoleExist) throw new Error("Role not found");
 
   const workspaceMember = await workspaceMemberModel.create({
-    ...workspaceMemberData,
+    workspace_id,
+    user_id,
+    role,
   });
 
   return workspaceMember;
 };
+
 const getWorkspaceMembers = async (userID) => {
   if (!userID) throw new Error("Unauthorized: User Id is required");
 
@@ -122,8 +127,6 @@ const deleteWorkspaceMember = async (workspaceMemberId) => {
 
   return await workspaceMember.destroy();
 };
-
-module.exports = { deleteWorkspaceMember };
 
 module.exports = {
   createWorkspaceMember,
