@@ -3,23 +3,23 @@
     <Navbar />
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
       <!-- Hero Content -->
-      <section class="py-20 flex justify-center items-center">
+      <section class="mt-20 flex justify-center items-center">
         <div class="flex flex-col w-full text-center">
           <div
-            class="flex justify-center items-center gap-2 transition-all duration-500"
+            class="flex text-6xl justify-center items-center gap-2 transition-all duration-500"
           >
-            <span class="text-4xl font-bold text-gray-900">{{ prefix }}</span>
+            <span class="font-bold text-gray-900">{{ prefix }}</span>
             <div class="relative w-auto min-w-[8rem] text-center">
               <transition name="swing" mode="out-in">
                 <span
                   :key="displayedText"
-                  class="text-4xl font-bold text-gray-400 block"
+                  class="font-bold text-gray-400 block"
                 >
                   {{ displayedText }}
                 </span>
               </transition>
             </div>
-            <span class="text-4xl font-bold text-gray-900">{{ suffix }}</span>
+            <span class="font-bold text-gray-900">{{ suffix }}</span>
           </div>
           <h2 class="text-xl font-normal mt-4">
             Kelola tugas, atur tim, dan selesaikan proyek dalam satu platform.
@@ -27,7 +27,7 @@
           <div class="w-40 h-12 mx-auto mt-4">
             <PrimaryButton
               label="Bergabung"
-              :additionalClass="'font-semibold'"
+              :additionalClass="'font-bold'"
               btnType="link"
               path="/"
             />

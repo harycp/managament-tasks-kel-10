@@ -30,7 +30,7 @@ export default {
   <a
     v-if="btnType === 'link'"
     :href="path"
-    class="w-full flex h-full cursor-pointer items-center justify-center text-base py-0 rounded-md border-2 border-black text-black hover:text-white md:text-base hover:bg-black"
+    class="w-full flex h-full cursor-pointer items-center justify-center text-base py-0 rounded-md border-2 border-black text-black hover:text-white md:text-base hover:bg-black transition-all duration-300"
     :class="additionalClass"
   >
     <span v-html="label"></span>

@@ -1,5 +1,5 @@
 <template>
-  <nav id="navbar" class="fixed top-0 left-0 w-full z-50">
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all">
     <div
       class="flex items-center justify-between mx-auto max-w-7xl px-6 py-4 sm:px-6 lg:px-8"
     >
@@ -7,7 +7,7 @@
         <!-- Logo -->
         <a href="/" class="flex items-center group space-x-1">
           <p
-            class="jacquarda-bastarda-9-regular text-4xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
+            class="jacquarda-bastarda-9-regular text-5xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
           >
             T
           </p>
@@ -80,31 +80,32 @@
 </style>
 
 <script>
+import { onMounted, onUnmounted } from "vue";
 import PrimaryButton from "../components/PrimaryButton.vue";
-import logoImg from "../assets/Tuntask.png";
 
 export default {
   components: {
     PrimaryButton,
   },
-  data() {
-    return {
-      logoImg,
-    };
-  },
-  mounted() {
-    const beFixed = () => {
+  setup() {
+    const handleScroll = () => {
       const navbar = document.querySelector("#navbar");
-      if (!navbar) {
-        return;
-      }
-      if (window.pageYOffset > navbar.offsetTop) {
-        navbar.classList.replace("relative", "fixed");
+      if (!navbar) return;
+
+      if (window.scrollY > 10) {
+        navbar.classList.add("bg-white/40", "backdrop-blur-md");
       } else {
-        navbar.classList.replace("fixed", "relative");
+        navbar.classList.remove("bg-white/40", "backdrop-blur-md");
       }
     };
-    window.addEventListener("scroll", beFixed);
+
+    onMounted(() => {
+      window.addEventListener("scroll", handleScroll);
+    });
+
+    onUnmounted(() => {
+      window.removeEventListener("scroll", handleScroll);
+    });
   },
 };
 </script>
