@@ -1,11 +1,11 @@
 import { createMemoryHistory, createRouter } from "vue-router";
-import HelloWorld from "../components/HelloWorld.vue";
+import Index from "../pages/Landing/Index.vue";
 
 const routes = [
   {
     path: "/",
     name: "home",
-    component: HelloWorld,
+    component: Index,
   },
 ];
 
