@@ -101,16 +101,20 @@
         </div>
       </section>
     </div>
+    <section>
+      <Footer />
+    </section>
   </div>
 </template>
 
 <script>
 import { ref, onMounted } from "vue";
 import Navbar from "../../fragments/Navbar.vue";
+import Footer from "../../fragments/Footer.vue";
 import PrimaryButton from "../../components/PrimaryButton.vue";
 
 export default {
-  components: { Navbar, PrimaryButton },
+  components: { Navbar, Footer, PrimaryButton },
 
   setup() {
     const words = ["Rancang", "Kerjakan", "Selesaikan"];
