@@ -1,6 +1,6 @@
 <template>
   <footer class="bg-gray-100 pt-6">
-    <div class="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+    <div class="mx-auto w-full max-w-7xl px-4 py-6 lg:py-8">
       <div class="md:flex md:justify-between">
         <div class="mb-8 md:mb-0">
           <Logo />

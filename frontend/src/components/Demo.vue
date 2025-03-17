@@ -6,7 +6,7 @@
         Kelola & Berkolaborasi dalam Berbagai Proyek
       </h2>
       <p class="text-gray-500 mt-2">
-        Organize your tasks, team, and goals efficiently.
+        Atur tugas, tim, dan tujuan Anda secara efisien.
       </p>
       <div class="mt-8 rounded-lg overflow-hidden shadow-xl max-w-7xl mx-auto">
         <img
