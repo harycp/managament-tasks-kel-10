@@ -189,7 +189,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .swing-enter-active,
 .swing-leave-active {
   transition: transform 0.5s ease, opacity 0.5s ease;
