@@ -1,8 +1,10 @@
 <template>
-  <section class="mt-20 flex justify-center items-center">
-    <div class="flex flex-col w-full text-center">
+  <section
+    class="mt-20 md:mt-40 flex justify-start md:justify-center items-start md:items-center px-4"
+  >
+    <div class="flex flex-col w-full max-w-screen-md text-left md:text-center">
       <div
-        class="flex text-6xl justify-center items-center gap-2 transition-all duration-500"
+        class="font-lyon flex flex-wrap text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold justify-start md:justify-center gap-2 transition-all duration-500"
       >
         <span class="font-bold text-gray-900">{{ prefix }}</span>
         <div class="relative w-auto min-w-[8rem] text-center">
@@ -14,16 +16,30 @@
         </div>
         <span class="font-bold text-gray-900">{{ suffix }}</span>
       </div>
-      <h2 class="text-xl font-normal mt-4">
-        Kelola tugas, atur tim, dan selesaikan proyek dalam satu platform.
+      <h2
+        class="text-lg sm:text-xl md:text-2xl text-gray-600 font-normal mt-4 sm:mt-6"
+      >
+        Dimulai dari Rencana ke Realisasi, Tanpa Hambatan
       </h2>
-      <div class="w-40 h-12 mx-auto mt-4">
-        <PrimaryButton
-          label="Bergabung"
-          :additionalClass="'font-bold'"
-          btnType="link"
-          path="/"
-        />
+      <div
+        class="flex flex-col sm:flex-row md:flex-row justify-start md:justify-center w-full md:w-auto space-y-4 sm:space-y-0 sm:space-x-4 mx-auto md:mx-0 mt-6 sm:mt-8"
+      >
+        <div class="w-50">
+          <PrimaryButton
+            label="Bergabung"
+            :additionalClass="'font-semibold bg-black text-white hover:bg-white hover:!text-black px-6 py-3'"
+            btnType="link"
+            path="/"
+          />
+        </div>
+        <div class="w-50">
+          <PrimaryButton
+            label="Jelajah Fitur"
+            :additionalClass="'font-bold px-6 py-3 border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'"
+            btnType="link"
+            path="#"
+          />
+        </div>
       </div>
     </div>
   </section>
