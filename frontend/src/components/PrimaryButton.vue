@@ -30,7 +30,7 @@ export default {
   <a
     v-if="btnType === 'link'"
     :href="path"
-    class="w-full flex h-full cursor-pointer items-center justify-center text-base py-0 rounded-md border-2 border-black text-black hover:text-white md:text-base hover:bg-black transition-all duration-300"
+    class="w-full flex h-full font-medium cursor-pointer items-center justify-center text-base py-0 rounded-md border border-gray-300 text-black hover:text-white md:text-base hover:bg-black transition-all duration-300"
     :class="additionalClass"
   >
     <span v-html="label"></span>
@@ -40,7 +40,7 @@ export default {
     v-else
     :disabled="inactive"
     :type="btnType"
-    class="w-full h-full bg-blue-800 cursor-pointer text-base py-0 shadow-md rounded-lg text-white md:text-base hover:bg-blue-900 active:bg-blue-950"
+    class="w-full flex h-full font-medium cursor-pointer items-center justify-center text-base py-0 rounded-md border border-gray-300 text-black hover:text-white md:text-base hover:bg-black transition-all duration-300"
     :class="additionalClass"
   >
     <span v-html="label" class="flex items-center justify-center"></span>
