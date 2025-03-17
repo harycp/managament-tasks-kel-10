@@ -125,44 +125,6 @@ export default {
       },
     ]);
 
-    const projects = ref([
-      {
-        name: "Operations",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-          <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-      },
-      {
-        name: "IT Projects",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-          <path d="M3 5h18M3 12h18M3 19h18M5 5v14M19 5v14" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-      },
-      {
-        name: "Task Management",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-          <path d="M5 12l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-      },
-      {
-        name: "Admin & Settings",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-          <circle cx="12" cy="12" r="10" stroke-linecap="round" stroke-linejoin="round"/>
-          <path d="M12 8v4l3 3" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>`,
-      },
-      {
-        name: "Project Management",
-        icon: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none">
-          <path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="8" cy="6" r="2" fill="currentColor"/>
-          <circle cx="8" cy="12" r="2" fill="currentColor"/>
-          <circle cx="8" cy="18" r="2" fill="currentColor"/>
-        </svg>`,
-      },
-    ]);
-
     // State untuk tracking mana yang expanded
     const expanded = ref(experiences.value.map(() => false));
 
@@ -175,7 +137,6 @@ export default {
       experiences,
       expanded,
       toggleExpand,
-      projects,
     };
   },
 };
