@@ -3,10 +3,12 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-0">
       <div class="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h2 class="text-3xl font-bold text-notion-black mb-6">
+          <h2
+            class="text-lg sm:text-xl md:text-3xl mb-5 font-bold text-gray-900"
+          >
             Kelola Tugas dengan Mudah.
           </h2>
-          <p class="text-gray-600 mb-8">
+          <p class="text-gray-500 mb-8">
             Atur dan lacak semua tugas dari yang sederhana hingga kompleks
             dengan sistem yang fleksibel.
           </p>
@@ -21,10 +23,12 @@
                 />
               </div>
               <div class="ml-4">
-                <h3 class="text-lg font-medium text-notion-black">
+                <h3
+                  class="text-base sm:text-base md:text-lg font-medium text-notion-black"
+                >
                   Buat & Atur Tugas
                 </h3>
-                <p class="text-gray-600">
+                <p class="text-gray-500 text-base">
                   Tambahkan tugas dengan detail lengkap sesuai kebutuhan proyek.
                 </p>
               </div>
@@ -39,10 +43,12 @@
                 />
               </div>
               <div class="ml-4">
-                <h3 class="text-lg font-medium text-notion-black">
+                <h3
+                  class="text-base sm:text-base md:text-lg font-medium text-notion-black"
+                >
                   Pantau Perkembangan
                 </h3>
-                <p class="text-gray-600">
+                <p class="text-gray-500 text-base">
                   Lihat progres setiap tugas dalam tampilan yang jelas.
                 </p>
               </div>
@@ -57,10 +63,12 @@
                 />
               </div>
               <div class="ml-4">
-                <h3 class="text-lg font-medium text-notion-black">
+                <h3
+                  class="text-base sm:text-base md:text-lg font-medium text-notion-black"
+                >
                   Tetapkan Deadline
                 </h3>
-                <p class="text-gray-600">
+                <p class="text-gray-500 text-base">
                   Pastikan semua tugas selesai tepat waktu dengan pengingat.
                 </p>
               </div>

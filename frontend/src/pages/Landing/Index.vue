@@ -2,14 +2,12 @@
   <div class="relative w-full h-full bg-white">
     <Navbar />
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <!-- Hero Content -->
       <Hero />
-      <!-- Demo Content -->
       <Demo />
-      <!-- Features Content -->
       <FeatureContent />
     </div>
     <FeatureContentTwo />
+    <FeatureContentThree />
     <section>
       <Footer />
     </section>
@@ -24,6 +22,7 @@ import Hero from "../../components/Hero.vue";
 import Demo from "../../components/Demo.vue";
 import FeatureContent from "../../components/FeatureContent.vue";
 import FeatureContentTwo from "../../components/FeatureContentTwo.vue";
+import FeatureContentThree from "../../components/FeatureContentThree.vue";
 
 export default {
   components: {
@@ -34,6 +33,7 @@ export default {
     Demo,
     FeatureContent,
     FeatureContentTwo,
+    FeatureContentThree,
   },
 };
 </script>

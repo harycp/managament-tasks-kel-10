@@ -35,7 +35,7 @@
         <div class="w-50">
           <PrimaryButton
             label="Jelajah Fitur"
-            :additionalClass="'font-bold px-6 py-3 border border-gray-900 text-gray-900 hover:bg-gray-900 hover:text-white'"
+            :additionalClass="'font-bold px-6 py-3 border border-gray-300 text-gray-900 hover:bg-gray-900 hover:text-white'"
             btnType="link"
             path="#"
           />

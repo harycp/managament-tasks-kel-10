@@ -1,34 +1,23 @@
 <template>
-  <section class="py-16 md:py-24 bg-gray-100">
+  <section class="py-16 md:py-24 bg-white">
     <div class="mx-auto w-full max-w-7xl px-4 py-6 lg:py-8">
       <div class="grid md:grid-cols-2 gap-12 items-center">
-        <!-- Gambar Sekarang di Kiri -->
-        <div class="rounded-lg overflow-hidden shadow-xl">
-          <!-- <img
-              src="../assets/kelolaTugas.png"
-              alt="Document editing in Notion"
-              class="w-full"
-            /> -->
-          <h1>This is an Image of that feature</h1>
-        </div>
-
-        <!-- Konten Sekarang di Kanan -->
         <div>
           <h2
             class="text-lg sm:text-xl md:text-3xl font-bold text-notion-black mb-5"
           >
-            Workspaces Terstruktur.
+            Board Interaktif.
           </h2>
           <p class="text-gray-500 text-base mb-8">
-            Kelompokkan proyek dalam berbagai workspace untuk tim yang lebih
-            rapi.
+            Gunakan tampilan board yang intuitif untuk mengatur tugas dan proyek
+            dengan lebih efektif.
           </p>
 
           <div class="mt-12 space-y-6">
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/trophy.svg"
+                  src="../assets/dragdrop.svg"
                   alt="Building blocks"
                   class="w-6 h-6"
                 />
@@ -37,10 +26,10 @@
                 <h3
                   class="text-base sm:text-base md:text-lg font-medium text-notion-black"
                 >
-                  Proyek Lebih Terorganisir
+                  Seret & Lepas
                 </h3>
                 <p class="text-gray-500 text-base">
-                  Pisahkan proyek berdasarkan tim atau kategori yang berbeda.
+                  Atur tugas dengan mudah melalui fitur drag & drop.
                 </p>
               </div>
             </div>
@@ -48,7 +37,7 @@
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/kolaborasi.svg"
+                  src="../assets/pantau.svg"
                   alt="Collaborative tools"
                   class="w-6 h-6"
                 />
@@ -57,10 +46,11 @@
                 <h3
                   class="text-base sm:text-base md:text-lg font-medium text-notion-black"
                 >
-                  Kolaborasi Lebih Mudah
+                  Filter & Label
                 </h3>
                 <p class="text-gray-500 text-base">
-                  Ajak anggota tim untuk bekerja bersama dalam satu workspace.
+                  Kelompokkan tugas berdasarkan kategori, prioritas, atau
+                  deadline.
                 </p>
               </div>
             </div>
@@ -68,7 +58,7 @@
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/terpusat.svg"
+                  src="../assets/fleksibel.svg"
                   alt="AI-assisted"
                   class="w-6 h-6"
                 />
@@ -77,15 +67,23 @@
                 <h3
                   class="text-base sm:text-base md:text-lg font-medium text-notion-black"
                 >
-                  Dokumen Terpusat
+                  Tampilan yang Fleksibel
                 </h3>
                 <p class="text-gray-500 text-base">
-                  Simpan semua informasi proyek dalam satu tempat yang mudah
-                  diakses.
+                  Gunakan tampilan grid atau list sesuai kebutuhan tim.
                 </p>
               </div>
             </div>
           </div>
+        </div>
+
+        <div class="rounded-lg overflow-hidden shadow-xl">
+          <!-- <img
+              src="../assets/kelolaTugas.png"
+              alt="Document editing in Notion"
+              class="w-full"
+            /> -->
+          <h1>This is an Image of that feature</h1>
         </div>
       </div>
     </div>
@@ -94,6 +92,6 @@
 
 <script>
 export default {
-  name: "FeatureContentTwo",
+  name: "FeatureContentThree",
 };
 </script>
