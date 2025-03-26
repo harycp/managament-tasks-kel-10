@@ -1,6 +1,7 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
 const { generateToken } = require("../utils/jwt");
+const { Op } = require("sequelize");
 
 const createUser = async (userData) => {
   const existingUser = await User.findOne({ where: { email: userData.email } });
@@ -10,8 +11,12 @@ const createUser = async (userData) => {
   return await User.create({ ...userData, password: hashedPassword });
 };
 
-const loginUser = async (email, password) => {
-  const user = await User.findOne({ where: { email } });
+const loginUser = async (usernameOrEmail, password) => {
+  const user = await User.findOne({
+    where: {
+      [Op.or]: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
+    },
+  });
   if (!user) throw new Error("User not found");
 
   const isMatch = await bcrypt.compare(password, user.password);

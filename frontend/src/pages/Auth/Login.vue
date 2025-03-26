@@ -38,62 +38,25 @@
           <form @submit.prevent="handleSubmit" class="space-y-4 md:space-y-6">
             <!-- Form Structure -->
             <div>
-              <!-- Nama Lengkap Field -->
-              <div class="mb-6">
-                <InputLabel
-                  for="name"
-                  label="Nama Lengkap"
-                  :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
-                />
-                <TextInput
-                  id="name"
-                  type="text"
-                  name="name"
-                  placeholder="Masukkan nama lengkap"
-                  autocomplete="current-name"
-                  v-model="form.name"
-                  :error="errors.name"
-                  :additionalClass="'w-full'"
-                  @keyup="validateField(this.schema, this.form, 'name')"
-                />
-              </div>
               <!-- Email Field -->
               <div class="mb-6">
                 <InputLabel
-                  for="email"
-                  label="Email"
+                  for="usernameOrEmail"
+                  label="Username atau Email"
                   :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
                 />
                 <TextInput
-                  id="email"
+                  id="usernameOrEmail"
                   type="text"
-                  name="email"
-                  placeholder="Masukkan email"
-                  autocomplete="current-email"
-                  v-model="form.email"
-                  :error="errors.email"
+                  name="usernameOrEmail"
+                  placeholder="Masukkan username atau email"
+                  autocomplete="current-usernameOrEmail"
+                  v-model="form.usernameOrEmail"
+                  :error="errors.usernameOrEmail"
                   :additionalClass="'w-full'"
-                  @keyup="validateField(this.schema, this.form, 'email')"
-                />
-              </div>
-
-              <!-- username Field -->
-              <div class="mb-6">
-                <InputLabel
-                  for="username"
-                  label="Username"
-                  :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
-                />
-                <TextInput
-                  id="username"
-                  type="text"
-                  name="username"
-                  placeholder="Masukkan username"
-                  autocomplete="current-username"
-                  v-model="form.username"
-                  :error="errors.username"
-                  :additionalClass="'w-full'"
-                  @keyup="validateField(this.schema, this.form, 'username')"
+                  @keyup="
+                    validateField(this.schema, this.form, 'usernameOrEmail')
+                  "
                 />
               </div>
 
@@ -131,7 +94,7 @@
             <div class="h-12 mb-32">
               <PrimaryButton
                 :inactive="isButtonDisabled"
-                label="Register"
+                label="Login"
                 :additionalClass="'text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black'"
               />
             </div>
@@ -179,9 +142,7 @@ export default {
     return {
       imageSrc: ImageSuccess,
       form: {
-        name: "",
-        email: "",
-        username: "",
+        usernameOrEmail: "",
         password: "",
       },
       flashMessages: {
@@ -193,9 +154,9 @@ export default {
       isButtonDisabled: false,
       errors: {},
       schema: yup.object({
-        name: yup.string().required("Nama lengkap tidak boleh kosong"),
-        email: yup.string().required("Email tidak boleh kosong"),
-        username: yup.string().required("Username tidak boleh kosong"),
+        usernameOrEmail: yup
+          .string()
+          .required("Username atau email tidak boleh kosong"),
         password: yup.string().required("Kata sandi tidak boleh kosong"),
       }),
     };
@@ -207,40 +168,37 @@ export default {
 
       if (isValid) {
         try {
-          const response = await fetch("http://localhost:5001/api/register", {
+          const response = await fetch("http://localhost:5001/api/login", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.form),
           });
 
           const data = await response.json();
-          console.log("Response:", data);
 
           if (!response.ok) {
             this.flashMessages.error = {
-              title: "Pendaftaran Gagal",
-              description: data.error || "Terjadi kesalahan saat mendaftar.",
+              title: "Login Gagal",
+              description: data.error || "Email atau kata sandi salah.",
             };
-            throw new Error(data.error || "Registrasi gagal!");
+            throw new Error(data.error || "Login gagal!");
           }
 
-          // Jika berhasil, reset form
-          this.form = {
-            name: "",
-            email: "",
-            username: "",
-            password: "",
-          };
+          // Simpan token ke localStorage
+          localStorage.setItem("authToken", data.data.token);
 
           // Tampilkan pesan sukses
           this.flashMessages.success = {
-            title: "Pendaftaran Berhasil",
-            description: "Silakan masuk dengan akun Anda.",
+            title: "Login Berhasil",
+            description: "Anda akan dialihkan ke dashboard.",
           };
 
-          // Redirect ke halaman login setelah 2 detik
+          // Reset form setelah login berhasil
+          this.form = { usernameOrEmail: "", password: "" };
+
+          // Redirect ke dashboard setelah 2 detik
           setTimeout(() => {
-            this.$router.push("/login");
+            this.$router.push("/dashboard");
           }, 2000);
         } catch (error) {
           console.error("Error:", error);
@@ -256,8 +214,8 @@ export default {
     },
     clearFlashMessage() {
       this.flashMessages = {
-        error: { title: null, description: null },
-        success: { title: null, description: null },
+        error: { title: "", description: "" },
+        success: { title: "", description: "" },
       };
     },
   },
