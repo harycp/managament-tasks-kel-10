@@ -8,7 +8,7 @@
           v-if="flashMessages.error.title"
           btnTitle="Periksa Kembali"
           :title="flashMessages.error.title"
-          image="/assets/login-failed.png"
+          :image="imageFailedSrc"
           @close-alert="clearFlashMessage"
         >
           {{ flashMessages.error.description }}
@@ -137,9 +137,11 @@
             </div>
 
             <p class="text-sm font-light text-gray-500">
-              Already have an account?
-              <a href="#" class="font-medium text-primary-600 hover:underline"
-                >Login here</a
+              Sudah memiliki akun ?
+              <a
+                href="/login"
+                class="font-medium text-primary-600 hover:underline"
+                >Login disini</a
               >
             </p>
           </form>
@@ -162,6 +164,7 @@ import InputLabel from "../../components/common/InputLabel.vue";
 import TextInput from "../../components/common/TextInput.vue";
 
 import ImageSuccess from "../../assets/register-success.svg";
+import ImageFailed from "../../assets/register-failed.svg";
 
 export default {
   components: {
@@ -178,6 +181,7 @@ export default {
   data() {
     return {
       imageSrc: ImageSuccess,
+      imageFailedSrc: ImageFailed,
       form: {
         name: "",
         email: "",
