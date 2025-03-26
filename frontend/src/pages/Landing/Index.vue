@@ -17,12 +17,12 @@
 <script>
 import Navbar from "../../fragments/Navbar.vue";
 import Footer from "../../fragments/Footer.vue";
-import PrimaryButton from "../../components/PrimaryButton.vue";
-import Hero from "../../components/Hero.vue";
-import Demo from "../../components/Demo.vue";
-import FeatureContent from "../../components/FeatureContent.vue";
-import FeatureContentTwo from "../../components/FeatureContentTwo.vue";
-import FeatureContentThree from "../../components/FeatureContentThree.vue";
+import PrimaryButton from "../../components/common/PrimaryButton.vue";
+import Hero from "../../components/layout/Hero.vue";
+import Demo from "../../components/sections/Demo.vue";
+import FeatureContent from "../../components/sections/FeatureContent.vue";
+import FeatureContentTwo from "../../components/sections/FeatureContentTwo.vue";
+import FeatureContentThree from "../../components/sections/FeatureContentThree.vue";
 
 export default {
   components: {

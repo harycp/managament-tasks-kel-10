@@ -1,5 +1,6 @@
-import { createMemoryHistory, createRouter } from "vue-router";
+import { createWebHistory, createRouter } from "vue-router";
 import Index from "../pages/Landing/Index.vue";
+import Register from "../pages/Auth/Register.vue";
 
 const routes = [
   {
@@ -7,10 +8,15 @@ const routes = [
     name: "home",
     component: Index,
   },
+  {
+    path: "/register",
+    name: "register",
+    component: Register,
+  },
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(),
   routes,
 });
 

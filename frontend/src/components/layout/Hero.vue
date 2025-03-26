@@ -47,7 +47,7 @@
 
 <script>
 import { ref, onMounted } from "vue";
-import PrimaryButton from "./PrimaryButton.vue";
+import PrimaryButton from "../common/PrimaryButton.vue";
 export default {
   components: { PrimaryButton },
   setup() {

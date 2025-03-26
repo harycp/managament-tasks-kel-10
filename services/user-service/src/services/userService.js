@@ -4,7 +4,7 @@ const { generateToken } = require("../utils/jwt");
 
 const createUser = async (userData) => {
   const existingUser = await User.findOne({ where: { email: userData.email } });
-  if (existingUser) throw new Error("Email already exists");
+  if (existingUser) throw new Error("User Already Exists");
 
   const hashedPassword = await bcrypt.hash(userData.password, 10);
   return await User.create({ ...userData, password: hashedPassword });

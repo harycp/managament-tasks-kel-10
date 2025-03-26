@@ -10,7 +10,7 @@
       </p>
       <div class="mt-8 rounded-lg overflow-hidden shadow-xl max-w-7xl mx-auto">
         <img
-          src="../assets/PreviewTuntask.png"
+          src="../../assets/PreviewTuntask.png"
           alt="Notion Interface"
           class="w-full"
         />

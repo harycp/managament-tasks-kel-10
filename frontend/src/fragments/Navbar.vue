@@ -122,8 +122,8 @@
 
 <script>
 import { ref, onMounted, onUnmounted } from "vue";
-import PrimaryButton from "../components/PrimaryButton.vue";
-import Logo from "../components/Logo.vue";
+import PrimaryButton from "../components/common/PrimaryButton.vue";
+import Logo from "../components/layout/Logo.vue";
 
 export default {
   components: { PrimaryButton, Logo },
