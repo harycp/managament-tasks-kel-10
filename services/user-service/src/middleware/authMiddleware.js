@@ -2,19 +2,21 @@ const { verifyToken } = require("../utils/jwt");
 
 const authenticate = (req, res, next) => {
   try {
-    const token = req.headers.authorization?.split(" ")[1];
+    // Ambil token dari cookie
+    const token = req.cookies?.authToken;
     if (!token) {
       return res
         .status(401)
         .json({ message: "Unauthorized: No token provided" });
     }
 
+    // Verifikasi token
     const decoded = verifyToken(token);
     if (!decoded) {
       return res.status(403).json({ message: "Invalid token" });
     }
 
-    req.user = decoded;
+    req.user = decoded; // Simpan data user ke req.user
     next();
   } catch (error) {
     console.error("Authentication Error:", error);

@@ -3,8 +3,8 @@ const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
 const session = require("express-session");
+const cookieParser = require("cookie-parser"); // Tambahkan ini
 const passport = require("./config/passport");
-const sequelize = require("./database");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const db = require("./models");
@@ -12,9 +12,15 @@ const db = require("./models");
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Ganti sesuai origin frontend
+    credentials: true, // Wajib agar cookie bisa dikirim
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 // Session & Passport
 app.use(

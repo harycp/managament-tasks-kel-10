@@ -17,12 +17,14 @@ const loginUser = async (usernameOrEmail, password) => {
       [Op.or]: [{ email: usernameOrEmail }, { username: usernameOrEmail }],
     },
   });
+
   if (!user) throw new Error("User not found");
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) throw new Error("Invalid password");
 
-  const token = generateToken(user);
+  const token = generateToken({ id: user.id });
+
   return { user, token };
 };
 

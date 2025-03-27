@@ -18,9 +18,17 @@ const loginUser = async (req, res) => {
       usernameOrEmail,
       password
     );
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      secure: false, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
+      sameSite: "Lax",
+      domain: "localhost",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
     res.json({
       message: "User logged in successfully",
-      data: { user, token },
+      data: { user }, // ✅ Tidak mengembalikan token ke frontend
     });
   } catch (error) {
     res.status(401).json({ error: error.message });

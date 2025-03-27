@@ -9,7 +9,7 @@
         :placeholder="placeholder"
         :readonly="onlyRead"
         :class="[
-          'h-14 border-2 w-full rounded-lg p-2.5 text-sm lg:text-base focus:outline-none focus:ring-opacity-50 sm:text-sm',
+          'h-12 border-2 w-full rounded-lg p-2.5 text-sm lg:text-base focus:outline-none focus:ring-opacity-50 sm:text-sm',
           additionalClass,
           error
             ? 'border-red-500 focus:ring-red-500 focus:border-red-500'

@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("../config/passport");
 const router = express.Router();
 const userController = require("../controllers/userController");
+const authenticate = require("../middleware/authMiddleware");
 
 // Google OAuth
 router.get(
@@ -14,7 +15,15 @@ router.get(
   passport.authenticate("google", { session: false }),
   (req, res) => {
     const token = req.user.token;
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      secure: false, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
+      sameSite: "Lax",
+      domain: "localhost",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.redirect("http://localhost:5173/dashboard");
   }
 );
 
@@ -29,9 +38,21 @@ router.get(
   passport.authenticate("github", { session: false }),
   (req, res) => {
     const token = req.user.token;
-    res.redirect(`http://localhost:5173/dashboard?token=${token}`);
+    res.cookie("authToken", token, {
+      httpOnly: true,
+      secure: false, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
+      sameSite: "Lax",
+      domain: "localhost",
+      maxAge: 7 * 24 * 60 * 60 * 1000,
+    });
+
+    res.redirect("http://localhost:5173/dashboard");
   }
 );
+
+router.get("/check-auth", authenticate, (req, res) => {
+  res.json({ authenticated: true, user: req.user });
+});
 
 // API FOR AUTH AND CRUD USER
 router.post("/register", userController.createUser);
