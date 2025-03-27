@@ -1,7 +1,7 @@
 <template>
   <aside class="w-1/5 bg-gray-50 shadow-md p-6 rounded-lg flex flex-col">
     <!-- Logo -->
-    <div class="flex items-center mb-12">
+    <div class="flex items-center ms-3 mb-10">
       <Logo :ClassImg="'md:text-4xl'" :ClassTitle="'md:text-md'" />
     </div>
 

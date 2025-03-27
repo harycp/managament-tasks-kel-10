@@ -1,6 +1,7 @@
 <template>
   <div>
     <div class="relative">
+      <!-- Dropdown Button -->
       <div
         class="flex flex-row gap-3 items-center text-black font-semibold rounded-md p-4 cursor-pointer"
         @click="toggleDropdown"
@@ -8,7 +9,7 @@
       >
         <slot></slot>
 
-        <span>{{ title }}</span>
+        <span>{{ selectedWorkspace ? selectedWorkspace.name : title }}</span>
 
         <svg
           :class="isOpen ? '-rotate-90' : 'rotate-0'"
@@ -32,14 +33,11 @@
         <ul>
           <li
             v-for="option in options"
-            :key="option.label"
-            class="block py-2 ms-9 hover:text-blue-800 cursor-pointer transform transition-transform duration-400 ease-in-out hover:translate-x-2"
-            :class="
-              selectedOption === option.label ? 'text-blue-800 font-bold' : ''
-            "
-            @click="selectOption(option)"
+            :key="option.routeName"
+            class="block py-2 ms-9 hover:text-gray-900 cursor-pointer transform transition-transform duration-400 ease-in-out hover:translate-x-2"
+            @click="selectWorkspace(option)"
           >
-            {{ option.label }}
+            {{ option.name }}
           </li>
         </ul>
       </div>
@@ -48,41 +46,28 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
-
-export default defineComponent({
+export default {
   name: "NavDropdown",
   props: {
     options: { type: Array, default: () => [] },
-    modelValue: { type: String, default: "" },
     title: { type: String, required: true },
     isActive: { type: Boolean, default: false },
   },
   data() {
     return {
       isOpen: false,
-      selectedOption: this.modelValue,
+      selectedWorkspace: null, // Workspace yang dipilih
     };
   },
-  emits: ["update:modelValue"],
   methods: {
     toggleDropdown() {
       this.isOpen = !this.isOpen;
     },
-    selectOption(option) {
-      this.selectedOption = option.label;
+    selectWorkspace(option) {
+      this.selectedWorkspace = option; // Update workspace yang dipilih
       this.isOpen = false;
-      this.$emit("update:modelValue", option.label);
-
-      if (option.route) {
-        this.$router.push(option.route);
-      }
+      this.$router.push(option.routeName); // Redirect ke halaman workspace
     },
   },
-  watch: {
-    modelValue(newValue) {
-      this.selectedOption = newValue;
-    },
-  },
-});
+};
 </script>

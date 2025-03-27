@@ -2,11 +2,11 @@
   <Dashboard>
     <LoadingScreen :isLoading="isLoading" />
     <div v-if="!isLoading">
-      <h2 v-if="user.name">Selamat Datang, {{ user.name }}</h2>
+      <!-- <h2 v-if="user.name">Selamat Datang, {{ user.name }}</h2>
       <p v-if="user.username">Username: {{ user.username }}</p>
       <p v-if="user.email">Email: {{ user.email }}</p>
 
-      <p>{{ user }}</p>
+      <p>{{ user }}</p> -->
     </div>
   </Dashboard>
 </template>
