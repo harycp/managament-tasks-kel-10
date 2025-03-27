@@ -19,7 +19,7 @@
         <div class="hidden md:flex space-x-2">
           <div class="w-20 h-10">
             <PrimaryButton
-              label="Log in"
+              label="Log In"
               :additionalClass="'font-semibold'"
               btnType="link"
               path="/login"
@@ -27,7 +27,7 @@
           </div>
           <div class="w-20 h-10">
             <PrimaryButton
-              label="Register"
+              label="Sign Up"
               :additionalClass="'font-semibold bg-black text-white hover:bg-white hover:!text-black'"
               btnType="link"
               path="/register"

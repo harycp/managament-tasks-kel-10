@@ -8,9 +8,7 @@ const rolePermissionController = require("../controllers/rolePermissionControlle
 const userRoleAssignmentController = require("../controllers/userRoleAssignmentsController");
 const router = express.Router();
 
-// API FOR AUTH AND CRUD USER
-router.post("/register", userController.createUser);
-router.post("/login", userController.loginUser);
+router.get("/profile", authenticate, userController.getUserLogin);
 
 // HARUSNYA NANTI DITANDAI, HANYA BISA ADMIN YG BISA MELIHAT ALL USERS, TAMBAHKAN MIDDLEWARE NANTI DISINI
 router.get("/users", authenticate, userController.getUsers);

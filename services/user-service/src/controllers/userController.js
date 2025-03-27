@@ -27,6 +27,16 @@ const loginUser = async (req, res) => {
   }
 };
 
+const getUserLogin = async (req, res) => {
+  try {
+    const user = await userService.getUserLogin(req.user.id);
+    if (!user) return res.status(404).json({ message: "User not found" });
+    res.status(200).json({ message: "User retrieved", data: user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await userService.getUsers();
@@ -82,6 +92,7 @@ const getUserByEmail = async (req, res) => {
 module.exports = {
   createUser,
   loginUser,
+  getUserLogin,
   getUsers,
   getUserById,
   updateUser,

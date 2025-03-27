@@ -29,7 +29,7 @@
             label="Bergabung"
             :additionalClass="'font-semibold bg-black text-white hover:bg-white hover:!text-black px-6 py-3'"
             btnType="link"
-            path="/"
+            path="/register"
           />
         </div>
         <div class="w-50">

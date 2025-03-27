@@ -26,6 +26,14 @@ const loginUser = async (usernameOrEmail, password) => {
   return { user, token };
 };
 
+const getUserLogin = async (id) => {
+  const user = await User.findByPk(id, {
+    attributes: ["id", "username", "email", "name"],
+  });
+
+  return user;
+};
+
 const getUsers = async () => {
   return await User.findAll();
 };
@@ -66,6 +74,7 @@ const getUserByEmail = async (email) => {
 module.exports = {
   createUser,
   loginUser,
+  getUserLogin,
   getUsers,
   getUserById,
   updateUser,

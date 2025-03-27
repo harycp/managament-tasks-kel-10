@@ -136,6 +136,38 @@
               />
             </div>
 
+            <!-- OAuth Login -->
+            <div class="flex items-center justify-center gap-4 mt-6">
+              <!-- Tombol Google -->
+              <button
+                @click="handleOAuthLogin('google')"
+                class="flex items-center px-4 py-2 border rounded-lg shadow-md bg-white hover:bg-gray-100"
+              >
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/768px-Google_%22G%22_logo.svg.png"
+                  class="w-5 h-5 mr-2"
+                  alt="Google Logo"
+                />
+                <span class="text-sm font-medium text-gray-700">Google</span>
+              </button>
+
+              <!-- Tulisan "Atau" di tengah -->
+              <span class="text-gray-500 font-medium">Atau</span>
+
+              <!-- Tombol GitHub -->
+              <button
+                @click="handleOAuthLogin('github')"
+                class="flex items-center px-4 py-2 border rounded-lg shadow-md text-black hover:bg-gray-900 hover:text-white"
+              >
+                <img
+                  src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+                  class="w-5 h-5 mr-2"
+                  alt="GitHub Logo"
+                />
+                <span class="text-sm font-medium">GitHub</span>
+              </button>
+            </div>
+
             <p class="text-sm font-light text-gray-500">
               Sudah memiliki akun ?
               <a
@@ -211,14 +243,13 @@ export default {
 
       if (isValid) {
         try {
-          const response = await fetch("http://localhost:5001/api/register", {
+          const response = await fetch("http://localhost:5001/auth/register", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(this.form),
           });
 
           const data = await response.json();
-          console.log("Response:", data);
 
           if (!response.ok) {
             this.flashMessages.error = {
@@ -254,6 +285,14 @@ export default {
       setTimeout(() => {
         this.isButtonDisabled = false;
       }, 1000);
+    },
+    async handleOAuthLogin(provider) {
+      const oauthUrls = {
+        google: "http://localhost:5001/auth/google",
+        github: "http://localhost:5001/auth/github",
+      };
+
+      window.location.href = oauthUrls[provider]; // Redirect langsung ke Google/GitHub OAuth
     },
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
