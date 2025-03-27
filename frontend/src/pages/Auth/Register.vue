@@ -173,7 +173,7 @@
             </div>
           </div>
 
-          <p class="text-sm font-light text-gray-500">
+          <p class="text-sm text-center font-light text-gray-500">
             Sudah memiliki akun ?
             <a
               href="/login"

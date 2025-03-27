@@ -138,7 +138,7 @@
             </div>
           </div>
 
-          <p class="text-sm font-light text-gray-500">
+          <p class="text-sm text-center font-light text-gray-500">
             Belum memiliki akun ?
             <a
               href="/register"
@@ -252,7 +252,7 @@ export default {
         github: "http://localhost:5001/auth/github",
       };
 
-      window.location.href = oauthUrls[provider]; // Redirect langsung ke Google/GitHub OAuth
+      window.location.href = oauthUrls[provider];
     },
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
