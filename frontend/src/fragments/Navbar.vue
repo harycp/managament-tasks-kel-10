@@ -111,7 +111,7 @@
               label="Sign Up"
               :additionalClass="'font-semibold bg-black text-white hover:bg-white hover:!text-black'"
               btnType="link"
-              path="/signup"
+              path="/register"
             />
           </div>
         </div>

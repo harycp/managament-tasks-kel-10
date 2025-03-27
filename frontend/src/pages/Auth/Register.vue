@@ -316,6 +316,9 @@ export default {
       },
     },
   },
+  mounted() {
+    document.title = "Register | Tuntask";
+  },
   setup() {
     const { errors, validateField } = useFormValidation();
     const { beforeEnter, enter, leave } = useFadeAlert();

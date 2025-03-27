@@ -33,5 +33,8 @@ export default {
       }
     },
   },
+  mounted() {
+    document.title = "Home | Tuntask";
+  },
 };
 </script>

@@ -272,6 +272,9 @@ export default {
       },
     },
   },
+  mounted() {
+    document.title = "Login | Tuntask";
+  },
   setup() {
     const { errors, validateField } = useFormValidation();
     const { beforeEnter, enter, leave } = useFadeAlert();
