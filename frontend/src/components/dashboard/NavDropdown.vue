@@ -56,17 +56,29 @@ export default {
   data() {
     return {
       isOpen: false,
-      selectedWorkspace: null, // Workspace yang dipilih
+      selectedWorkspace: null,
     };
+  },
+  watch: {
+    options: {
+      handler(newOptions) {
+        if (newOptions.length > 0 && !this.selectedWorkspace) {
+          this.selectedWorkspace = newOptions[0];
+          this.$emit("update:modelValue", this.selectedWorkspace.name);
+        }
+      },
+      immediate: true,
+    },
   },
   methods: {
     toggleDropdown() {
       this.isOpen = !this.isOpen;
     },
     selectWorkspace(option) {
-      this.selectedWorkspace = option; // Update workspace yang dipilih
+      this.selectedWorkspace = option;
       this.isOpen = false;
-      this.$router.push(option.routeName); // Redirect ke halaman workspace
+      this.$emit("update:modelValue", option.name);
+      this.$router.push(option.routeName);
     },
   },
 };

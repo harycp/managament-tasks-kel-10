@@ -71,6 +71,11 @@ export default {
 
         this.workspaceDropdownLink = response.data.data;
 
+        // ✅ Set default ke workspace pertama
+        if (this.workspaceDropdownLink.length > 0) {
+          this.selectedWorkspace = this.workspaceDropdownLink[0];
+        }
+
         this.isLoading = false;
       } catch (error) {
         console.error("Error fetching workspaces:", error);
