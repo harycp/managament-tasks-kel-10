@@ -1,35 +1,27 @@
 <template>
   <a href="/" class="flex items-center group space-x-1">
     <p
-      class="jacquarda-bastarda-9-regular text-5xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
+      :class="[
+        'jacquarda-bastarda-9-regular text-5xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out',
+        ClassImg,
+      ]"
     >
       T
     </p>
-    <p class="font-semibold text-xl flex">
+    <p
+      :class="[
+        'averia-serif-libre-regular font-semibold text-xl flex ',
+        ClassTitle,
+      ]"
+    >
       <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-0"
-        >u</span
+        v-for="(char, index) in 'untask'"
+        :key="index"
+        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out"
+        :style="{ transitionDelay: `${index * 100}ms` }"
       >
-      <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-100"
-        >n</span
-      >
-      <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-200"
-        >t</span
-      >
-      <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-300"
-        >a</span
-      >
-      <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-400"
-        >s</span
-      >
-      <span
-        class="group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out delay-500"
-        >k</span
-      >
+        {{ char }}
+      </span>
     </p>
   </a>
 </template>
@@ -37,6 +29,10 @@
 <script>
 export default {
   name: "Logo",
+  props: {
+    ClassImg: { type: String, default: "" },
+    ClassTitle: { type: String, default: "" },
+  },
 };
 </script>
 
@@ -44,6 +40,11 @@ export default {
 .jacquarda-bastarda-9-regular {
   font-family: "Jacquarda Bastarda 9", serif;
   font-weight: 400;
+  font-style: normal;
+}
+
+.averia-serif-libre-regular {
+  font-family: "Averia Serif Libre", serif;
   font-style: normal;
 }
 </style>
