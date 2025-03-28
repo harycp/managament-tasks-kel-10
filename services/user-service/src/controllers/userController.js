@@ -35,6 +35,23 @@ const loginUser = async (req, res) => {
   }
 };
 
+const logoutUser = async (req, res) => {
+  try {
+    await userService.logoutUser();
+
+    res.clearCookie("authToken", {
+      httpOnly: true,
+      secure: false,
+      sameSite: "Lax",
+      domain: "localhost",
+    });
+
+    res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to logout" });
+  }
+};
+
 const getUserLogin = async (req, res) => {
   try {
     const user = await userService.getUserLogin(req.user.id);
@@ -100,6 +117,7 @@ const getUserByEmail = async (req, res) => {
 module.exports = {
   createUser,
   loginUser,
+  logoutUser,
   getUserLogin,
   getUsers,
   getUserById,

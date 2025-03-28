@@ -136,7 +136,7 @@
           v-for="project in projectList"
           :key="project.id"
           :title="project.name"
-          :routeName="`/workspace/${project.workspace_id}/boards/${project.id}`"
+          :link="`/workspace/${project.workspace_id}/boards/${project.id}`"
         />
       </nav>
     </SideBar>

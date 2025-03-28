@@ -12,8 +12,8 @@
 
     <div class="border-t border-gray-400 mb-5 w-full mx-auto"></div>
     <div class="mt-auto">
-      <router-link
-        to="/logout"
+      <button
+        @click="logout"
         class="text-black font-semibold flex items-center space-x-2"
       >
         <svg
@@ -39,14 +39,15 @@
         </svg>
 
         <span>Logout</span>
-      </router-link>
+      </button>
     </div>
   </aside>
 </template>
 
 <script>
+import axios from "axios";
 import { defineComponent } from "vue";
-import { RouterLink } from "vue-router";
+import { RouterLink, useRoute, useRouter } from "vue-router";
 import Logo from "../layout/Logo.vue";
 import NavItem from "./NavItem.vue";
 
@@ -56,6 +57,26 @@ export default defineComponent({
     Logo,
     NavItem,
     RouterLink,
+  },
+  setup() {
+    const router = useRouter();
+
+    const logout = async () => {
+      try {
+        await axios.post(
+          "http://localhost:5001/auth/logout",
+          {},
+          {
+            withCredentials: true,
+          }
+        );
+        router.push("/login");
+      } catch (error) {
+        console.error("Error during logout:", error);
+      }
+    };
+
+    return { logout };
   },
 });
 </script>

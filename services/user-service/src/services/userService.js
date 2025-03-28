@@ -28,6 +28,10 @@ const loginUser = async (usernameOrEmail, password) => {
   return { user, token };
 };
 
+const logoutUser = async () => {
+  return true;
+};
+
 const getUserLogin = async (id) => {
   const user = await User.findByPk(id, {
     attributes: ["id", "username", "email", "name"],
@@ -76,6 +80,7 @@ const getUserByEmail = async (email) => {
 module.exports = {
   createUser,
   loginUser,
+  logoutUser,
   getUserLogin,
   getUsers,
   getUserById,

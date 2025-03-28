@@ -57,5 +57,6 @@ router.get("/check-auth", authenticate, (req, res) => {
 // API FOR AUTH AND CRUD USER
 router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
+router.post("/logout", authenticate, userController.logoutUser);
 
 module.exports = router;
