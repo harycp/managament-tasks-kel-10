@@ -3,7 +3,7 @@
     <div class="relative">
       <!-- Dropdown Button -->
       <div
-        class="flex flex-row gap-3 items-center text-black font-semibold rounded-md p-4 cursor-pointer"
+        class="flex flex-row gap-3 items-center text-black font-semibold rounded-md p-3 cursor-pointer"
         @click="toggleDropdown"
         :class="isActive ? 'bg-blue-800 text-white' : 'hover:bg-gray-100'"
       >
@@ -33,7 +33,7 @@
         <ul>
           <li
             v-for="option in options"
-            :key="option.routeName"
+            :key="option.id"
             class="block py-2 ms-9 hover:text-gray-900 cursor-pointer transform transition-transform duration-400 ease-in-out hover:translate-x-2"
             @click="selectWorkspace(option)"
           >
@@ -59,17 +59,6 @@ export default {
       selectedWorkspace: null,
     };
   },
-  watch: {
-    options: {
-      handler(newOptions) {
-        if (newOptions.length > 0 && !this.selectedWorkspace) {
-          this.selectedWorkspace = newOptions[0];
-          this.$emit("update:modelValue", this.selectedWorkspace.name);
-        }
-      },
-      immediate: true,
-    },
-  },
   methods: {
     toggleDropdown() {
       this.isOpen = !this.isOpen;
@@ -77,8 +66,7 @@ export default {
     selectWorkspace(option) {
       this.selectedWorkspace = option;
       this.isOpen = false;
-      this.$emit("update:modelValue", option.name);
-      this.$router.push(option.routeName);
+      this.$emit("workspace-selected", option); // Emit seluruh objek workspace
     },
   },
 };

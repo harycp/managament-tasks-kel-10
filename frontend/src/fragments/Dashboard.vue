@@ -2,21 +2,34 @@
   <div class="flex min-h-screen">
     <!-- Sidebar -->
     <SideBar>
+      <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">
+        Your Workspaces
+      </h2>
       <NavDropdown
         v-if="workspaceDropdownLink.length > 0"
         title="Workspace"
         :options="workspaceDropdownLink"
+        @workspace-selected="handleWorkspaceChange"
       >
         <svg
-          width="24"
-          height="24"
+          width="24px"
+          height="24px"
           viewBox="0 0 24 24"
+          fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <path
-            d="M17 9H19V7H17V9ZM17 13H19V11H17V13ZM17 17H19V15H17V17ZM17 21V19H21V5H12V6.4L10 4.95V3H23V21H17ZM1 21V11L8 6L15 11V21H9V16H7V21H1ZM3 19H5V14H11V19H13V12L8 8.45L3 12V19Z"
-            fill="currentColor"
-          />
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M3 3h18v18H3V3zm2 2v6h8V5H5zm10 0v14h4V5h-4zm-2 14v-2h-3v2h3zm-5 0v-2H5v2h3zm-3-4h3v-2H5v2zm5-2v2h3v-2h-3z"
+              fill="#000000"
+            ></path>
+          </g>
         </svg>
       </NavDropdown>
 
@@ -116,6 +129,9 @@
       </nav>
 
       <nav class="flex-grow mt-10">
+        <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">
+          Your Projects
+        </h2>
         <NavItem
           v-for="project in projectList"
           :key="project.id"
@@ -177,9 +193,7 @@ export default {
       try {
         const response = await axios.get(
           "http://localhost:5002/api/workspaces",
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
 
         this.workspaceDropdownLink = response.data.data;
@@ -198,18 +212,17 @@ export default {
       try {
         const response = await axios.get(
           `http://localhost:5003/api/workspaces/${workspaceId}/boards`,
-          {
-            withCredentials: true,
-          }
+          { withCredentials: true }
         );
 
-        this.projectList = response.data.data; // Simpan daftar project
-        this.selectedWorkspace = this.workspaceDropdownLink.find(
-          (workspace) => workspace.id === workspaceId
-        );
+        this.projectList = response.data.data;
       } catch (error) {
         console.error("Error fetching projects:", error);
       }
+    },
+    async handleWorkspaceChange(selectedWorkspace) {
+      this.selectedWorkspace = selectedWorkspace;
+      await this.fetchProjects(selectedWorkspace.id);
     },
   },
 };
