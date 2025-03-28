@@ -1,0 +1,77 @@
+version: "3.9"
+
+services:
+  user-service:
+    build:
+      context: ./services/user-service
+      dockerfile: Dockerfile
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./services/user-service/.env
+    networks:
+      - tuntask-network
+    depends_on:
+      - db
+    entrypoint: ["sh", "/app/wait-for-db.sh", "npm", "run", "dev"]
+
+  workspace-service:
+    build:
+      context: ./services/workspace-service
+      dockerfile: Dockerfile
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./services/workspace-service/.env
+    networks:
+      - tuntask-network
+    depends_on:
+      - db
+    entrypoint: ["sh", "/app/wait-for-db.sh", "npm", "run", "dev"]
+
+  project-service:
+    build:
+      context: ./services/project-service
+      dockerfile: Dockerfile
+    ports:
+      - "5003:5003"
+    env_file:
+      - ./services/project-service/.env
+    networks:
+      - tuntask-network
+    depends_on:
+      - db
+    entrypoint: ["sh", "/app/wait-for-db.sh", "npm", "run", "dev"]
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "5173:5173"
+    networks:
+      - tuntask-network
+    depends_on:
+      - user-service
+      - workspace-service
+      - project-service
+
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 12345
+      POSTGRES_DB: laravel
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - tuntask-network
+
+networks:
+  tuntask-network:
+    driver: bridge
+
+volumes:
+  postgres-data:

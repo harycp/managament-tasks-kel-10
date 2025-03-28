@@ -170,7 +170,6 @@ export default {
     NavDropdown,
     TopHeader,
   },
-
   data() {
     return {
       workspaceDropdownLink: [],
