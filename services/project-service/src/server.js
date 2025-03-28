@@ -4,6 +4,7 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 const sequelize = require("./database");
 const db = require("./models");
+const cookieParser = require("cookie-parser");
 
 const boardRoutes = require("./routes/boardRoutes");
 const listRoutes = require("./routes/listRoutes");
@@ -11,8 +12,16 @@ const listRoutes = require("./routes/listRoutes");
 dotenv.config();
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+
 app.use("/api", boardRoutes);
 app.use("/api", listRoutes);
 

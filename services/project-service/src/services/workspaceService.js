@@ -1,22 +1,25 @@
+// workspaceService.js
 const axios = require("axios");
 
 const WORKSPACE_SERVICE_URL = "http://localhost:5002/api/workspaces";
 
 async function getWorkspaceById(workspaceId, token) {
   try {
+    // Kirim token lewat cookie
     const response = await axios.get(
       `${WORKSPACE_SERVICE_URL}/${workspaceId}`,
       {
+        withCredentials: true, // Penting agar cookie dikirim
         headers: {
-          Authorization: `Bearer ${token}`,
+          Cookie: `authToken=${token}`, // Set cookie secara manual
         },
       }
     );
-    // console.log("Fetched workspace:", response.data);
+
     return response.data;
   } catch (error) {
     console.error("Error fetching workspace:", error.message);
-    return null; // Pastikan tidak menyebabkan crash
+    return null;
   }
 }
 

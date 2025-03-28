@@ -3,11 +3,11 @@
     :to="link"
     :class="[
       isActive
-        ? 'bg-blue-800 fill-white stroke-white text-white'
+        ? 'bg-gray-800 fill-white stroke-white text-white'
         : 'hover:bg-gray-100',
       AddClass,
     ]"
-    class="flex items-center space-x-3 text-black font-semibold rounded-md p-4"
+    class="flex items-center space-x-3 text-black font-semibold rounded-md p-3"
   >
     <slot></slot>
     <span>{{ title }}</span>

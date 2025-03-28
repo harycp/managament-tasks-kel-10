@@ -20,7 +20,9 @@ const createBoard = async (req, res) => {
 const getBoards = async (req, res) => {
   try {
     const workspaceId = req.params.id;
-    const token = req.headers.authorization?.split(" ")[1];
+
+    // console.log(req.cookies);
+    const token = req.cookies.authToken;
 
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
@@ -28,6 +30,7 @@ const getBoards = async (req, res) => {
 
     res.status(200).json({ message: "Boards retrieved", data: boards });
   } catch (error) {
+    console.log(error.message);
     res.status(400).json({ error: error.message });
   }
 };
