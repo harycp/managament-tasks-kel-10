@@ -215,8 +215,8 @@ export default {
           .min(8, "Kata sandi minimal 8 karakter")
           .max(32, "Kata sandi maksimal 32 karakter")
           // .matches(
-          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]+$/,
-          //   "Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan simbol"
+          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/])[A-Za-z\d!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/]{8,}$/,
+          //   "Kata sandi harus mengandung minimal 8 karakter, huruf besar, huruf kecil, angka, dan simbol"
           // )
           .required("Kata sandi wajib diisi"),
       }),
