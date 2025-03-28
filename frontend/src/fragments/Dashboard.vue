@@ -1,6 +1,5 @@
 <template>
   <div class="flex min-h-screen">
-    <LoadingScreen :isLoading="isLoading" />
     <!-- Sidebar -->
     <SideBar>
       <NavDropdown
@@ -22,18 +21,26 @@
       </NavDropdown>
     </SideBar>
 
-    <main
-      class="flex-1 p-4 overflow-y-scroll h-screen flex flex-col gap-4"
-    ></main>
+    <main class="flex-1 p-1 overflow-y-scroll h-screen flex flex-col gap-4">
+      <!-- Profile Header -->
+      <TopHeader />
+
+      <!--CONTENT HERE -->
+      <div class="flex-grow overflow-auto">
+        <slot></slot>
+      </div>
+    </main>
   </div>
 </template>
 
 <script>
-import NavDropdown from "../components/dashboard/NavDropdown.vue";
+import axios from "axios";
+
 import Logo from "../components/layout/Logo.vue";
+import NavDropdown from "../components/dashboard/NavDropdown.vue";
 import NavItem from "../components/dashboard/NavItem.vue";
 import SideBar from "../components/dashboard/SideBar.vue";
-import axios from "axios";
+import TopHeader from "../components/dashboard/TopHeader.vue";
 
 export default {
   components: {
@@ -41,6 +48,7 @@ export default {
     NavItem,
     SideBar,
     NavDropdown,
+    TopHeader,
   },
 
   data() {
