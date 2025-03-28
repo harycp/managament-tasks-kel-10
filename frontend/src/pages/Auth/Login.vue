@@ -198,8 +198,27 @@ export default {
       schema: yup.object({
         usernameOrEmail: yup
           .string()
-          .required("Username atau email tidak boleh kosong"),
-        password: yup.string().required("Kata sandi tidak boleh kosong"),
+          .trim()
+          .required("Username atau email wajib diisi")
+          .test(
+            "is-username-or-email",
+            "Masukkan format username atau email yang valid",
+            (value) => {
+              const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
+              const usernameRegex = /^[a-zA-Z0-9_]{5,20}$/;
+
+              return emailRegex.test(value) || usernameRegex.test(value);
+            }
+          ),
+        password: yup
+          .string()
+          .min(8, "Kata sandi minimal 8 karakter")
+          .max(32, "Kata sandi maksimal 32 karakter")
+          // .matches(
+          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]+$/,
+          //   "Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan simbol"
+          // )
+          .required("Kata sandi wajib diisi"),
       }),
     };
   },
@@ -238,6 +257,12 @@ export default {
             this.$router.push("/dashboard");
           }, 2000);
         } catch (error) {
+          this.form = { usernameOrEmail: "", password: "" };
+
+          this.flashMessages.error = {
+            title: "Login Gagal",
+            description: "Email atau kata sandi salah.",
+          };
           console.error("Error:", error);
         }
       }

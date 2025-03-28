@@ -233,10 +233,44 @@ export default {
       isButtonDisabled: false,
       errors: {},
       schema: yup.object({
-        name: yup.string().required("Nama lengkap tidak boleh kosong"),
-        email: yup.string().required("Email tidak boleh kosong"),
-        username: yup.string().required("Username tidak boleh kosong"),
-        password: yup.string().required("Kata sandi tidak boleh kosong"),
+        name: yup
+          .string()
+          .trim()
+          .min(3, "Nama lengkap minimal 3 karakter")
+          .max(50, "Nama lengkap maksimal 50 karakter")
+          .matches(
+            /^[a-zA-Z\s]+$/,
+            "Nama lengkap hanya boleh berisi huruf dan spasi"
+          )
+          .required("Nama lengkap wajib diisi"),
+
+        email: yup
+          .string()
+          .trim()
+          .email("Format email tidak valid")
+          .max(100, "Email maksimal 100 karakter")
+          .required("Email wajib diisi"),
+
+        username: yup
+          .string()
+          .trim()
+          .min(5, "Username minimal 5 karakter")
+          .max(20, "Username maksimal 20 karakter")
+          .matches(
+            /^[a-zA-Z0-9_]+$/,
+            "Username hanya boleh mengandung huruf, angka, dan underscore (_)"
+          )
+          .required("Username wajib diisi"),
+
+        password: yup
+          .string()
+          .min(8, "Kata sandi minimal 8 karakter")
+          .max(32, "Kata sandi maksimal 32 karakter")
+          // .matches(
+          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=])[A-Za-z\d!@#$%^&*()_\-+=]+$/,
+          //   "Kata sandi harus mengandung huruf besar, huruf kecil, angka, dan simbol"
+          // )
+          .required("Kata sandi wajib diisi"),
       }),
     };
   },
@@ -282,6 +316,17 @@ export default {
             this.$router.push("/login");
           }, 2000);
         } catch (error) {
+          this.form = {
+            name: "",
+            email: "",
+            username: "",
+            password: "",
+          };
+          this.flashMessages.error = {
+            title: "Pendaftaran Gagal",
+            description: "Terjadi kesalahan saat mendaftar.",
+          };
+
           console.error("Error:", error);
         }
       }
