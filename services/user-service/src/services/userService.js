@@ -1,7 +1,8 @@
 const bcrypt = require("bcryptjs");
 const User = require("../models/user");
-const { generateToken } = require("../utils/jwt");
+const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
+const sendEmail = require("../utils/sendEmail");
 
 const createUser = async (userData) => {
   const existingUser = await User.findOne({ where: { email: userData.email } });
@@ -30,6 +31,34 @@ const loginUser = async (usernameOrEmail, password) => {
 
 const logoutUser = async () => {
   return true;
+};
+
+const requestResetPassword = async (email) => {
+  const user = await User.findOne({ where: { email } });
+  if (!user) throw new Error("User not found");
+
+  const token = generateToken({ id: user.id });
+  const resetLink = `${process.env.RESET_PASSWORD_URL}?token${token}`;
+
+  await sendEmail(
+    user.email,
+    "Reset Password",
+    `<p>Klik link berikut untuk mereset password Anda:</p>
+       <a href="${resetLink}">${resetLink}</a>`
+  );
+
+  return { message: "Password reset link sent to your email" };
+};
+
+const resetPassword = async (token, newPassword) => {
+  const { id } = verifyToken(token);
+  const user = await User.findByPk(id);
+  if (!user) throw new Error("User not found");
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await user.update({ password: hashedPassword });
+
+  return user;
 };
 
 const getUserLogin = async (id) => {
@@ -82,6 +111,8 @@ module.exports = {
   loginUser,
   logoutUser,
   getUserLogin,
+  requestResetPassword,
+  resetPassword,
   getUsers,
   getUserById,
   updateUser,

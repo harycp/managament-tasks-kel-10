@@ -146,6 +146,14 @@
               >Daftar disini</a
             >
           </p>
+          <p class="text-sm text-center font-light text-gray-500">
+            Lupa Password ?
+            <a
+              href="/register"
+              class="font-medium text-primary-600 hover:underline"
+              >Klik disini</a
+            >
+          </p>
         </div>
       </div>
     </div>

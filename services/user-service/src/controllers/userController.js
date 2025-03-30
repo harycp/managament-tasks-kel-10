@@ -62,6 +62,30 @@ const getUserLogin = async (req, res) => {
   }
 };
 
+const requestResetPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    const response = await userService.requestResetPassword(email);
+    res
+      .status(200)
+      .json({ message: "Password reset email sent", data: response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const resetPassword = async (req, res) => {
+  try {
+    const { token, newPassword } = req.body;
+    const response = await userService.resetPassword(token, newPassword);
+    res
+      .status(200)
+      .json({ message: "Password reset successful", data: response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await userService.getUsers();
@@ -118,6 +142,8 @@ module.exports = {
   createUser,
   loginUser,
   logoutUser,
+  requestResetPassword,
+  resetPassword,
   getUserLogin,
   getUsers,
   getUserById,
