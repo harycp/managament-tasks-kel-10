@@ -38,7 +38,10 @@ const requestResetPassword = async (email) => {
   if (!user) throw new Error("User not found");
 
   const token = generateToken({ id: user.id });
-  const resetLink = `${process.env.RESET_PASSWORD_URL}?token${token}`;
+  console.log(token);
+  const resetLink = `${process.env.RESET_PASSWORD_URL}?token=${token}`;
+
+  console.log(resetLink);
 
   await sendEmail(
     user.email,
