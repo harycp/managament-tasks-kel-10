@@ -44,13 +44,12 @@ const requestResetPassword = async (email) => {
   // console.log(resetLink);
 
   const emailContent = `
-  <div style="font-family: 'Courier New', Courier, monospace; padding: 20px;">
-    <div style="max-width: 600px; margin: auto; background-color: #2d2d2d; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
+  <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
+    <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
       <header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
         <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
-          <h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">🔒 Tuntask</h1>
+          <h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Password Reset Request</h1>
         </div>
-        <h2 style="color: #e5e5e5; font-size: 20px; font-weight: bold; letter-spacing: 1px; margin-top: 40px;">Password Reset Request</h2>
       </header>
       <main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
         <p style="font-size: 16px; color: #7a7a7a;">Hey there,</p>
