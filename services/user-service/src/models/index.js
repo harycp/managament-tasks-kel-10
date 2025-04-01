@@ -6,6 +6,8 @@ const permission = require("./permissions");
 const rolePermission = require("./rolePermission");
 const userRoleAssignment = require("./useRoleAssignments");
 
+const resetPasswordToken = require("./ResetPasswordToken");
+
 userRole.belongsToMany(permission, {
   through: rolePermission,
   foreignKey: "role_id",
@@ -26,5 +28,18 @@ User.belongsToMany(userRole, {
   foreignKey: "user_id",
 });
 
-const db = { sequelize, User, userRole, permission };
+User.hasMany(resetPasswordToken, {
+  foreignKey: "userId",
+  as: "resetPasswordTokens",
+});
+
+const db = {
+  sequelize,
+  User,
+  userRole,
+  permission,
+  rolePermission,
+  userRoleAssignment,
+  resetPasswordToken,
+};
 module.exports = db;
