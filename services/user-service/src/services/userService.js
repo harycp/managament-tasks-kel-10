@@ -1,8 +1,11 @@
 const bcrypt = require("bcryptjs");
-const User = require("../models/user");
 const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
+
+const User = require("../models/user");
+const ResetPasswordToken = require("../models/ResetPasswordToken");
+const { sequelize } = require("../models");
 
 const createUser = async (userData) => {
   const existingUser = await User.findOne({ where: { email: userData.email } });
@@ -43,6 +46,13 @@ const requestResetPassword = async (email) => {
 
   // console.log(resetLink);
 
+  await ResetPasswordToken.create({
+    user_id: user.id,
+    token: token,
+    expiresAt: new Date(Date.now() + 360000),
+    used: false,
+  });
+
   const emailContent = `
   <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
     <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
@@ -70,6 +80,16 @@ const requestResetPassword = async (email) => {
 };
 
 const resetPassword = async (token, newPassword) => {
+  const resetPasswordToken = await ResetPasswordToken.findOne({
+    where: {
+      token: token,
+      used: false,
+      expiresAt: { [Op.gt]: new Date() },
+    },
+  });
+
+  if (!resetPasswordToken) throw new Error("Invalid or expired token");
+
   const { id } = verifyToken(token);
   const user = await User.findByPk(id);
   if (!user) throw new Error("User not found");
@@ -77,7 +97,21 @@ const resetPassword = async (token, newPassword) => {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   await user.update({ password: hashedPassword });
 
+  await resetPasswordToken.update({ used: true });
+
   return user;
+};
+
+const verifyResetToken = async (token) => {
+  const resetPasswordToken = await ResetPasswordToken.findOne({
+    where: {
+      token: token,
+      used: false,
+      expiresAt: { [Op.gt]: new Date() },
+    },
+  });
+
+  return resetPasswordToken ? true : false;
 };
 
 const getUserLogin = async (id) => {
@@ -131,6 +165,7 @@ module.exports = {
   logoutUser,
   getUserLogin,
   requestResetPassword,
+  verifyResetToken,
   resetPassword,
   getUsers,
   getUserById,

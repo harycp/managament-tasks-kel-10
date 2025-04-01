@@ -1,5 +1,5 @@
 import { createWebHistory, createRouter } from "vue-router";
-import { checkAuth } from "../utils/auth";
+import { checkAuth, verifyResetToken } from "../utils/auth";
 
 import Index from "../pages/Landing/Index.vue";
 import Register from "../pages/Auth/Register.vue";
@@ -17,7 +17,12 @@ const routes = [
     name: "request-reset-password",
     component: RequestResetPassword,
   },
-  { path: "/reset-password", name: "reset-password", component: ResetPassword },
+  {
+    path: "/reset-password",
+    name: "reset-password",
+    component: ResetPassword,
+    meta: { requiresToken: true }, // Tambah meta untuk pengecekan token
+  },
   {
     path: "/dashboard",
     name: "dashboard",
@@ -35,6 +40,14 @@ router.beforeEach(async (to, from, next) => {
   if (to.meta.requiresAuth) {
     const isAuthenticated = await checkAuth();
     isAuthenticated ? next() : next("/login");
+  } else if (to.meta.requiresToken) {
+    const token = to.query.token;
+    if (token) {
+      const isValid = await verifyResetToken(token);
+      isValid ? next() : next("/login");
+    } else {
+      next("/login");
+    }
   } else {
     next();
   }

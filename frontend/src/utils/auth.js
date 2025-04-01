@@ -10,3 +10,14 @@ export const checkAuth = async () => {
     return false;
   }
 };
+
+export const verifyResetToken = async (token) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5001/auth/verify-reset-token?token=${token}`
+    );
+    return response.data.valid;
+  } catch (error) {
+    return false;
+  }
+};

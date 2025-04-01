@@ -29,8 +29,13 @@ User.belongsToMany(userRole, {
 });
 
 User.hasMany(resetPasswordToken, {
-  foreignKey: "userId",
+  foreignKey: "user_id",
   as: "resetPasswordTokens",
+});
+
+resetPasswordToken.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "user",
 });
 
 const db = {

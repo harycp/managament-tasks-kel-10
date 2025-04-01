@@ -86,6 +86,16 @@ const resetPassword = async (req, res) => {
   }
 };
 
+const verifyResetToken = async (req, res) => {
+  try {
+    const { token } = req.query;
+    const isValid = await userService.verifyResetToken(token);
+    res.status(200).json({ message: "Token is valid", valid: isValid });
+  } catch (error) {
+    res.status(500).json({ error: error.message, valid: false });
+  }
+};
+
 const getUsers = async (req, res) => {
   try {
     const users = await userService.getUsers();
@@ -144,6 +154,7 @@ module.exports = {
   logoutUser,
   requestResetPassword,
   resetPassword,
+  verifyResetToken,
   getUserLogin,
   getUsers,
   getUserById,

@@ -59,4 +59,6 @@ router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
 router.post("/logout", authenticate, userController.logoutUser);
 
+router.get("/verify-reset-token", userController.verifyResetToken);
+
 module.exports = router;
