@@ -1,8 +1,8 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const User = sequelize.define(
-  "resetPasswordToken",
+const ConfirmEmailToken = sequelize.define(
+  "confirmEmailToken",
   {
     id: {
       type: DataTypes.UUID,
@@ -13,7 +13,7 @@ const User = sequelize.define(
       type: DataTypes.UUID,
       allowNull: false,
       references: {
-        model: "users", // nama table
+        model: "users",
         key: "id",
       },
     },
@@ -37,4 +37,4 @@ const User = sequelize.define(
   }
 );
 
-module.exports = User;
+module.exports = ConfirmEmailToken;

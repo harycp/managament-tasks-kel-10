@@ -62,6 +62,34 @@ const getUserLogin = async (req, res) => {
   }
 };
 
+const registerEmail = async (req, res) => {
+  console.log(req.body);
+  try {
+    const { email } = req.body;
+
+    const response = await userService.registerEmail(email);
+    res
+      .status(200)
+      .json({ message: "Confirmation email sent", data: response });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const verifyEmail = async (req, res) => {
+  try {
+    const { token, userData } = req.body;
+    const response = await userService.verifyEmail(token, userData);
+
+    res
+      .status(201)
+      .json({ message: "User registered successfully", data: response });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const requestResetPassword = async (req, res) => {
   try {
     const { email } = req.body;
@@ -152,6 +180,8 @@ module.exports = {
   createUser,
   loginUser,
   logoutUser,
+  registerEmail,
+  verifyEmail,
   requestResetPassword,
   resetPassword,
   verifyResetToken,

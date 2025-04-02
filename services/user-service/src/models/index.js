@@ -7,6 +7,7 @@ const rolePermission = require("./rolePermission");
 const userRoleAssignment = require("./useRoleAssignments");
 
 const resetPasswordToken = require("./ResetPasswordToken");
+const confirmEmailToken = require("./ConfirmEmailToken");
 
 userRole.belongsToMany(permission, {
   through: rolePermission,
@@ -38,6 +39,16 @@ resetPasswordToken.belongsTo(User, {
   as: "user",
 });
 
+User.hasMany(confirmEmailToken, {
+  foreignKey: "user_id",
+  as: "confirmEmailTokens",
+});
+
+confirmEmailToken.belongsTo(User, {
+  foreignKey: "user_id",
+  as: "user",
+});
+
 const db = {
   sequelize,
   User,
@@ -46,5 +57,6 @@ const db = {
   rolePermission,
   userRoleAssignment,
   resetPasswordToken,
+  confirmEmailToken,
 };
 module.exports = db;

@@ -5,12 +5,19 @@ import Index from "../pages/Landing/Index.vue";
 import Register from "../pages/Auth/Register.vue";
 import Login from "../pages/Auth/Login.vue";
 import IndexHome from "../pages/Home/Index.vue";
+import RegisterEmail from "../pages/Auth/RegisterEmail.vue";
 import ResetPassword from "../pages/Auth/ResetPassword.vue";
 import RequestResetPassword from "../pages/Auth/RequestResetPassword.vue";
 
 const routes = [
   { path: "/", name: "home", component: Index },
-  { path: "/register", name: "register", component: Register },
+  { path: "/register", name: "register", component: RegisterEmail },
+  {
+    path: "/verify-email",
+    name: "verify-email",
+    component: Register,
+    // meta: { requiresToken: true },
+  },
   { path: "/login", name: "login", component: Login },
   {
     path: "/request-reset-password",
