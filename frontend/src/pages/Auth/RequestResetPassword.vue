@@ -170,7 +170,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost:5001/api/request-reset-password",
+            "http://localhost:5001/auth/request-reset-password",
             {
               email: this.form.email,
             }

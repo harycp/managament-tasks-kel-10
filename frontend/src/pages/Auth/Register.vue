@@ -99,7 +99,7 @@
               <div class="mb-2">
                 <InputLabel
                   for="password"
-                  label="Password"
+                  label="Kata Sandi"
                   :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
                 />
                 <TextInput

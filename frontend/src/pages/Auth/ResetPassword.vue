@@ -277,7 +277,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost:5001/api/reset-password",
+            "http://localhost:5001/auth/reset-password",
             {
               token: this.$route.query.token,
               newPassword: this.form.confirmPassword,

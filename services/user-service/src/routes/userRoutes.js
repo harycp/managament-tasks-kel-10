@@ -10,9 +10,6 @@ const router = express.Router();
 
 router.get("/profile", authenticate, userController.getUserLogin);
 
-router.post("/request-reset-password", userController.requestResetPassword);
-router.post("/reset-password", userController.resetPassword);
-
 // HARUSNYA NANTI DITANDAI, HANYA BISA ADMIN YG BISA MELIHAT ALL USERS, TAMBAHKAN MIDDLEWARE NANTI DISINI
 router.get("/users", authenticate, userController.getUsers);
 router.get("/users/:id", authenticate, userController.getUserById);

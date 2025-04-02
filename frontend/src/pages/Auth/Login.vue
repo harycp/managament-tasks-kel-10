@@ -63,7 +63,7 @@
               <div class="mb-2">
                 <InputLabel
                   for="password"
-                  label="Password"
+                  label="Kata Sandi"
                   :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
                 />
                 <TextInput
@@ -222,10 +222,10 @@ export default {
           .string()
           .min(8, "Kata sandi minimal 8 karakter")
           .max(32, "Kata sandi maksimal 32 karakter")
-          // .matches(
-          //   /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/])[A-Za-z\d!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/]{8,}$/,
-          //   "Kata sandi harus mengandung minimal 8 karakter, huruf besar, huruf kecil, angka, dan simbol"
-          // )
+          .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/])[A-Za-z\d!@#$%^&*()_\-+=|`~{}\[\]:;"'<>,.?/]{8,}$/,
+            "Kata sandi harus mengandung minimal 8 karakter, huruf besar, huruf kecil, angka, dan simbol"
+          )
           .required("Kata sandi wajib diisi"),
       }),
     };

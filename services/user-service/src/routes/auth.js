@@ -59,6 +59,8 @@ router.post("/register", userController.createUser);
 router.post("/login", userController.loginUser);
 router.post("/logout", authenticate, userController.logoutUser);
 
+router.post("/request-reset-password", userController.requestResetPassword);
+router.post("/reset-password", userController.resetPassword);
 router.get("/verify-reset-token", userController.verifyResetToken);
 
 module.exports = router;
