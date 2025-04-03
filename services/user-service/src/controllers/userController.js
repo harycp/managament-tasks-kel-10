@@ -63,7 +63,6 @@ const getUserLogin = async (req, res) => {
 };
 
 const registerEmail = async (req, res) => {
-  console.log(req.body);
   try {
     const { email } = req.body;
 
@@ -72,7 +71,6 @@ const registerEmail = async (req, res) => {
       .status(200)
       .json({ message: "Confirmation email sent", data: response });
   } catch (error) {
-    console.log(error.message);
     res.status(500).json({ error: error.message });
   }
 };

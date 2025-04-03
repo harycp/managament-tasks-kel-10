@@ -16,7 +16,7 @@ const routes = [
     path: "/verify-email",
     name: "verify-email",
     component: Register,
-    // meta: { requiresToken: true },
+    meta: { requiresToken: true },
   },
   { path: "/login", name: "login", component: Login },
   {

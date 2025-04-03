@@ -28,7 +28,7 @@ const registerEmail = async (email) => {
   await ConfirmEmailToken.create({
     user_id: user.id,
     token: token,
-    expiresAt: new Date(Date.now() + 360000),
+    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
     used: false,
   });
 
@@ -75,7 +75,11 @@ const verifyEmail = async (token, userData) => {
   if (!user) throw new Error("User not found");
 
   const hashedPassword = await bcrypt.hash(userData.password, 10);
-  await user.update({ ...userData, password: hashedPassword });
+  await user.update({
+    ...userData,
+    password: hashedPassword,
+    isVerified: true,
+  });
 
   await confirmEmailToken.update({ used: true });
 
@@ -108,10 +112,7 @@ const requestResetPassword = async (email) => {
   if (!user) throw new Error("User not found");
 
   const token = generateToken({ id: user.id });
-  // console.log(token);
   const resetLink = `${process.env.RESET_PASSWORD_URL}?token=${token}`;
-
-  // console.log(resetLink);
 
   await ResetPasswordToken.create({
     user_id: user.id,
@@ -178,7 +179,15 @@ const verifyResetToken = async (token) => {
     },
   });
 
-  return resetPasswordToken ? true : false;
+  const confirmEmailToken = await ConfirmEmailToken.findOne({
+    where: {
+      token: token,
+      used: false,
+      expiresAt: { [Op.gt]: new Date() },
+    },
+  });
+
+  return resetPasswordToken || confirmEmailToken ? true : false;
 };
 
 const getUserLogin = async (id) => {

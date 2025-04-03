@@ -136,36 +136,6 @@
                   </li>
                 </ul>
               </div>
-              <!-- Confirm Password Field -->
-              <div class="mb-2">
-                <InputLabel
-                  for="confirmPassword"
-                  label="Konfirmasi Kata Sandi"
-                  :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
-                />
-                <TextInput
-                  id="confirmPassword"
-                  :type="showConfirmPassword ? 'text' : 'password'"
-                  name="confirmPassword"
-                  placeholder="Masukkan konfirmasi kata sandi"
-                  autocomplete="current-confirm-password"
-                  v-model="form.confirmPassword"
-                  :error="errors.confirmPassword"
-                  :additionalClass="'w-full'"
-                  @keyup="
-                    validateField(this.schema, this.form, 'confirmPassword')
-                  "
-                >
-                  <div class="absolute top-1/2 -translate-y-1/2 right-[5%]">
-                    <!-- EyeToggle component -->
-                    <EyeToggle
-                      :showPassword="showConfirmPassword"
-                      :isActive="isEyeActive"
-                      @toggle="toggleConfirmPasswordVisibility"
-                    />
-                  </div>
-                </TextInput>
-              </div>
             </div>
             <!-- Submit Button -->
             <div class="h-10 mb-32">
@@ -228,7 +198,6 @@ export default {
         success: { title: "", description: "" },
       },
       showPassword: false,
-      showConfirmPassword: false,
       isEyeActive: false,
       isButtonDisabled: false,
       oneSpecialIsValid: false,
@@ -266,11 +235,6 @@ export default {
             "Kata sandi baru harus memiliki setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu simbol"
           )
           .required("Kata sandi baru tidak boleh kosong"),
-
-        confirmPassword: yup
-          .string()
-          .oneOf([yup.ref("password")], "Konfirmasi kata sandi baru tidak sama")
-          .required("Konfirmasi kata sandi baru wajib diisi"),
       }),
     };
   },
@@ -285,13 +249,13 @@ export default {
             "http://localhost:5001/auth/verify-email",
             {
               token: this.$route.query.token,
-              userData: this.form.email,
+              userData: this.form,
             }
           );
 
-          const data = await response.json();
+          const data = await response.data;
 
-          if (!response.ok) {
+          if (data.error) {
             this.flashMessages.error = {
               title: "Pendaftaran Gagal",
               description: data.error || "Terjadi kesalahan saat mendaftar.",
@@ -339,9 +303,6 @@ export default {
     },
     togglePasswordVisibility() {
       this.showPassword = !this.showPassword;
-    },
-    toggleConfirmPasswordVisibility() {
-      this.showConfirmPassword = !this.showConfirmPassword;
     },
     clearFlashMessage() {
       this.flashMessages = {
