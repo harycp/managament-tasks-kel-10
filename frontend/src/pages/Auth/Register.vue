@@ -229,12 +229,12 @@ export default {
 
         password: yup
           .string()
-          .min(8, "Kata sandi baru minimal harus berisi 8 karakter")
+          .min(8, "Kata sandi minimal harus berisi 8 karakter")
           .matches(
             /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&].+$/,
-            "Kata sandi baru harus memiliki setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu simbol"
+            "Kata sandi harus memiliki setidaknya satu huruf kecil, satu huruf besar, satu angka, dan satu simbol"
           )
-          .required("Kata sandi baru tidak boleh kosong"),
+          .required("Kata sandi tidak boleh kosong"),
       }),
     };
   },
