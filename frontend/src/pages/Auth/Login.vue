@@ -149,7 +149,7 @@
           <p class="text-sm text-center font-light text-gray-500">
             Lupa Password ?
             <a
-              href="/register"
+              href="/request-reset-password"
               class="font-medium text-primary-600 hover:underline"
               >Klik disini</a
             >
