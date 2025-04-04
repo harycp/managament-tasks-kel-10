@@ -31,12 +31,17 @@
         </svg>
       </button>
 
-      <button>
+      <button class="flex items-center space-x-2">
         <img
+          v-if="user"
           class="w-8 h-8 rounded-full border-2 border-white transition-opacity hover:opacity-70"
-          src="https://randomuser.me/api/portraits/women/65.jpg"
-          alt="User Avatar"
+          :src="'https://randomuser.me/api/portraits/men/61.jpg'"
+          :alt="user.name || 'User Avatar'"
+          :title="user.name || 'User Avatar'"
         />
+        <p class="text-sm font-medium text-gray-900 hover:text-gray-500">
+          {{ user.name || "User" }}
+        </p>
       </button>
     </div>
   </div>
@@ -47,5 +52,8 @@ import Logo from "../layout/Logo.vue";
 export default {
   name: "NavbarHome",
   components: { Logo },
+  props: {
+    user: Object,
+  },
 };
 </script>

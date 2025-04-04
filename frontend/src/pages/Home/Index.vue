@@ -1,7 +1,7 @@
 <template>
   <section>
     <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-      <NavbarHome />
+      <NavbarHome :user="user" />
       <!-- <Home @loaded="(isLoading) => (dashboardLoading = isLoading)"> </Home> -->
       <LoadingScreen :isLoading="dashboardLoading" />
     </div>
@@ -19,14 +19,28 @@ export default {
 
   data() {
     return {
-      user: {},
+      user: null,
       dashboardLoading: true,
     };
   },
   async created() {
     await this.fetchUserProfile();
   },
-  methods: {},
+  methods: {
+    async fetchUserProfile() {
+      try {
+        const response = await axios.get("http://localhost:5001/api/profile", {
+          withCredentials: true,
+        });
+        this.user = response.data.data;
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        this.user = null;
+      } finally {
+        this.dashboardLoading = false;
+      }
+    },
+  },
 
   mounted() {
     document.title = "Home | Tuntask";
