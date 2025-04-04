@@ -1,74 +1,51 @@
 <template>
-  <div class="flex items-center justify-between p-4 rounded-lg">
-    <!-- Kiri: Judul Workspace -->
-    <div class="flex items-center gap-2">
-      <h1 class="text-lg font-bold text-gray-800">Inventaris</h1>
+  <div class="flex items-center justify-between">
+    <!-- Kiri: Logo + Navigasi -->
+    <div class="flex items-center space-x-8">
+      <!-- Logo -->
+      <Logo />
+
+      <!-- Dropdown Menu -->
+      <div
+        class="flex items-center space-x-6 text-sm font-medium text-gray-900"
+      >
+        <button class="hover:text-gray-500">Workspaces</button>
+        <button class="hover:text-gray-500">Recent</button>
+        <button class="hover:text-gray-500">Starred</button>
+        <button class="hover:text-gray-500">Templates</button>
+      </div>
     </div>
 
-    <!-- Kanan: Avatar & Actions -->
-    <div class="flex items-center gap-4">
-      <!-- Avatar Group -->
-      <div class="flex -space-x-2">
-        <img
-          class="w-8 h-8 rounded-full border-2 border-white"
-          src="https://randomuser.me/api/portraits/men/32.jpg"
-          alt="Avatar 1"
-        />
-        <img
-          class="w-8 h-8 rounded-full border-2 border-white"
-          src="https://randomuser.me/api/portraits/women/44.jpg"
-          alt="Avatar 2"
-        />
-        <img
-          class="w-8 h-8 rounded-full border-2 border-white"
-          src="https://randomuser.me/api/portraits/men/23.jpg"
-          alt="Avatar 3"
-        />
-      </div>
-
-      <!-- Tombol Share -->
-      <button
-        class="flex items-center gap-1 text-sm font-medium text-gray-900 hover:text-gray-600 transition-all duration-300"
-      >
-        Share
-      </button>
-
-      <!-- Ikon Chat/Comment -->
-      <button class="text-gray-900 hover:text-gray-600">
+    <div class="flex items-center space-x-4">
+      <!-- Notifikasi -->
+      <button>
         <svg
-          width="24px"
-          height="24px"
+          class="w-6 h-6 text-gray-900 hover:text-gray-500 transition"
           viewBox="0 0 24 24"
-          fill="none"
+          fill="currentColor"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M20 2H2v20h2V4h16v12H6v2H4v2h2v-2h16V2h-2zM6 7h12v2H6V7zm8 4H6v2h8v-2z"
-              fill="#000000"
-            ></path>
-          </g>
+          <path
+            d="M14 4V2h-4v2H5v2h14V4h-5zm5 12H5v-4H3v6h5v4h2v-4h4v2h-4v2h6v-4h5v-6h-2V6h-2v8h2v2zM5 6v8h2V6H5z"
+          ></path>
         </svg>
       </button>
 
-      <!-- Avatar User Aktif -->
-      <img
-        class="w-10 h-10 rounded-full border-2 border-white"
-        src="https://randomuser.me/api/portraits/women/65.jpg"
-        alt="Active User"
-      />
+      <button>
+        <img
+          class="w-8 h-8 rounded-full border-2 border-white transition-opacity hover:opacity-70"
+          src="https://randomuser.me/api/portraits/women/65.jpg"
+          alt="User Avatar"
+        />
+      </button>
     </div>
   </div>
 </template>
 
 <script>
+import Logo from "../layout/Logo.vue";
 export default {
   name: "NavbarHome",
+  components: { Logo },
 };
 </script>
