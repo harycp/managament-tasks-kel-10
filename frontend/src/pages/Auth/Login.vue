@@ -262,7 +262,7 @@ export default {
           this.form = { usernameOrEmail: "", password: "" };
 
           setTimeout(() => {
-            this.$router.push("/dashboard");
+            this.$router.push("/h");
           }, 2000);
         } catch (error) {
           this.form = { usernameOrEmail: "", password: "" };

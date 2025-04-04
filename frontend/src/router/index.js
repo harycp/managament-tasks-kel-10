@@ -4,13 +4,14 @@ import { checkAuth, verifyResetToken } from "../utils/auth";
 import Index from "../pages/Landing/Index.vue";
 import Register from "../pages/Auth/Register.vue";
 import Login from "../pages/Auth/Login.vue";
-import IndexHome from "../pages/Home/Index.vue";
+import Home from "../pages/Home/Index.vue";
+import Dashboard from "../pages/Dashboard/Index.vue";
 import RegisterEmail from "../pages/Auth/RegisterEmail.vue";
 import ResetPassword from "../pages/Auth/ResetPassword.vue";
 import RequestResetPassword from "../pages/Auth/RequestResetPassword.vue";
 
 const routes = [
-  { path: "/", name: "home", component: Index },
+  { path: "/", name: "landing", component: Index },
   { path: "/register", name: "register", component: RegisterEmail },
   {
     path: "/verify-email",
@@ -31,9 +32,15 @@ const routes = [
     meta: { requiresToken: true }, // Tambah meta untuk pengecekan token
   },
   {
-    path: "/dashboard",
+    path: "/h",
+    name: "home",
+    component: Home,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/d",
     name: "dashboard",
-    component: IndexHome,
+    component: Dashboard,
     meta: { requiresAuth: true },
   },
 ];

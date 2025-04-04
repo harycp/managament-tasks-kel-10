@@ -1,6 +1,7 @@
 <template>
   <section>
-    <Home @loaded="(isLoading) => (dashboardLoading = isLoading)"> </Home>
+    <Dashboard @loaded="(isLoading) => (dashboardLoading = isLoading)">
+    </Dashboard>
     <LoadingScreen :isLoading="dashboardLoading" />
   </section>
 </template>
@@ -8,10 +9,10 @@
 <script>
 import axios from "axios";
 import LoadingScreen from "../../components/common/LoadingScreen.vue";
-import Home from "../../fragments/Home.vue";
+import Dashboard from "../../fragments/Dashboard.vue";
 
 export default {
-  components: { LoadingScreen, Home },
+  components: { LoadingScreen, Dashboard },
 
   data() {
     return {
