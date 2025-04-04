@@ -192,7 +192,7 @@ const verifyResetToken = async (token) => {
 
 const getUserLogin = async (id) => {
   const user = await User.findByPk(id, {
-    attributes: ["id", "username", "email", "name"],
+    attributes: ["id", "username", "email", "name", "createdAt"],
   });
 
   return user;

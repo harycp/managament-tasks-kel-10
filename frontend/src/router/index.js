@@ -53,14 +53,7 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const isAuthenticated = await checkAuth();
 
-  const publicOnlyPaths = [
-    "/",
-    "/login",
-    "/register",
-    "/verify-email",
-    "/reset-password",
-    "/request-reset-password",
-  ];
+  const publicOnlyPaths = ["/", "/login", "/register", "/verify-email"];
 
   if (isAuthenticated && publicOnlyPaths.includes(to.path)) {
     return next("/h");

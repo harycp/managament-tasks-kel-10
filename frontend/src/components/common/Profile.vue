@@ -2,34 +2,58 @@
   <Teleport to="body">
     <div
       v-if="isOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center p-4 duration-300 transition-all"
     >
-      <div class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-8 relative">
+      <div
+        class="bg-white rounded-lg shadow-lg w-full max-w-2xl p-8 relative duration-300 transition-all"
+      >
+        <div class="flex flex-row justify-between items-center">
+          <!-- Header -->
+          <h2 class="text-xl font-semibold mb-4">Pengaturan Akun</h2>
+          <button
+            @click="closePopup"
+            class="text-gray-600 hover:text-gray-800 text-xl"
+          >
+            <svg
+              class="w-6 h-6 text-gray-900 hover:text-gray-500"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M5 5h2v2H5V5zm4 4H7V7h2v2zm2 2H9V9h2v2zm2 0h-2v2H9v2H7v2H5v2h2v-2h2v-2h2v-2h2v2h2v2h2v2h2v-2h-2v-2h-2v-2h-2v-2zm2-2v2h-2V9h2zm2-2v2h-2V7h2zm0 0V5h2v2h-2z"
+              ></path>
+            </svg>
+          </button>
+        </div>
         <!-- Tombol Close -->
-        <button
-          @click="closePopup"
-          class="absolute top-3 right-3 text-gray-600 hover:text-gray-800 text-xl"
-        >
-          &times;
-        </button>
 
-        <!-- Header -->
-        <h2 class="text-xl font-semibold mb-4">Account</h2>
         <div class="flex items-center space-x-4">
           <div
-            class="w-16 h-16 flex items-center justify-center bg-gray-300 rounded-full text-xl font-semibold text-gray-700"
+            class="w-16 h-16 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-2xl font-medium text-white duration-300 transition-opacity hover:opacity-70"
           >
             {{ user.name.charAt(0) }}
           </div>
           <div class="flex flex-col flex-grow">
-            <label class="text-sm text-gray-600">Preferred Name</label>
+            <label class="text-sm text-gray-600">Nama Lengkap</label>
             <div class="relative">
               <input
-                v-model="editedUser.name"
+                :value="user.name"
                 type="text"
                 class="border rounded px-3 py-2 w-full"
               />
-              <button class="absolute right-2 top-2 text-gray-500">✏️</button>
+              <button class="absolute right-2 top-2">
+                <svg
+                  class="w-6 h-6 text-gray-900 hover:text-gray-500"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M4 2h14v2H4v16h2v-6h12v6h2V6h2v16H2V2h2zm4 18h8v-4H8v4zM20 6h-2V4h2v2zM6 6h9v4H6V6z"
+                  ></path>
+                </svg>
+              </button>
             </div>
           </div>
         </div>
@@ -41,7 +65,11 @@
               <label class="text-sm text-gray-600">Email</label>
               <p class="text-gray-800">{{ user.email }}</p>
             </div>
-            <button class="text-blue-500 hover:underline">Change email</button>
+            <button
+              class="px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
+            >
+              Ubah email
+            </button>
           </div>
 
           <div class="flex justify-between items-center">
@@ -49,27 +77,39 @@
               <label class="text-sm text-gray-600">Username</label>
               <p class="text-gray-800">{{ user.username }}</p>
             </div>
-            <button class="text-blue-500 hover:underline">
-              Change username
+            <button
+              class="px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
+            >
+              Ubah username
             </button>
           </div>
 
           <div class="flex justify-between items-center">
             <div>
-              <label class="text-sm text-gray-600">Password</label>
-              <p class="text-gray-800">********</p>
+              <label class="text-sm text-gray-600">Tanggal bergabung</label>
+              <p class="text-gray-800">
+                {{
+                  new Date(user.createdAt).toLocaleString("id-ID", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })
+                }}
+              </p>
             </div>
-            <button class="text-blue-500 hover:underline">
-              Change password
+          </div>
+
+          <div class="flex justify-between items-center">
+            <div>
+              <label class="text-sm text-gray-600">Bantuan</label>
+              <p class="text-gray-800">Hapus Akun</p>
+            </div>
+            <button
+              class="text-red-600 px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
+            >
+              Hapus Permanen
             </button>
           </div>
-        </div>
-
-        <!-- Hapus Akun -->
-        <div class="mt-6 border-t pt-4 text-center">
-          <button class="text-red-600 hover:underline">
-            Delete my account
-          </button>
         </div>
       </div>
     </div>

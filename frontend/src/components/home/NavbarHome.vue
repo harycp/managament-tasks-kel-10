@@ -8,16 +8,24 @@
       <!-- Kiri: Logo + Navigasi -->
       <div class="flex items-center space-x-8">
         <!-- Logo -->
-        <Logo />
+        <Logo :ClassImg="'!text-4xl'" />
 
         <!-- Dropdown Menu -->
         <div
           class="flex items-center space-x-6 text-sm font-medium text-gray-900"
         >
-          <button class="hover:text-gray-500">Workspaces</button>
-          <button class="hover:text-gray-500">Recent</button>
-          <button class="hover:text-gray-500">Starred</button>
-          <button class="hover:text-gray-500">Templates</button>
+          <button class="hover:text-gray-500 duration-300 transition-all">
+            Workspaces
+          </button>
+          <button class="hover:text-gray-500 duration-300 transition-all">
+            Recent
+          </button>
+          <button class="hover:text-gray-500 duration-300 transition-all">
+            Starred
+          </button>
+          <button class="hover:text-gray-500 duration-300 transition-all">
+            Templates
+          </button>
         </div>
       </div>
 
@@ -53,16 +61,15 @@
           @click="$emit('openProfile')"
           class="flex items-center space-x-2"
         >
-          <img
-            v-if="user"
-            class="w-8 h-8 rounded-full border-2 border-white transition-opacity hover:opacity-70"
-            :src="
-              user.avatar || 'https://randomuser.me/api/portraits/men/61.jpg'
-            "
-            :alt="user.name || 'User Avatar'"
-            :title="user.name || 'User Avatar'"
-          />
-          <p class="text-sm font-medium text-gray-900 hover:text-gray-500">
+          <div
+            class="w-8 h-8 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-xl font-medium text-white durataion-300 transition-opacity hover:opacity-70"
+          >
+            {{ user.name.charAt(0) }}
+          </div>
+
+          <p
+            class="text-sm font-medium text-gray-900 hover:text-gray-500 transition-all durataion-300"
+          >
             {{ user.name || "User" }}
           </p>
         </button>
