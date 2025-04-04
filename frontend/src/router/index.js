@@ -51,9 +51,12 @@ const router = createRouter({
 });
 
 router.beforeEach(async (to, from, next) => {
-  if (to.meta.requiresAuth) {
-    const isAuthenticated = await checkAuth();
-    isAuthenticated ? next() : next("/login");
+  const isAuthenticated = await checkAuth();
+
+  if (isAuthenticated && to.path === "/") {
+    next("/h");
+  } else if (to.meta.requiresAuth && !isAuthenticated) {
+    next("/login");
   } else if (to.meta.requiresToken) {
     const token = to.query.token;
     if (token) {
