@@ -1,8 +1,13 @@
 <template>
   <section>
     <div class="">
-      <NavbarHome :user="user" />
+      <NavbarHome :user="user" @openProfile="showProfilePopup = true" />
       <!-- <Home @loaded="(isLoading) => (dashboardLoading = isLoading)"> </Home> -->
+      <Profile
+        :isOpen="showProfilePopup"
+        :user="user"
+        @close="showProfilePopup = false"
+      />
       <LoadingScreen :isLoading="dashboardLoading" />
     </div>
   </section>
@@ -13,14 +18,16 @@ import axios from "axios";
 import LoadingScreen from "../../components/common/LoadingScreen.vue";
 import Home from "../../fragments/Home.vue";
 import NavbarHome from "../../components/home/NavbarHome.vue";
+import Profile from "../../components/common/Profile.vue";
 
 export default {
-  components: { LoadingScreen, Home, NavbarHome },
+  components: { LoadingScreen, Home, NavbarHome, Profile },
 
   data() {
     return {
       user: {},
       dashboardLoading: true,
+      showProfilePopup: false,
     };
   },
   async created() {

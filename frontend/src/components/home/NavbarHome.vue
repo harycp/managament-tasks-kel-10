@@ -49,11 +49,16 @@
           </svg>
         </button>
 
-        <button class="flex items-center space-x-2">
+        <button
+          @click="$emit('openProfile')"
+          class="flex items-center space-x-2"
+        >
           <img
             v-if="user"
             class="w-8 h-8 rounded-full border-2 border-white transition-opacity hover:opacity-70"
-            :src="'https://randomuser.me/api/portraits/men/61.jpg'"
+            :src="
+              user.avatar || 'https://randomuser.me/api/portraits/men/61.jpg'
+            "
             :alt="user.name || 'User Avatar'"
             :title="user.name || 'User Avatar'"
           />
