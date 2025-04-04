@@ -53,21 +53,34 @@ const router = createRouter({
 router.beforeEach(async (to, from, next) => {
   const isAuthenticated = await checkAuth();
 
-  if (isAuthenticated && to.path === "/") {
-    next("/h");
-  } else if (to.meta.requiresAuth && !isAuthenticated) {
-    next("/login");
-  } else if (to.meta.requiresToken) {
+  const publicOnlyPaths = [
+    "/",
+    "/login",
+    "/register",
+    "/verify-email",
+    "/reset-password",
+    "/request-reset-password",
+  ];
+
+  if (isAuthenticated && publicOnlyPaths.includes(to.path)) {
+    return next("/h");
+  }
+
+  if (to.meta.requiresAuth && !isAuthenticated) {
+    return next("/login");
+  }
+
+  if (to.meta.requiresToken) {
     const token = to.query.token;
     if (token) {
       const isValid = await verifyResetToken(token);
-      isValid ? next() : next("/login");
+      return isValid ? next() : next("/login");
     } else {
-      next("/login");
+      return next("/login");
     }
-  } else {
-    next();
   }
+
+  next();
 });
 
 export default router;

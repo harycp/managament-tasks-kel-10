@@ -2,7 +2,7 @@
   <a v-if="!isAuthenticated" href="/" class="flex items-center group space-x-1">
     <p
       :class="[
-        'jacquarda-bastarda-9-regular text-5xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out',
+        'jacquarda-bastarda-9-regular text-4xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out',
         ClassImg,
       ]"
     >
