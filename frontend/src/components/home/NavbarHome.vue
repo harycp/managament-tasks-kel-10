@@ -64,13 +64,15 @@
           <div
             class="w-8 h-8 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-xl font-medium text-white durataion-300 transition-opacity hover:opacity-70"
           >
-            {{ user.name.charAt(0) }}
+            {{ user.name ? user.name.charAt(0) : "" }}
           </div>
 
           <p
             class="text-sm font-medium text-gray-900 hover:text-gray-500 transition-all durataion-300"
           >
-            {{ user.name || "User" }}
+            {{
+              user.name ? user.name.split(" ").slice(0, 2).join(" ") : "User"
+            }}
           </p>
         </button>
       </div>

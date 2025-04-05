@@ -9,7 +9,9 @@
       >
         <div class="flex flex-row justify-between items-center">
           <!-- Header -->
-          <h2 class="text-xl font-semibold mb-4">Pengaturan Akun</h2>
+          <h2 class="text-xl text-gray-900 font-semibold mb-4">
+            Pengaturan Akun
+          </h2>
           <button
             @click="closePopup"
             class="text-gray-600 hover:text-gray-800 text-xl"
@@ -32,17 +34,18 @@
           <div
             class="w-16 h-16 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-2xl font-medium text-white duration-300 transition-opacity hover:opacity-70"
           >
-            {{ user.name.charAt(0) }}
+            {{ user.name ? user.name.charAt(0) : "" }}
           </div>
           <div class="flex flex-col flex-grow">
-            <label class="text-sm text-gray-600">Nama Lengkap</label>
+            <label class="text-sm text-gray-500">Nama Lengkap</label>
             <div class="relative">
               <input
-                :value="user.name"
+                v-model="editedUser.name"
+                :placeholder="user.name"
                 type="text"
-                class="border rounded px-3 py-2 w-full"
+                class="border rounded px-3 py-2 w-full text-gray-900"
               />
-              <button class="absolute right-2 top-2">
+              <button @click="updateName" class="absolute right-2 top-2">
                 <svg
                   class="w-6 h-6 text-gray-900 hover:text-gray-500"
                   viewBox="0 0 24 24"
@@ -62,8 +65,8 @@
         <div class="mt-6 space-y-4">
           <div class="flex justify-between items-center">
             <div>
-              <label class="text-sm text-gray-600">Email</label>
-              <p class="text-gray-800">{{ user.email }}</p>
+              <label class="text-sm text-gray-500">Email</label>
+              <p class="text-gray-900">{{ user.email }}</p>
             </div>
             <button
               class="px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
@@ -74,11 +77,11 @@
 
           <div class="flex justify-between items-center">
             <div>
-              <label class="text-sm text-gray-600">Username</label>
-              <p class="text-gray-800">{{ user.username }}</p>
+              <label class="text-sm text-gray-500">Username</label>
+              <p class="text-gray-900">{{ user.username }}</p>
             </div>
             <button
-              class="px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
+              class="px-3 py-1 text-gray-900 border rounded hover:bg-gray-100 transition-all duration-300"
             >
               Ubah username
             </button>
@@ -86,8 +89,8 @@
 
           <div class="flex justify-between items-center">
             <div>
-              <label class="text-sm text-gray-600">Tanggal bergabung</label>
-              <p class="text-gray-800">
+              <label class="text-sm text-gray-500">Tanggal bergabung</label>
+              <p class="text-gray-900">
                 {{
                   new Date(user.createdAt).toLocaleString("id-ID", {
                     year: "numeric",
@@ -101,11 +104,11 @@
 
           <div class="flex justify-between items-center">
             <div>
-              <label class="text-sm text-gray-600">Bantuan</label>
-              <p class="text-gray-800">Hapus Akun</p>
+              <label class="text-sm text-gray-500">Bantuan</label>
+              <p class="text-gray-900">Hapus Akun</p>
             </div>
             <button
-              class="text-red-600 px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
+              class="text-red-500 px-3 py-1 border rounded hover:bg-red-100 transition-all duration-300"
             >
               Hapus Permanen
             </button>
@@ -117,6 +120,8 @@
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
   props: {
     isOpen: Boolean,
@@ -129,6 +134,22 @@ export default {
   },
   emits: ["close"],
   methods: {
+    async updateName() {
+      try {
+        const response = await axios.put(
+          `http://localhost:5001/api/users/${this.user.id}`,
+          {
+            name: this.editedUser.name,
+          },
+          {
+            withCredentials: true,
+          }
+        );
+        this.user.name = response.data.data.name;
+      } catch (error) {
+        console.error("Error updating name:", error);
+      }
+    },
     closePopup() {
       this.$emit("close");
     },
