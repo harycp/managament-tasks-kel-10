@@ -69,6 +69,7 @@
               <p class="text-gray-900">{{ user.email }}</p>
             </div>
             <button
+              @click="showEmailPopup = true"
               class="px-3 py-1 border rounded hover:bg-gray-100 transition-all duration-300"
             >
               Ubah email
@@ -115,6 +116,12 @@
           </div>
         </div>
       </div>
+      <UpdateEmailPopup
+        v-if="showEmailPopup"
+        :isOpen="showEmailPopup"
+        :user="user"
+        @close="showEmailPopup = false"
+      />
     </div>
   </Teleport>
 </template>
@@ -122,7 +129,12 @@
 <script>
 import axios from "axios";
 
+import UpdateEmailPopup from "./UpdateEmailPopup.vue";
+
 export default {
+  components: {
+    UpdateEmailPopup,
+  },
   props: {
     isOpen: Boolean,
     user: Object,
@@ -130,6 +142,7 @@ export default {
   data() {
     return {
       editedUser: { ...this.user },
+      showEmailPopup: false,
     };
   },
   emits: ["close"],

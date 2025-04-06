@@ -144,6 +144,36 @@ const getUserById = async (req, res) => {
   }
 };
 
+const verifyPassword = async (req, res) => {
+  try {
+    const { userId, password } = req.body;
+    const isMatch = await userService.verifyPassword(userId, password);
+    res.status(200).json({ message: "Password verified", data: isMatch });
+  } catch (error) {
+    res.status(500).json({ error: error.message, data: false });
+  }
+};
+
+const requestOtp = async (req, res) => {
+  try {
+    const { email, newEmail } = req.body;
+    const response = await userService.requestOtp(email, newEmail);
+    res.status(200).json({ message: "OTP sent", data: response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const verifyUpdatedEmail = async (req, res) => {
+  try {
+    const { otp, email } = req.body;
+    const response = await userService.verifyUpdatedEmail(otp, email);
+    res.status(200).json({ message: "Email updated", data: response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const updateUser = async (req, res) => {
   try {
     const user = await userService.updateUser(req.params.id, req.body);
@@ -183,6 +213,9 @@ module.exports = {
   requestResetPassword,
   resetPassword,
   verifyResetToken,
+  verifyPassword,
+  requestOtp,
+  verifyUpdatedEmail,
   getUserLogin,
   getUsers,
   getUserById,
