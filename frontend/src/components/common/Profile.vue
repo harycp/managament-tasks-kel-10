@@ -82,9 +82,23 @@
               <p class="text-gray-900">{{ user.username }}</p>
             </div>
             <button
+              @click="showUsernamePopup = true"
               class="px-3 py-1 text-gray-900 border rounded hover:bg-gray-100 transition-all duration-300"
             >
               Ubah username
+            </button>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <div>
+              <label class="text-sm text-gray-500">Password</label>
+              <p class="text-gray-900">********</p>
+            </div>
+            <button
+              @click="showPasswordPopup = true"
+              class="px-3 py-1 text-gray-900 border rounded hover:bg-gray-100 transition-all duration-300"
+            >
+              Ubah kata sandi
             </button>
           </div>
 
@@ -122,6 +136,18 @@
         :user="user"
         @close="showEmailPopup = false"
       />
+      <UpdateUsernamePopup
+        v-if="showUsernamePopup"
+        :isOpen="showUsernamePopup"
+        :user="user"
+        @close="showUsernamePopup = false"
+      />
+      <UpdatePasswordPopup
+        v-if="showPasswordPopup"
+        :isOpen="showPasswordPopup"
+        :user="user"
+        @close="showPasswordPopup = false"
+      />
     </div>
   </Teleport>
 </template>
@@ -130,10 +156,14 @@
 import axios from "axios";
 
 import UpdateEmailPopup from "./UpdateEmailPopup.vue";
+import UpdateUsernamePopup from "./UpdateUsernamePopup.vue";
+import UpdatePasswordPopup from "./UpdatePasswordPopup.vue";
 
 export default {
   components: {
     UpdateEmailPopup,
+    UpdateUsernamePopup,
+    UpdatePasswordPopup,
   },
   props: {
     isOpen: Boolean,
@@ -143,6 +173,8 @@ export default {
     return {
       editedUser: { ...this.user },
       showEmailPopup: false,
+      showUsernamePopup: false,
+      showPasswordPopup: false,
     };
   },
   emits: ["close"],

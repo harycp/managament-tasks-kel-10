@@ -184,6 +184,20 @@ const updateUser = async (req, res) => {
   }
 };
 
+const updatePassword = async (req, res) => {
+  try {
+    const { id, oldPassword, newPassword } = req.body;
+    const response = await userService.updatePassword(
+      id,
+      oldPassword,
+      newPassword
+    );
+    res.status(200).json({ message: "Password updated", data: response });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 const deleteUser = async (req, res) => {
   try {
     const user = await userService.deleteUser(req.params.id);
@@ -220,6 +234,7 @@ module.exports = {
   getUsers,
   getUserById,
   updateUser,
+  updatePassword,
   deleteUser,
   getUserByEmail,
 };

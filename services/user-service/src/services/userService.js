@@ -285,11 +285,32 @@ const updateUser = async (id, userData) => {
   const user = await User.findByPk(id);
   if (!user) return null;
 
+  if (user.username) {
+    const userWithSameUsername = await User.findOne({
+      where: { username: userData.username },
+    });
+    if (userWithSameUsername)
+      throw new Error("User with this username already exist");
+  }
+
   if (userData.password) {
     userData.password = await bcrypt.hash(userData.password, 10);
   }
 
   await user.update(userData);
+  return user;
+};
+
+const updatePassword = async (id, oldPassword, newPassword) => {
+  const user = await User.findByPk(id);
+  if (!user) return null;
+
+  const isMatch = await bcrypt.compare(oldPassword, user.password);
+  if (!isMatch) throw new Error("Invalid password");
+
+  const hashedPassword = await bcrypt.hash(newPassword, 10);
+  await user.update({ password: hashedPassword });
+
   return user;
 };
 
@@ -326,6 +347,7 @@ module.exports = {
   getUsers,
   getUserById,
   updateUser,
+  updatePassword,
   deleteUser,
   getUserByEmail,
 };
