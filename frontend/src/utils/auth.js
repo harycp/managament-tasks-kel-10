@@ -6,7 +6,7 @@ export const checkAuth = async () => {
       withCredentials: true,
     });
     return response.data.authenticated;
-  } catch (error) {
+  } catch {
     return false;
   }
 };

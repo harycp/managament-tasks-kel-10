@@ -16,10 +16,9 @@ const authenticate = (req, res, next) => {
       return res.status(403).json({ message: "Invalid token" });
     }
 
-    req.user = decoded; // Simpan data user ke req.user
+    req.user = decoded;
     next();
   } catch (error) {
-    console.error("Authentication Error:", error);
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };

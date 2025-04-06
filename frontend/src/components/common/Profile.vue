@@ -123,6 +123,7 @@
               <p class="text-gray-900">Hapus Akun</p>
             </div>
             <button
+              @click="showDeletePopup = true"
               class="text-red-500 px-3 py-1 border rounded hover:bg-red-100 transition-all duration-300"
             >
               Hapus Permanen
@@ -148,6 +149,12 @@
         :user="user"
         @close="showPasswordPopup = false"
       />
+      <DeleteAccountPopup
+        v-if="showDeletePopup"
+        :isOpen="showDeletePopup"
+        :user="user"
+        @close="showDeletePopup = false"
+      />
     </div>
   </Teleport>
 </template>
@@ -158,12 +165,14 @@ import axios from "axios";
 import UpdateEmailPopup from "./UpdateEmailPopup.vue";
 import UpdateUsernamePopup from "./UpdateUsernamePopup.vue";
 import UpdatePasswordPopup from "./UpdatePasswordPopup.vue";
+import DeleteAccountPopup from "./DeleteAccountPopup.vue";
 
 export default {
   components: {
     UpdateEmailPopup,
     UpdateUsernamePopup,
     UpdatePasswordPopup,
+    DeleteAccountPopup,
   },
   props: {
     isOpen: Boolean,
@@ -175,6 +184,7 @@ export default {
       showEmailPopup: false,
       showUsernamePopup: false,
       showPasswordPopup: false,
+      showDeletePopup: false,
     };
   },
   emits: ["close"],

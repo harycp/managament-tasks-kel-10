@@ -236,7 +236,7 @@ const requestOtp = async (email, newEmail) => {
       <main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
         <p style="font-size: 16px; color: #7a7a7a;">Hey there,</p>
         <p style="font-size: 16px; color: #7a7a7a;">It looks like you need to confirm email with OTP.</p>
-        <p style="font-size: 16px; color: #7a7a7a;">OTP: ${otp}</p>
+        <p style="font-size: 22px; color: #7a7a7a;">${otp}</p>
         <p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.</p>
       </main>
       <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
@@ -317,6 +317,7 @@ const updatePassword = async (id, oldPassword, newPassword) => {
 const deleteUser = async (id) => {
   const user = await User.findByPk(id);
   if (!user) return null;
+
   await user.destroy();
   return user;
 };
