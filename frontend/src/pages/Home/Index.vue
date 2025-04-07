@@ -1,54 +1,32 @@
 <template>
   <section>
-    <div class="">
-      <NavbarHome :user="user" @openProfile="showProfilePopup = true" />
-      <!-- <Home @loaded="(isLoading) => (dashboardLoading = isLoading)"> </Home> -->
-      <Profile
-        :isOpen="showProfilePopup"
-        :user="user"
-        @close="showProfilePopup = false"
-      />
-      <LoadingScreen :isLoading="dashboardLoading" />
-    </div>
+    <Dashboard
+      @loaded="(isLoading) => (dashboardLoading = isLoading)"
+      title="Dashboard"
+    >
+      <div class="flex flex-col gap-4 h-full">
+        <div class="p-6 bg-white rounded-xl h-full">
+          <h1 class="text-4xl font-bold">Home</h1>
+        </div>
+      </div>
+    </Dashboard>
   </section>
 </template>
 
 <script>
 import axios from "axios";
 import LoadingScreen from "../../components/common/LoadingScreen.vue";
-import Home from "../../fragments/Home.vue";
-import NavbarHome from "../../components/home/NavbarHome.vue";
-import Profile from "../../components/common/Profile.vue";
+import Dashboard from "../../fragments/Dashboard.vue";
 
 export default {
-  components: { LoadingScreen, Home, NavbarHome, Profile },
+  name: "Home",
+  components: { LoadingScreen, Dashboard },
 
   data() {
     return {
-      user: {},
       dashboardLoading: true,
-      showProfilePopup: false,
     };
   },
-  async created() {
-    await this.fetchUserProfile();
-  },
-  methods: {
-    async fetchUserProfile() {
-      try {
-        const response = await axios.get("http://localhost:5001/api/profile", {
-          withCredentials: true,
-        });
-        this.user = response.data.data;
-      } catch (error) {
-        console.error("Error fetching user profile:", error);
-        this.user = null;
-      } finally {
-        this.dashboardLoading = false;
-      }
-    },
-  },
-
   mounted() {
     document.title = "Home | Tuntask";
   },

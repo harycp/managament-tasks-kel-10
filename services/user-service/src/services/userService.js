@@ -295,7 +295,7 @@ const updateUser = async (id, userData) => {
   const user = await User.findByPk(id);
   if (!user) return null;
 
-  if (user.username) {
+  if (userData.username) {
     const userWithSameUsername = await User.findOne({
       where: { username: userData.username },
     });

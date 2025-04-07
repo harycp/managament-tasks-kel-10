@@ -5,33 +5,6 @@
       <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">
         Your Workspaces
       </h2>
-      <NavDropdown
-        v-if="workspaceDropdownLink.length > 0"
-        title="Workspace"
-        :options="workspaceDropdownLink"
-        @workspace-selected="handleWorkspaceChange"
-      >
-        <svg
-          width="24px"
-          height="24px"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-          <g
-            id="SVGRepo_tracerCarrier"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-          ></g>
-          <g id="SVGRepo_iconCarrier">
-            <path
-              d="M3 3h18v18H3V3zm2 2v6h8V5H5zm10 0v14h4V5h-4zm-2 14v-2h-3v2h3zm-5 0v-2H5v2h3zm-3-4h3v-2H5v2zm5-2v2h3v-2h-3z"
-              fill="#000000"
-            ></path>
-          </g>
-        </svg>
-      </NavDropdown>
 
       <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
@@ -127,23 +100,20 @@
           </svg>
         </NavItem>
       </nav>
-
-      <nav class="flex-grow mt-10">
-        <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">
-          Your Projects
-        </h2>
-        <NavItem
-          v-for="project in projectList"
-          :key="project.id"
-          :title="project.name"
-          :link="`/workspace/${project.workspace_id}/boards/${project.id}`"
-        />
-      </nav>
     </SideBar>
 
     <main class="flex-1 p-1 overflow-y-scroll h-screen flex flex-col gap-4">
       <!-- Profile Header -->
-      <TopHeader />
+      <NavbarHome
+        :user="user"
+        @openProfile="showProfilePopup = true"
+        :title="title"
+      />
+      <Profile
+        :isOpen="showProfilePopup"
+        :user="user"
+        @close="showProfilePopup = false"
+      />
 
       <!--CONTENT HERE -->
       <div class="flex-grow overflow-auto">
@@ -160,7 +130,8 @@ import Logo from "../components/layout/Logo.vue";
 import NavDropdown from "../components/dashboard/NavDropdown.vue";
 import NavItem from "../components/dashboard/NavItem.vue";
 import SideBar from "../components/dashboard/SideBar.vue";
-import TopHeader from "../components/dashboard/TopHeader.vue";
+import NavbarHome from "../components/home/NavbarHome.vue";
+import Profile from "../components/common/Profile.vue";
 
 export default {
   components: {
@@ -168,61 +139,37 @@ export default {
     NavItem,
     SideBar,
     NavDropdown,
-    TopHeader,
+    NavbarHome,
+    Profile,
   },
 
   data() {
     return {
-      workspaceDropdownLink: [],
-      projectList: [],
+      user: {},
       isLoading: true,
+      showProfilePopup: false,
     };
   },
   props: {
     title: String,
     name: String,
   },
-  async mounted() {
-    await this.fetchWorkspaces();
-    this.isLoading = false;
-    this.$emit("user", this.user);
-    this.$emit("loaded", this.isLoading);
+  async created() {
+    await this.fetchUserProfile();
   },
   methods: {
-    async fetchWorkspaces() {
+    async fetchUserProfile() {
       try {
-        const response = await axios.get(
-          "http://localhost:5002/api/workspaces",
-          { withCredentials: true }
-        );
-
-        this.workspaceDropdownLink = response.data.data;
-
-        if (this.workspaceDropdownLink.length > 0) {
-          this.selectedWorkspace = this.workspaceDropdownLink[0];
-          await this.fetchProjects(this.selectedWorkspace.id);
-        }
-
+        const response = await axios.get("http://localhost:5001/api/profile", {
+          withCredentials: true,
+        });
+        this.user = response.data.data;
+      } catch (error) {
+        console.error("Error fetching user profile:", error);
+        this.user = null;
+      } finally {
         this.isLoading = false;
-      } catch (error) {
-        console.error("Error fetching workspaces:", error);
       }
-    },
-    async fetchProjects(workspaceId) {
-      try {
-        const response = await axios.get(
-          `http://localhost:5003/api/workspaces/${workspaceId}/boards`,
-          { withCredentials: true }
-        );
-
-        this.projectList = response.data.data;
-      } catch (error) {
-        console.error("Error fetching projects:", error);
-      }
-    },
-    async handleWorkspaceChange(selectedWorkspace) {
-      this.selectedWorkspace = selectedWorkspace;
-      await this.fetchProjects(selectedWorkspace.id);
     },
   },
 };
