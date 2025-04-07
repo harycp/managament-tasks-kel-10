@@ -7,6 +7,30 @@ const { generateToken } = require("../utils/jwt");
 
 require("dotenv").config();
 
+const findOrCreateUser = async (profile) => {
+  let user = await User.findOne({
+    where: { email: profile.emails[0].value },
+    paranoid: false,
+  });
+
+  if (user) {
+    if (user.deletedAt) {
+      await user.restore();
+    }
+  } else {
+    user = await User.create({
+      username:
+        profile.username ||
+        profile.displayName.replace(/\s+/g, "").toLowerCase(),
+      email: profile.emails[0].value,
+      name: profile.displayName,
+      password: "oauth",
+    });
+  }
+
+  return user;
+};
+
 // Google OAuth Strategy
 passport.use(
   new GoogleStrategy(
@@ -17,19 +41,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({
-          where: { email: profile.emails[0].value },
-        });
-
-        if (!user) {
-          user = await User.create({
-            username: profile.displayName.replace(/\s+/g, "").toLowerCase(),
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            password: "oauth",
-          });
-        }
-
+        const user = await findOrCreateUser(profile);
         const token = generateToken(user);
         return done(null, { user, token });
       } catch (error) {
@@ -50,21 +62,7 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       try {
-        let user = await User.findOne({
-          where: { email: profile.emails[0].value },
-        });
-
-        if (!user) {
-          user = await User.create({
-            username:
-              profile.username ||
-              profile.displayName.replace(/\s+/g, "").toLowerCase(),
-            email: profile.emails[0].value,
-            name: profile.displayName,
-            password: "oauth",
-          });
-        }
-
+        const user = await findOrCreateUser(profile);
         const token = generateToken(user);
         return done(null, { user, token });
       } catch (error) {

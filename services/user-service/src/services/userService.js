@@ -18,12 +18,22 @@ const createUser = async (userData) => {
 };
 
 const registerEmail = async (email) => {
-  const existingUser = await User.findOne({ where: { email } });
-  if (existingUser) throw new Error("User Already Exists");
+  let user = await User.findOne({
+    where: { email },
+    paranoid: false,
+  });
 
-  const user = await User.create({ email });
+  if (user) {
+    if (user.deletedAt) {
+      await user.restore();
+    } else {
+      throw new Error("User Already Exists");
+    }
+  } else {
+    user = await User.create({ email });
+  }
+
   const token = generateToken({ id: user.id });
-
   const confirmLink = `${process.env.CONFIRM_EMAIL_URL}?token=${token}`;
 
   await ConfirmEmailToken.create({
