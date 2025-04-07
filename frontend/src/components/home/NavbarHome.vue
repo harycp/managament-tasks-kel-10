@@ -4,19 +4,25 @@
   >
     <p class="ms-2 text-gray-900 font-semibold text-xl">{{ title }}</p>
     <div class="me-4 flex items-center space-x-4">
-      <button>
-        <a href="/h">
-          <svg
-            class="w-6 h-6 text-gray-900 hover:text-gray-500 transition"
-            viewBox="0 0 24 24"
-            fill="currentColor"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M14 2h-4v2H8v2H6v2H4v2H2v2h2v10h7v-6h2v6h7V12h2v-2h-2V8h-2V6h-2V4h-2V2zm0 2v2h2v2h2v2h2v2h-2v8h-3v-6H9v6H6v-8H4v-2h2V8h2V6h2V4h4z"
-            ></path></svg
-        ></a>
-      </button>
+      <!-- Avatar Group -->
+      <div class="flex -space-x-2">
+        <img
+          class="w-8 h-8 rounded-full border-2 border-white"
+          src="https://randomuser.me/api/portraits/men/32.jpg"
+          alt="Avatar 1"
+        />
+        <img
+          class="w-8 h-8 rounded-full border-2 border-white"
+          src="https://randomuser.me/api/portraits/women/44.jpg"
+          alt="Avatar 2"
+        />
+        <img
+          class="w-8 h-8 rounded-full border-2 border-white"
+          src="https://randomuser.me/api/portraits/men/23.jpg"
+          alt="Avatar 3"
+        />
+      </div>
+
       <!-- Notifikasi -->
       <button>
         <svg

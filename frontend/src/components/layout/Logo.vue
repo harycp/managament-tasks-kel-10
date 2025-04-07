@@ -1,5 +1,9 @@
 <template>
-  <a href="/" class="flex items-center group space-x-1">
+  <a
+    href="/"
+    class="flex items-center group space-x-1"
+    :class="AdditionalClass"
+  >
     <p
       :class="[
         'jacquarda-bastarda-9-regular text-4xl font-semibold group-hover:translate-y-[-2px] transition-all duration-300 ease-in-out',
@@ -32,6 +36,7 @@ export default {
   props: {
     ClassImg: { type: String, default: "" },
     ClassTitle: { type: String, default: "" },
+    AdditionalClass: { type: String, default: "" },
   },
 };
 </script>
