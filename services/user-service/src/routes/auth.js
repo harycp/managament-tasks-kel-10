@@ -4,6 +4,13 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authenticate = require("../middleware/authMiddleware");
 
+const {
+  registerEmailLimiter,
+  loginLimiter,
+  resetPasswordLimiter,
+  verifyEmailLimiter,
+} = require("../middleware/authLimiter");
+
 // Google OAuth
 router.get(
   "/google",
@@ -55,14 +62,22 @@ router.get("/check-auth", authenticate, (req, res) => {
 });
 
 // API FOR AUTH AND CRUD USER
-router.post("/register", userController.createUser);
-router.post("/login", userController.loginUser);
+router.post("/register", registerEmailLimiter, userController.createUser);
+router.post("/login", loginLimiter, userController.loginUser);
 router.post("/logout", authenticate, userController.logoutUser);
 
-router.post("/register-email", userController.registerEmail);
-router.post("/verify-email", userController.verifyEmail);
+router.post(
+  "/register-email",
+  registerEmailLimiter,
+  userController.registerEmail
+);
+router.post("/verify-email", verifyEmailLimiter, userController.verifyEmail);
 
-router.post("/request-reset-password", userController.requestResetPassword);
+router.post(
+  "/request-reset-password",
+  resetPasswordLimiter,
+  userController.requestResetPassword
+);
 router.post("/reset-password", userController.resetPassword);
 
 router.get("/verify-reset-token", userController.verifyResetToken);
