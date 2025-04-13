@@ -256,12 +256,17 @@ const requestOtp = async (email, newEmail) => {
 
   const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-  await RequestOtp.create({
-    user_id: user.id,
-    otp: otp,
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    used: false,
-  });
+  const key = `otp-code:${otp}`;
+  const expiresInSeconds = 60 * 60; // 1 Jam
+
+  await redis.set(key, user.id, "EX", expiresInSeconds);
+
+  // await RequestOtp.create({
+  //   user_id: user.id,
+  //   otp: otp,
+  //   expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  //   used: false,
+  // });
 
   const emailContent = `
   <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
@@ -290,22 +295,29 @@ const requestOtp = async (email, newEmail) => {
 };
 
 const verifyUpdatedEmail = async (otp, email) => {
-  const requestOtp = await RequestOtp.findOne({
-    where: {
-      otp: otp,
-      used: false,
-      expiresAt: { [Op.gt]: new Date() },
-    },
-    include: [{ model: User, as: "user" }],
-  });
+  const key = `otp-code:${otp}`;
+  const userId = await redis.get(key);
+  if (!userId) throw new Error("Invalid or expired otp");
 
-  if (!requestOtp) throw new Error("Invalid or expired otp");
+  // const requestOtp = await RequestOtp.findOne({
+  //   where: {
+  //     otp: otp,
+  //     used: false,
+  //     expiresAt: { [Op.gt]: new Date() },
+  //   },
+  //   include: [{ model: User, as: "user" }],
+  // });
 
-  const { id } = requestOtp.user;
-  const user = await User.findByPk(id);
+  // if (!requestOtp) throw new Error("Invalid or expired otp");
+
+  // const { id } = requestOtp.user;
+  const user = await User.findByPk(userId);
   if (!user) throw new Error("User not found");
 
-  await requestOtp.update({ used: true });
+  // await requestOtp.update({ used: true });
+
+  await redis.del(key);
+
   await user.update({ email: email });
 
   return user;
