@@ -2,6 +2,7 @@ const bcrypt = require("bcryptjs");
 const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
+const redis = require("../utils/redisClient");
 
 const User = require("../models/user");
 const ResetPasswordToken = require("../models/ResetPasswordToken");
@@ -123,14 +124,20 @@ const requestResetPassword = async (email) => {
   if (!user) throw new Error("User not found");
 
   const token = generateToken({ id: user.id });
+
+  const key = `reset-password:${token}`;
+  const expiresInSeconds = 60 * 60; // 1 Jam
+
+  await redis.set(key, user.id, "EX", expiresInSeconds);
+
   const resetLink = `${process.env.RESET_PASSWORD_URL}?token=${token}`;
 
-  await ResetPasswordToken.create({
-    user_id: user.id,
-    token: token,
-    expiresAt: new Date(Date.now() + 360000),
-    used: false,
-  });
+  // await ResetPasswordToken.create({
+  //   user_id: user.id,
+  //   token: token,
+  //   expiresAt: new Date(Date.now() + 360000),
+  //   used: false,
+  // });
 
   const emailContent = `
   <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
@@ -159,15 +166,19 @@ const requestResetPassword = async (email) => {
 };
 
 const resetPassword = async (token, newPassword) => {
-  const resetPasswordToken = await ResetPasswordToken.findOne({
-    where: {
-      token: token,
-      used: false,
-      expiresAt: { [Op.gt]: new Date() },
-    },
-  });
+  const key = `reset-password:${token}`;
+  const userId = await redis.get(key);
+  if (!userId) throw new Error("Invalid or expired token");
 
-  if (!resetPasswordToken) throw new Error("Invalid or expired token");
+  // const resetPasswordToken = await ResetPasswordToken.findOne({
+  //   where: {
+  //     token: token,
+  //     used: false,
+  //     expiresAt: { [Op.gt]: new Date() },
+  //   },
+  // });
+
+  // if (!resetPasswordToken) throw new Error("Invalid or expired token");
 
   const { id } = verifyToken(token);
   const user = await User.findByPk(id);
@@ -176,19 +187,24 @@ const resetPassword = async (token, newPassword) => {
   const hashedPassword = await bcrypt.hash(newPassword, 10);
   await user.update({ password: hashedPassword });
 
-  await resetPasswordToken.update({ used: true });
+  await redis.del(key);
+
+  // await resetPasswordToken.update({ used: true });
 
   return user;
 };
 
 const verifyResetToken = async (token) => {
-  const resetPasswordToken = await ResetPasswordToken.findOne({
-    where: {
-      token: token,
-      used: false,
-      expiresAt: { [Op.gt]: new Date() },
-    },
-  });
+  // const resetPasswordToken = await ResetPasswordToken.findOne({
+  //   where: {
+  //     token: token,
+  //     used: false,
+  //     expiresAt: { [Op.gt]: new Date() },
+  //   },
+  // });
+
+  const resetKey = `reset-password:${token}`;
+  const resetTokenExists = await redis.exists(resetKey);
 
   const confirmEmailToken = await ConfirmEmailToken.findOne({
     where: {
@@ -198,7 +214,7 @@ const verifyResetToken = async (token) => {
     },
   });
 
-  return resetPasswordToken || confirmEmailToken ? true : false;
+  return resetTokenExists || confirmEmailToken ? true : false;
 };
 
 const getUserLogin = async (id) => {
