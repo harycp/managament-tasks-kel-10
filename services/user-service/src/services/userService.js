@@ -37,12 +37,17 @@ const registerEmail = async (email) => {
   const token = generateToken({ id: user.id });
   const confirmLink = `${process.env.CONFIRM_EMAIL_URL}?token=${token}`;
 
-  await ConfirmEmailToken.create({
-    user_id: user.id,
-    token: token,
-    expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
-    used: false,
-  });
+  const key = `email-confirm:${token}`;
+  const expiresInSeconds = 60 * 60; // 1 Jam
+
+  await redis.set(key, user.id, "EX", expiresInSeconds);
+
+  // await ConfirmEmailToken.create({
+  //   user_id: user.id,
+  //   token: token,
+  //   expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000),
+  //   used: false,
+  // });
 
   const emailContent = `
   <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
@@ -71,17 +76,21 @@ const registerEmail = async (email) => {
 };
 
 const verifyEmail = async (token, userData) => {
-  const confirmEmailToken = await ConfirmEmailToken.findOne({
-    where: {
-      token: token,
-      used: false,
-      expiresAt: { [Op.gt]: new Date() },
-    },
-  });
+  // const confirmEmailToken = await ConfirmEmailToken.findOne({
+  //   where: {
+  //     token: token,
+  //     used: false,
+  //     expiresAt: { [Op.gt]: new Date() },
+  //   },
+  // });
 
-  if (!confirmEmailToken) throw new Error("Invalid or expired token");
+  // if (!confirmEmailToken) throw new Error("Invalid or expired token");
 
   const { id } = verifyToken(token);
+  const key = `email-confirm:${token}`;
+
+  const userId = await redis.get(key);
+  if (!userId) throw new Error("Invalid or expired token");
 
   const user = await User.findByPk(id);
   if (!user) throw new Error("User not found");
@@ -93,7 +102,7 @@ const verifyEmail = async (token, userData) => {
     isVerified: true,
   });
 
-  await confirmEmailToken.update({ used: true });
+  await redis.del(key);
 
   return user;
 };
@@ -206,15 +215,18 @@ const verifyResetToken = async (token) => {
   const resetKey = `reset-password:${token}`;
   const resetTokenExists = await redis.exists(resetKey);
 
-  const confirmEmailToken = await ConfirmEmailToken.findOne({
-    where: {
-      token: token,
-      used: false,
-      expiresAt: { [Op.gt]: new Date() },
-    },
-  });
+  const confirmEmailKey = `email-confirm:${token}`;
+  const confirmEmailTokenExists = await redis.exists(confirmEmailKey);
 
-  return resetTokenExists || confirmEmailToken ? true : false;
+  // const confirmEmailToken = await ConfirmEmailToken.findOne({
+  //   where: {
+  //     token: token,
+  //     used: false,
+  //     expiresAt: { [Op.gt]: new Date() },
+  //   },
+  // });
+
+  return resetTokenExists || confirmEmailTokenExists ? true : false;
 };
 
 const getUserLogin = async (id) => {
