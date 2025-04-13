@@ -28,7 +28,7 @@ const loginUser = async (req, res) => {
 
     res.json({
       message: "User logged in successfully",
-      data: { user }, // ✅ Tidak mengembalikan token ke frontend
+      data: { user }, // Tidak mengembalikan token ke frontend
     });
   } catch (error) {
     res.status(401).json({ error: error.message });

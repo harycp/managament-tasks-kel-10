@@ -5,9 +5,6 @@ const sendEmail = require("../utils/sendEmail");
 const redis = require("../utils/redisClient");
 
 const User = require("../models/user");
-const ResetPasswordToken = require("../models/ResetPasswordToken");
-const ConfirmEmailToken = require("../models/ConfirmEmailToken");
-const RequestOtp = require("../models/requestOtp");
 const { sequelize } = require("../models");
 
 const createUser = async (userData) => {
