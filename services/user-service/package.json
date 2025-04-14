@@ -25,6 +25,7 @@
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",
     "pg": "^8.13.3",
+    "rate-limit-redis": "^4.2.0",
     "sequelize": "^6.37.6"
   },
   "devDependencies": {

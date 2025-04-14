@@ -117,8 +117,12 @@ const loginUser = async (usernameOrEmail, password) => {
   if (!isMatch) throw new Error("Invalid password");
 
   const token = generateToken({ id: user.id });
+  
+  // Hapus password dari objek user
+  const userWithoutPassword = { ...user.get({ plain: true }) };
+  delete userWithoutPassword.password;
 
-  return { user, token };
+  return { user: userWithoutPassword, token };
 };
 
 const logoutUser = async () => {
