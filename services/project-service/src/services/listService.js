@@ -1,10 +1,10 @@
-const { Op, Sequelize } = require("sequelize"); // Mengimpor operator dan Sequelize instance
-const listModel = require("../models/list"); // Mengimpor model list
-const boardModel = require("../models/board"); // Mengimpor model board
+const { Op, Sequelize } = require("sequelize"); 
+const listModel = require("../models/list"); 
+const boardModel = require("../models/board"); 
 
 // Fungsi untuk membuat list baru dalam board tertentu
 const createList = async (boardId, name) => {
-  if (!boardId) throw new Error("Unauthorized: Board Id is required"); // Validasi boardId
+  if (!boardId) throw new Error("Unauthorized: Board Id is required"); 
 
   // Cari board berdasarkan ID
   const board = await boardModel.findByPk(boardId);
@@ -151,7 +151,7 @@ const deleteList = async (listId) => {
     listModel.update({ position: l.position - 1 }, { where: { id: l.id } })
   );
 
-  await Promise.all(updatePromises); // Update posisi secara paralel
+  await Promise.all(updatePromises); 
 
   return { message: "List deleted successfully" };
 };
