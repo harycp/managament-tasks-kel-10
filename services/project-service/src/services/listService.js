@@ -29,11 +29,11 @@ const createList = async (boardId, name) => {
       { transaction }
     );
 
-    await transaction.commit(); // Commit transaksi jika berhasil
+    await transaction.commit(); 
 
     return newList;
   } catch (error) {
-    await transaction.rollback(); // Rollback jika gagal
+    await transaction.rollback(); 
     throw error;
   }
 };
@@ -112,17 +112,17 @@ const updateListPosition = async (listId, newPosition) => {
 
   // Pindahkan posisi list
   const oldIndex = lists.findIndex((l) => l.id === listId);
-  const [movedList] = lists.splice(oldIndex, 1); // Hapus dari posisi lama
-  lists.splice(newPosition - 1, 0, movedList); // Sisipkan ke posisi baru
+  const [movedList] = lists.splice(oldIndex, 1); 
+  lists.splice(newPosition - 1, 0, movedList); 
 
   // Update posisi semua list sesuai urutan baru
   const updatePromises = lists.map((l, index) =>
     listModel.update({ position: index + 1 }, { where: { id: l.id } })
   );
 
-  await Promise.all(updatePromises); // Jalankan semua update secara paralel
+  await Promise.all(updatePromises); 
 
-  return lists; // Kembalikan urutan list terbaru
+  return lists; 
 };
 
 // Fungsi untuk menghapus list dan menyesuaikan posisi list lainnya
@@ -135,7 +135,7 @@ const deleteList = async (listId) => {
   const boardId = list.board_id;
   const deletedPosition = list.position;
 
-  await list.destroy(); // Hapus list dari database
+  await list.destroy(); 
 
   // Cari semua list yang berada setelah posisi list yang dihapus
   const listsToUpdate = await listModel.findAll({
