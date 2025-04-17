@@ -1,5 +1,6 @@
 const boardService = require("../services/boardService");
 
+// Fungsi untuk membuat board baru dalam workspace tertentu
 const createBoard = async (req, res) => {
   try {
     const workspaceId = req.params.id;
@@ -9,6 +10,7 @@ const createBoard = async (req, res) => {
 
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
+    // Panggil service untuk membuat board
     const board = await boardService.createBoard(workspaceId, name, token);
 
     res.status(201).json({ message: "Board created", data: board });
@@ -17,15 +19,16 @@ const createBoard = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil semua board dalam satu workspace
 const getBoards = async (req, res) => {
   try {
     const workspaceId = req.params.id;
 
-    // console.log(req.cookies);
-    const token = req.cookies.authToken;
+    const token = req.cookies.authToken; // Ambil token dari cookie
 
     if (!token) return res.status(401).json({ message: "Unauthorized" });
 
+    // Ambil semua board dari service
     const boards = await boardService.getBoards(workspaceId, token);
 
     res.status(200).json({ message: "Boards retrieved", data: boards });
@@ -35,6 +38,7 @@ const getBoards = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengambil satu board berdasarkan ID
 const getBoardById = async (req, res) => {
   try {
     const boardId = req.params.id;
@@ -47,6 +51,7 @@ const getBoardById = async (req, res) => {
   }
 };
 
+// Fungsi untuk mengupdate nama board
 const updateBoard = async (req, res) => {
   try {
     const boardId = req.params.id;
@@ -60,9 +65,12 @@ const updateBoard = async (req, res) => {
   }
 };
 
+// Fungsi untuk menghapus board berdasarkan ID
 const deleteBoard = async (req, res) => {
   try {
     const boardId = req.params.id;
+    
+    // Hapus board menggunakan service
     await boardService.deleteBoard(boardId);
 
     res.status(200).json({ message: "Board deleted", data: true });
