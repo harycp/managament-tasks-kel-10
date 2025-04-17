@@ -13,7 +13,7 @@ const createBoard = async (workspaceId, name, token) => {
     name,
   });
 
-  return board; =
+  return board; 
 };
 
 // Fungsi untuk mengambil semua board yang ada dalam satu workspace
