@@ -1,0 +1,214 @@
+openapi: 3.0.3
+info:
+  title: User Service API
+  description: API otentikasi dan manajemen pengguna
+  version: 1.0.0
+servers:
+  - url: http://localhost:5001/auth
+paths:
+  /register:
+    post:
+      summary: Register user baru
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, password]
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "201":
+          description: User registered successfully
+        "400":
+          description: Error saat register
+
+  /login:
+    post:
+      summary: Login user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [usernameOrEmail, password]
+              properties:
+                usernameOrEmail:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Login berhasil
+        "401":
+          description: Login gagal
+
+  /logout:
+    post:
+      summary: Logout user
+      tags: [Auth]
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Logout berhasil
+        "500":
+          description: Error saat logout
+
+  /register-email:
+    post:
+      summary: Kirim email verifikasi
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Email verifikasi dikirim
+        "500":
+          description: Gagal mengirim email
+
+  /verify-email:
+    post:
+      summary: Verifikasi email
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email, code]
+              properties:
+                email:
+                  type: string
+                code:
+                  type: string
+      responses:
+        "200":
+          description: Email berhasil diverifikasi
+        "500":
+          description: Verifikasi gagal
+
+  /request-reset-password:
+    post:
+      summary: Permintaan reset password
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [email]
+              properties:
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Email reset dikirim
+        "500":
+          description: Error saat request reset password
+
+  /reset-password:
+    post:
+      summary: Reset password user
+      tags: [Auth]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [token, newPassword]
+              properties:
+                token:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password berhasil direset
+        "500":
+          description: Gagal reset password
+
+  /verify-reset-token:
+    get:
+      summary: Verifikasi token reset password
+      tags: [Auth]
+      parameters:
+        - name: token
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Token valid
+        "500":
+          description: Token tidak valid
+
+  /check-auth:
+    get:
+      summary: Cek autentikasi user
+      tags: [Auth]
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: User terautentikasi
+        "401":
+          description: Tidak terautentikasi
+
+  /google:
+    get:
+      summary: Google OAuth login
+      tags: [OAuth]
+      responses:
+        "302":
+          description: Redirect ke Google OAuth
+
+  /google/callback:
+    get:
+      summary: Google OAuth callback
+      tags: [OAuth]
+      responses:
+        "302":
+          description: Redirect ke frontend setelah login
+
+  /github:
+    get:
+      summary: GitHub OAuth login
+      tags: [OAuth]
+      responses:
+        "302":
+          description: Redirect ke GitHub OAuth
+
+  /github/callback:
+    get:
+      summary: GitHub OAuth callback
+      tags: [OAuth]
+      responses:
+        "302":
+          description: Redirect ke frontend setelah login
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken

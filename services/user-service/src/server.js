@@ -5,8 +5,12 @@ const dotenv = require("dotenv");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("./config/passport");
-const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
+const userRoutes = require("./routes/userRoutes");
+const permissionRoutes = require("./routes/permissionRoutes");
+const rolePermissionRoutes = require("./routes/rolePermissionRoutes");
+const userRoleAssignmentRoutes = require("./routes/userRoleAssignmentRoutes");
+const userRoleRoutes = require("./routes/userRoleRoutes");
 const db = require("./models");
 
 require("../src/workers/worker");
@@ -33,6 +37,10 @@ app.use(passport.session());
 
 app.use("/auth", authRoutes);
 app.use("/api", userRoutes);
+app.use("/api", permissionRoutes);
+app.use("/api", rolePermissionRoutes);
+app.use("/api", userRoleAssignmentRoutes);
+app.use("/api", userRoleRoutes);
 
 const PORT = process.env.PORT || 5001;
 
