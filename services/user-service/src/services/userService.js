@@ -316,7 +316,11 @@ const requestOtp = async (email, newEmail) => {
   </div>
 `;
 
-  await sendEmail(newEmail, "Kode OTP", emailContent);
+  await emailQueue.add("request-otp", {
+    to: newEmail,
+    subject: "Kode OTP",
+    html: emailContent,
+  });
 
   return { message: "OTP sent to your email" };
 };
