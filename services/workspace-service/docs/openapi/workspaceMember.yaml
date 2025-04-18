@@ -1,0 +1,351 @@
+openapi: 3.0.3
+info:
+  title: Workspace Member API
+  description: API untuk mengelola anggota workspace.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5002/api
+    description: Local development server
+tags:
+  - name: Workspace Member
+    description: Operasi terkait anggota workspace.
+
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+      description: Token otentikasi yang disimpan di cookie.
+
+paths:
+  /workspaceMembers:
+    post:
+      tags:
+        - Workspace Member
+      summary: Menambahkan anggota baru ke workspace.
+      security:
+        - CookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - workspace_id
+                - email
+                - role
+              properties:
+                workspace_id:
+                  type: integer
+                  description: ID dari workspace.
+                email:
+                  type: string
+                  format: email
+                  description: Email pengguna yang akan ditambahkan ke workspace.
+                role:
+                  type: string
+                  description: Role pengguna dalam workspace.
+              example:
+                workspace_id: 1
+                email: user@example.com
+                role: admin
+      responses:
+        "201":
+          description: Anggota workspace berhasil dibuat.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace member created"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID unik anggota workspace.
+                      user_id:
+                        type: integer
+                        description: ID pengguna yang menjadi anggota workspace.
+                      role:
+                        type: string
+                        description: Role pengguna dalam workspace.
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                            description: ID workspace.
+                          name:
+                            type: string
+                            description: Nama workspace.
+                    example:
+                      id: 1
+                      user_id: 123
+                      role: admin
+                      workspace:
+                        id: 1
+                        name: "Project Alpha"
+        "400":
+          description: Kesalahan validasi atau data tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "User not found"
+
+    get:
+      tags:
+        - Workspace Member
+      summary: Mendapatkan daftar semua anggota workspace milik pengguna.
+      security:
+        - CookieAuth: []
+      responses:
+        "200":
+          description: Daftar anggota workspace berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace members retrieved"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        workspace:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            name:
+                              type: string
+                        members:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              user_id:
+                                type: integer
+                              role:
+                                type: string
+                              workspace:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                  name:
+                                    type: string
+                    example:
+                      - workspace:
+                          id: 1
+                          name: "Project Alpha"
+                        members:
+                          - id: 1
+                            user_id: 123
+                            role: admin
+                            workspace:
+                              id: 1
+                              name: "Project Alpha"
+        "400":
+          description: Pengguna tidak memiliki akses atau workspace tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: User Id is required"
+
+  /workspaceMembers/{id}:
+    get:
+      tags:
+        - Workspace Member
+      summary: Mendapatkan detail anggota workspace berdasarkan ID.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID anggota workspace.
+      responses:
+        "200":
+          description: Detail anggota workspace berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace member retrieved"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      role:
+                        type: string
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                    example:
+                      id: 1
+                      user_id: 123
+                      role: admin
+                      workspace:
+                        id: 1
+                        name: "Project Alpha"
+        "400":
+          description: Anggota workspace tidak ditemukan atau tidak memiliki akses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: You do not have access"
+
+    put:
+      tags:
+        - Workspace Member
+      summary: Memperbarui informasi anggota workspace.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID anggota workspace.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - workspace_id
+                - email
+                - role
+              properties:
+                workspace_id:
+                  type: integer
+                  description: ID dari workspace.
+                email:
+                  type: string
+                  format: email
+                  description: Email pengguna yang akan ditambahkan ke workspace.
+                role:
+                  type: string
+                  description: Role pengguna dalam workspace.
+              example:
+                workspace_id: 1
+                email: user@example.com
+                role: admin
+      responses:
+        "200":
+          description: Informasi anggota workspace berhasil diperbarui.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace member updated"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      user_id:
+                        type: integer
+                      role:
+                        type: string
+                      workspace:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                    example:
+                      id: 1
+                      user_id: 123
+                      role: admin
+                      workspace:
+                        id: 1
+                        name: "Project Alpha"
+        "400":
+          description: Data tidak valid atau anggota workspace tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Role not found"
+
+    delete:
+      tags:
+        - Workspace Member
+      summary: Menghapus anggota workspace.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID anggota workspace.
+      responses:
+        "200":
+          description: Anggota workspace berhasil dihapus.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace member deleted"
+                  data:
+                    type: boolean
+                    example: true
+        "400":
+          description: Anggota workspace tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace member not found"
