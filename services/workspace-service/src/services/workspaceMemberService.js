@@ -6,7 +6,7 @@ const userModel = require("../../../user-service/src/models/user");
 const userRole = require("../../../user-service/src/models/userRoles");
 
 /**
- * Module untuk mengelola data workspace.
+ * Module untuk mengelola penugasan user workspace.
  * @module workspaceMemberService
  */
 
