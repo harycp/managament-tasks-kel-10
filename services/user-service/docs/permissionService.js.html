@@ -7,7 +7,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> userRoleService.js</title>
+  <title> permissionService.js</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -80,7 +80,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Source</p>
-                    <h1>userRoleService.js</h1>
+                    <h1>permissionService.js</h1>
                 </header>
                 
 
@@ -90,121 +90,127 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
-const userRole = require("../models/userRoles");
+const permissionModel = require("../models/permissions");
 
 /**
- * Service untuk manajemen role pengguna
- * @module userRoleService
+ * Module untuk mengelola data permission.
+ * @module permissionService
  */
 
+// Membuat permission baru jika belum ada yang sama
 /**
- * Membuat role baru
+ * Membuat permission baru jika belum ada yang sama.
  * @async
- * @function createRole
- * @param {Object} userRoleData - Data role yang akan dibuat
- * @param {string} userRoleData.name - Nama role
- * @param {string} [userRoleData.description] - Deskripsi role (opsional)
- * @returns {Promise&lt;Model>} Role yang baru dibuat
- * @throws {Error} Jika role dengan nama yang sama sudah ada
+ * @function createPermission
+ * @param {Object} permissionData - Data permission yang akan dibuat.
+ * @param {string} permissionData.name - Nama permission.
+ * @returns {Promise&lt;Model>} Permission yang baru dibuat.
+ * @throws {Error} Jika permission dengan nama yang sama sudah ada.
  * @example
- * const newRole = await createRole({
- *   name: 'admin',
- *   description: 'Administrator role'
- * });
+ * const newPermission = await createPermission({ name: 'read_articles' });
+ * console.log(newPermission);
  */
-const createRole = async (userRoleData) => {
-  // Cek apakah role dengan nama tersebut sudah ada
-  const existingRole = await userRole.findOne({
-    where: { name: userRoleData.name },
+
+/**
+ * Membuat permission baru jika belum ada yang sama.
+ * @async
+ * @function createPermission
+ * @param {Object} permissionData - Data permission yang akan dibuat.
+ * @param {string} permissionData.name - Nama permission.
+ * @returns {Promise&lt;Model>} Permission yang baru dibuat.
+ * @throws {Error} Jika permission dengan nama yang sama sudah ada.
+ * @example
+ * const newPermission = await createPermission({ name: 'read_articles' });
+ * console.log(newPermission);
+ */
+const createPermission = async (permissionData) => {
+  // Cek apakah permission dengan nama yang sama sudah ada
+  const existingPermission = await permissionModel.findOne({
+    where: { name: permissionData.name },
   });
+  if (existingPermission) throw new Error("Permission already exists");
 
-  if (existingRole) throw new Error("Role already exists");
-
-  // Buat role baru
-  return await userRole.create({ ...userRoleData });
+  // Buat permission baru
+  return await permissionModel.create({ ...permissionData });
 };
 
-// Mengambil semua role yang tersedia
+// Mengambil semua permission yang tersedia
+
 /**
- * Mengambil semua role yang tersedia dari database.
+ * Mengambil semua permission yang tersedia.
  * @async
- * @function getRoles
- * @returns {Promise&lt;Array&lt;Model>>} Array berisi semua role.
+ * @function getPermissions
+ * @returns {Promise&lt;Array&lt;Model>>} Array berisi semua permission.
  * @example
- * const roles = await getRoles();
- * console.log(roles);
+ * const permissions = await getPermissions();
+ * console.log(permissions);
  */
-const getRoles = async () => {
-  return await userRole.findAll();
+const getPermissions = async () => {
+  return await permissionModel.findAll();
 };
 
-// Mengambil satu role berdasarkan ID
-
+// Mengambil permission berdasarkan ID
 /**
- * Mengambil satu role berdasarkan ID-nya
+ * Mengambil permission berdasarkan ID.
  * @async
- * @function getRoleById
- * @param {number|string} id - ID role yang akan diambil
- * @returns {Promise&lt;Model>} Role yang diambil, atau null jika role tidak ditemukan
+ * @function getPermissionById
+ * @param {number|string} id - ID permission yang akan diambil.
+ * @returns {Promise&lt;Model>} Permission yang diambil, atau null jika tidak ditemukan.
  * @example
- * const role = await getRoleById(1);
- * console.log(role);
+ * const permission = await getPermissionById(1);
+ * console.log(permission);
  */
-const getRoleById = async (id) => {
-  return await userRole.findByPk(id);
+const getPermissionById = async (id) => {
+  return await permissionModel.findByPk(id);
 };
 
-// Mengupdate data role berdasarkan ID
-
+// Mengupdate data permission tertentu berdasarkan ID
 /**
- * Mengupdate data role berdasarkan ID
+ * Mengupdate data permission berdasarkan ID.
  * @async
- * @function updateRole
- * @param {number|string} id - ID role yang akan diupdate
- * @param {Object} roleData - Data role yang diupdate
- * @returns {Promise&lt;Model|Null>} Role yang diupdate, atau null jika role tidak ditemukan
+ * @function updatePermission
+ * @param {number|string} id - ID permission yang akan diupdate.
+ * @param {Object} permissionData - Data permission yang diupdate.
+ * @returns {Promise&lt;Model|null>} Permission yang diupdate, atau null jika permission tidak ditemukan.
  * @example
- * const role = await updateRole(1, { name: "Super Admin" });
- * console.log(role);
+ * const updatedPermission = await updatePermission(1, { name: "edit_articles" });
+ * console.log(updatedPermission);
  */
-const updateRole = async (id, roleData) => {
-  const role = await userRole.findByPk(id);
+const updatePermission = async (id, permissionData) => {
+  const permission = await permissionModel.findByPk(id);
+  if (!permission) return null;
 
-  // Jika role tidak ditemukan, kembalikan null
-  if (!role) return null;
-
-  // Update data role
-  await role.update(roleData);
-  return role;
+  // Update data permission
+  await permission.update(permissionData);
+  return permission;
 };
 
-// Menghapus role berdasarkan ID
-
+// Menghapus permission berdasarkan ID
 /**
- * Menghapus role berdasarkan ID
+ * Menghapus permission berdasarkan ID.
  * @async
- * @function deleteRole
- * @param {number|string} id - ID role yang akan dihapus
- * @returns {Promise&lt;Model|Null>} Role yang dihapus, atau null jika role tidak ditemukan
+ * @function deletePermission
+ * @param {number|string} id - ID permission yang akan dihapus.
+ * @returns {Promise&lt;Model|null>} Permission yang dihapus, atau null jika permission tidak ditemukan.
  * @example
- * const role = await deleteRole(1);
- * console.log(role);
+ * const deletedPermission = await deletePermission(1);
+ * console.log(deletedPermission);
  */
-const deleteRole = async (id) => {
-  const role = await userRole.findByPk(id);
-  if (!role) return null;
+const deletePermission = async (id) => {
+  const permission = await permissionModel.findByPk(id);
+  if (!permission) return null;
 
-  // Hapus role dari database
-  await role.destroy();
-  return role;
+  // Hapus permission dari database
+  await permission.destroy();
+  return permission;
 };
 
 module.exports = {
-  createRole,
-  getRoles,
-  getRoleById,
-  updateRole,
-  deleteRole,
+  createPermission,
+  getPermissions,
+  getPermissionById,
+  updatePermission,
+  deletePermission,
 };
 </code></pre>
         </article>
