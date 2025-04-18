@@ -197,7 +197,11 @@ const requestResetPassword = async (email) => {
   </div>
 `;
 
-  await sendEmail(user.email, "Reset Password", emailContent);
+  await emailQueue.add("reset-password", {
+    to: user.email,
+    subject: "Reset Password",
+    html: emailContent,
+  });
 
   return { message: "Password reset link sent to your email" };
 };
