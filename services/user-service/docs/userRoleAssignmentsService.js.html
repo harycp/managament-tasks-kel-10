@@ -1,0 +1,266 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> userRoleAssignmentsService.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">User Service Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-userRoleAssignmentsService.html">userRoleAssignmentsService</a></li><li><a href="module-userRoleService.html">userRoleService</a></li><li><a href="module-userService.html">userService</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>userRoleAssignmentsService.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const user = require("../models/user");
+const userRole = require("../models/userRoles");
+const userRoleAssignment = require("../models/useRoleAssignments");
+
+/**
+ * Module untuk mengelola penugasan user-role.
+ * @module userRoleAssignmentsService
+ */
+
+// Membuat penugasan role ke user
+/**
+ * Membuat penugasan role ke user baru
+ * @async
+ * @function createUserRoleAssignment
+ * @param {Object} userRoleAssignmentData - Data penugasan user-role yang akan dibuat
+ * @param {string} userRoleAssignmentData.user_id - ID user yang akan ditugaskan
+ * @param {string} userRoleAssignmentData.role_id - ID role yang akan ditugaskan
+ * @returns {Promise&lt;Model>} Penugasan user-role yang baru dibuat
+ * @throws {Error} Jika user atau role tidak ditemukan, atau jika penugasan
+ *                  user-role dengan data yang sama sudah ada
+ * @example
+ * const newRoleAssignment = await createUserRoleAssignment({
+ *   user_id: 'user-123',
+ *   role_id: 'role-456',
+ * });
+ */
+const createUserRoleAssignment = async (userRoleAssignmentData) => {
+  const { user_id, role_id } = userRoleAssignmentData;
+
+  // Validasi apakah user dan role tersedia
+  const existingUser = await user.findByPk(user_id);
+  const existingUserRole = await userRole.findByPk(role_id);
+
+  if (!existingUser || !existingUserRole)
+    throw new Error("User or Role not found");
+
+  // Cek apakah penugasan tersebut sudah ada
+  const existingUserRoleAssignment = await userRoleAssignment.findOne({
+    where: { user_id, role_id },
+  });
+
+  if (existingUserRoleAssignment)
+    throw new Error("User Role Assignment already exists");
+
+  // Buat penugasan user-role baru
+  return await userRoleAssignment.create({ ...userRoleAssignmentData });
+};
+
+// Mengambil semua penugasan user-role
+/**
+ * Mengambil semua penugasan user-role yang tersedia
+ * @async
+ * @function getUserRoleAssignments
+ * @returns {Promise&lt;Array&lt;Model>>} Array berisi semua penugasan user-role
+ * @example
+ * const roleAssignments = await getUserRoleAssignments();
+ * console.log(roleAssignments);
+ */
+const getUserRoleAssignments = async () => {
+  return await userRoleAssignment.findAll();
+};
+
+// Mengambil penugasan user-role berdasarkan ID
+/**
+ * Mengambil penugasan user-role berdasarkan ID
+ * @async
+ * @function getUserRoleAssignmentById
+ * @param {number|string} id - ID penugasan user-role yang akan diambil
+ * @returns {Promise&lt;Model|null>} Penugasan user-role yang diambil, atau null jika tidak ditemukan
+ * @example
+ * const roleAssignment = await getUserRoleAssignmentById(1);
+ * console.log(roleAssignment);
+ */
+const getUserRoleAssignmentById = async (id) => {
+  return await userRoleAssignment.findByPk(id);
+};
+
+// Mengupdate penugasan user-role berdasarkan ID
+/**
+ * Mengupdate penugasan user-role berdasarkan ID
+ * @async
+ * @function updateUserRoleAssignment
+ * @param {number|string} id - ID penugasan user-role yang akan diupdate
+ * @param {Object} userRoleAssignmentData - Data penugasan user-role yang diupdate
+ * @returns {Promise&lt;Model|null>} Penugasan user-role yang diupdate, atau null jika tidak ditemukan
+ * @example
+ * const roleAssignment = await updateUserRoleAssignment(1, { user_id: 1, role_id: 1 });
+ * console.log(roleAssignment);
+ */
+const updateUserRoleAssignment = async (id, userRoleAssignmentData) => {
+  const { user_id, role_id } = userRoleAssignmentData;
+
+  // Validasi user dan role
+  const existingUser = await user.findByPk(user_id);
+  const existingUserRole = await userRole.findByPk(role_id);
+
+  if (!existingUser || !existingUserRole)
+    throw new Error("User or Role not found");
+
+  // Cek apakah penugasan baru ini sudah ada
+  const existingUserRoleAssignment = await userRoleAssignment.findOne({
+    where: { user_id, role_id },
+  });
+
+  if (existingUserRoleAssignment)
+    throw new Error("User Role Assignment already exists");
+
+  // Update data penugasan user-role
+  const [updatedRows] = await userRoleAssignment.update(
+    { user_id, role_id },
+    { where: { id }, returning: true }
+  );
+
+  if (updatedRows === 0) return null;
+
+  return await userRoleAssignment.findByPk(id);
+};
+
+// Menghapus penugasan user-role berdasarkan ID
+/**
+ * Menghapus penugasan user-role berdasarkan ID.
+ * @async
+ * @function deleteUserRoleAssignment
+ * @param {number|string} id - ID penugasan user-role yang akan dihapus.
+ * @returns {Promise&lt;Model|null>} Penugasan user-role yang dihapus, atau null jika tidak ditemukan.
+ * @example
+ * const deletedAssignment = await deleteUserRoleAssignment('assignment-id');
+ * console.log(deletedAssignment);
+ */
+const deleteUserRoleAssignment = async (id) => {
+  const userRoleAssignmentExists = await userRoleAssignment.findByPk(id);
+  if (!userRoleAssignmentExists) return null;
+
+  // Hapus dari database
+  await userRoleAssignmentExists.destroy();
+  return userRoleAssignmentExists;
+};
+
+module.exports = {
+  createUserRoleAssignment,
+  getUserRoleAssignments,
+  getUserRoleAssignmentById,
+  updateUserRoleAssignment,
+  deleteUserRoleAssignment,
+};
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
