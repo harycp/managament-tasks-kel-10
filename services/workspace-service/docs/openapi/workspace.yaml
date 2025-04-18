@@ -1,0 +1,306 @@
+openapi: 3.0.3
+info:
+  title: Workspace API
+  description: API untuk mengelola workspace dan penugasan user-role.
+  version: 1.0.0
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken # Nama cookie yang berisi JWT Token
+
+security:
+  - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+
+paths:
+  /api/workspaces:
+    post:
+      summary: Membuat workspace baru
+      operationId: createWorkspace
+      tags:
+        - Workspace
+      security:
+        - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+      requestBody:
+        description: Data workspace yang akan dibuat
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  example: "Project X"
+      responses:
+        "201":
+          description: Workspace berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace created"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      name:
+                        type: string
+                        example: "Project X"
+                      owner_id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+        "400":
+          description: Permintaan tidak valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace name is required"
+        "401":
+          description: Tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: JWT Token is required in cookie"
+
+    get:
+      summary: Mendapatkan semua workspace milik pengguna
+      operationId: getWorkspaces
+      tags:
+        - Workspace
+      security:
+        - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+      responses:
+        "200":
+          description: Daftar workspace berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspaces retrieved"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                          example: "123e4567-e89b-12d3-a456-426614174000"
+                        name:
+                          type: string
+                          example: "Project X"
+                        owner_id:
+                          type: string
+                          example: "123e4567-e89b-12d3-a456-426614174000"
+        "401":
+          description: Tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: JWT Token is required in cookie"
+
+  /api/workspaces/{id}:
+    get:
+      summary: Mendapatkan workspace berdasarkan ID
+      operationId: getWorkspaceById
+      tags:
+        - Workspace
+      security:
+        - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dari workspace yang akan diambil
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Workspace berhasil ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace retrieved"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      name:
+                        type: string
+                        example: "Project X"
+                      owner_id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+        "404":
+          description: Workspace tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace not found"
+        "401":
+          description: Tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: JWT Token is required in cookie"
+
+    put:
+      summary: Mengupdate data workspace
+      operationId: updateWorkspace
+      tags:
+        - Workspace
+      security:
+        - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dari workspace yang akan diupdate
+          schema:
+            type: string
+      requestBody:
+        description: Data workspace yang akan diupdate
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: "Updated Project X"
+      responses:
+        "200":
+          description: Workspace berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace updated"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+                      name:
+                        type: string
+                        example: "Updated Project X"
+                      owner_id:
+                        type: string
+                        example: "123e4567-e89b-12d3-a456-426614174000"
+        "404":
+          description: Workspace tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace not found"
+        "401":
+          description: Tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: JWT Token is required in cookie"
+        "400":
+          description: Permintaan tidak valid
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace name is required"
+
+    delete:
+      summary: Menghapus workspace berdasarkan ID
+      operationId: deleteWorkspace
+      tags:
+        - Workspace
+      security:
+        - cookieAuth: [] # Menggunakan JWT dalam cookie untuk autentikasi
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID dari workspace yang akan dihapus
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Workspace berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Workspace deleted"
+        "404":
+          description: Workspace tidak ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace not found"
+        "401":
+          description: Tidak terautentikasi
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Unauthorized: JWT Token is required in cookie"
