@@ -8,6 +8,7 @@ const passport = require("./config/passport");
 const userRoutes = require("./routes/userRoutes");
 const authRoutes = require("./routes/auth");
 const db = require("./models");
+require("../src/workers/worker");
 
 dotenv.config();
 
