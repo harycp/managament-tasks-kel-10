@@ -1,0 +1,185 @@
+openapi: 3.0.3
+info:
+  title: Permission API
+  description: API untuk manajemen permission
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001/api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+
+security:
+  - cookieAuth: []
+
+paths:
+  /permissions:
+    post:
+      summary: Membuat permission baru
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        "201":
+          description: Permission berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+        "400":
+          description: Bad Request
+        "409":
+          description: Permission sudah ada
+
+    get:
+      summary: Ambil semua permission
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Daftar permission berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+        "500":
+          description: Server error
+
+  /permissions/{id}:
+    get:
+      summary: Ambil permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID permission yang akan diambil
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Permission ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+        "404":
+          description: Permission tidak ditemukan
+        "500":
+          description: Server error
+
+    put:
+      summary: Update permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID permission yang akan diperbarui
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+      responses:
+        "200":
+          description: Permission berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Permission tidak ditemukan
+
+    delete:
+      summary: Hapus permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID permission yang akan dihapus
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Permission berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: boolean
+        "404":
+          description: Permission tidak ditemukan
+        "500":
+          description: Server error
