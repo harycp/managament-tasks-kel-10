@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: User Role Assignment API
+  description: API untuk manajemen penugasan role pengguna
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001/api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+
+security:
+  - cookieAuth: []
+
+paths:
+  /userRoleAssignments:
+    post:
+      summary: Assign role baru ke user
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                role_id:
+                  type: string
+      responses:
+        "201":
+          description: Penugasan role berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      role_id:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: User atau Role tidak ditemukan
+        "409":
+          description: User Role Assignment sudah ada
+
+    get:
+      summary: Ambil semua penugasan role pengguna
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Daftar penugasan role berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        user_id:
+                          type: string
+                        role_id:
+                          type: string
+        "500":
+          description: Server error
+
+  /userRoleAssignments/{id}:
+    get:
+      summary: Ambil penugasan role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID penugasan role yang akan diambil
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Penugasan role ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      role_id:
+                        type: string
+        "404":
+          description: Penugasan role tidak ditemukan
+        "500":
+          description: Server error
+
+    put:
+      summary: Update penugasan role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID penugasan role yang akan diperbarui
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                user_id:
+                  type: string
+                role_id:
+                  type: string
+      responses:
+        "200":
+          description: Penugasan role berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      user_id:
+                        type: string
+                      role_id:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Penugasan role tidak ditemukan
+        "409":
+          description: User Role Assignment sudah ada
+
+    delete:
+      summary: Hapus penugasan role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID penugasan role yang akan dihapus
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Penugasan role berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: boolean
+        "404":
+          description: Penugasan role tidak ditemukan
+        "500":
+          description: Server error

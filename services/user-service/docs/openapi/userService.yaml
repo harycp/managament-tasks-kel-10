@@ -1,0 +1,203 @@
+openapi: 3.0.3
+info:
+  title: User Service API
+  description: API untuk manajemen pengguna
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001/api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        email:
+          type: string
+
+security:
+  - cookieAuth: []
+
+paths:
+  /profile:
+    get:
+      summary: Get user profile
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Data profil user
+        "401":
+          description: Unauthorized
+
+  /verify-password:
+    post:
+      summary: Verifikasi password
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                userId:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: Password cocok
+        "500":
+          description: Error saat verifikasi
+
+  /request-otp:
+    post:
+      summary: Minta OTP untuk update email
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                newEmail:
+                  type: string
+      responses:
+        "200":
+          description: OTP berhasil dikirim
+        "500":
+          description: Error saat mengirim OTP
+
+  /update-email:
+    post:
+      summary: Verifikasi OTP dan update email
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                otp:
+                  type: string
+                email:
+                  type: string
+      responses:
+        "200":
+          description: Email berhasil diperbarui
+
+  /update-password:
+    put:
+      summary: Update password user
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                oldPassword:
+                  type: string
+                newPassword:
+                  type: string
+      responses:
+        "200":
+          description: Password berhasil diperbarui
+
+  /users:
+    get:
+      summary: Ambil semua user (khusus admin)
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Daftar user
+
+  /users/{id}:
+    get:
+      summary: Ambil user berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Data user
+        "404":
+          description: User tidak ditemukan
+
+    put:
+      summary: Update user berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              additionalProperties: true
+      responses:
+        "200":
+          description: User berhasil diperbarui
+
+    delete:
+      summary: Hapus user berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: User berhasil dihapus
+
+  /users/email/{email}:
+    get:
+      summary: Ambil user berdasarkan email
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: email
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Data user berdasarkan email

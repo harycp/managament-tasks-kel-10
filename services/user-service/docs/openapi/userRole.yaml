@@ -1,0 +1,195 @@
+openapi: 3.0.3
+info:
+  title: User Role API
+  description: API untuk manajemen role pengguna
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001/api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+
+security:
+  - cookieAuth: []
+
+paths:
+  /roles:
+    post:
+      summary: Buat role baru
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "201":
+          description: Role berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+        "400":
+          description: Bad Request
+
+    get:
+      summary: Ambil semua role
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Daftar role berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        name:
+                          type: string
+                        description:
+                          type: string
+        "500":
+          description: Server error
+
+  /roles/{id}:
+    get:
+      summary: Ambil role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role yang akan diambil
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Role ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+        "404":
+          description: Role tidak ditemukan
+        "500":
+          description: Server error
+
+    put:
+      summary: Update role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role yang akan diperbarui
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                description:
+                  type: string
+      responses:
+        "200":
+          description: Role berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      name:
+                        type: string
+                      description:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Role tidak ditemukan
+
+    delete:
+      summary: Hapus role berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role yang akan dihapus
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Role berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: boolean
+        "404":
+          description: Role tidak ditemukan
+        "500":
+          description: Server error
