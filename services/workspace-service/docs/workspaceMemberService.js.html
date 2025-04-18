@@ -1,4 +1,95 @@
-const workspaceMemberModel = require("../models/workspaceMembers");
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> workspaceMemberService.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Workspace Service Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-workspaceMemberService.html">workspaceMemberService</a></li><li><a href="module-workspaceService.html">workspaceService</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>workspaceMemberService.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const workspaceMemberModel = require("../models/workspaceMembers");
 const workspaceModel = require("../models/workspace");
 
 const userModel = require("../../../user-service/src/models/user");
@@ -18,7 +109,7 @@ const userRole = require("../../../user-service/src/models/userRoles");
  * @param {number|string} workspaceMemberData.workspace_id - ID workspace yang akan di-assign
  * @param {string} workspaceMemberData.email - Email user yang akan di-assign
  * @param {string} workspaceMemberData.role - Role yang akan di-assign
- * @returns {Promise<Model>} Workspace member yang telah dibuat
+ * @returns {Promise&lt;Model>} Workspace member yang telah dibuat
  * @throws {Error} Jika email tidak terdaftar, workspace tidak ditemukan, atau user sudah ada di workspace
  * @example
  * const newWorkspaceMember = await createWorkspaceMember({
@@ -61,7 +152,7 @@ const createWorkspaceMember = async (workspaceMemberData) => {
  * @async
  * @function getWorkspaceMembers
  * @param {number|string} userID - ID user yang akan diambil workspace-nya
- * @returns {Promise<Array<Object>>} Array dari setiap workspace dan member-nya
+ * @returns {Promise&lt;Array&lt;Object>>} Array dari setiap workspace dan member-nya
  * @throws {Error} Jika userID tidak disediakan atau user tidak ditemukan
  * @example
  * const workspaces = await getWorkspaceMembers(123);
@@ -96,7 +187,7 @@ const getWorkspaceMembers = async (userID) => {
  * @function getWorkspaceMemberById
  * @param {number|string} workspaceMemberId - ID workspace member yang akan diambil
  * @param {number|string} userID - ID user yang meminta detail
- * @returns {Promise<Object>} Object berisi detail workspace member, berupa id, user_id, role, dan workspace yang diikutinya
+ * @returns {Promise&lt;Object>} Object berisi detail workspace member, berupa id, user_id, role, dan workspace yang diikutinya
  * @throws {Error} Jika userID tidak disediakan, workspace member tidak ditemukan, atau user tidak berhak mengakses
  * @example
  * const workspaceMember = await getWorkspaceMemberById(1, 123);
@@ -142,7 +233,7 @@ const getWorkspaceMemberById = async (workspaceMemberId, userID) => {
  * @param {number|string} workspaceMemberData.workspace_id - ID workspace yang di-assign
  * @param {number|string} workspaceMemberData.user_id - ID user yang di-assign
  * @param {string} workspaceMemberData.role - Role yang di-assign
- * @returns {Promise<Model>} Workspace member yang telah diupdate
+ * @returns {Promise&lt;Model>} Workspace member yang telah diupdate
  * @throws {Error} Jika user tidak terdaftar, workspace tidak ditemukan, atau user sudah ada di workspace
  * @example
  * const updatedWorkspaceMember = await updateWorkspaceMember({
@@ -189,7 +280,7 @@ const updateWorkspaceMember = async (workspaceMemberData) => {
  * @async
  * @function deleteWorkspaceMember
  * @param {number|string} workspaceMemberId - ID workspace member yang akan dihapus
- * @returns {Promise<Model>} Workspace member yang telah dihapus
+ * @returns {Promise&lt;Model>} Workspace member yang telah dihapus
  * @throws {Error} Jika workspace member tidak ditemukan
  * @example
  * const deletedWorkspaceMember = await deleteWorkspaceMember(1);
@@ -210,3 +301,33 @@ module.exports = {
   updateWorkspaceMember,
   deleteWorkspaceMember,
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

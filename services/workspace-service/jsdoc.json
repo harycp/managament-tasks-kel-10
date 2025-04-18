@@ -12,13 +12,10 @@
   },
   "templates": {
     "better-docs": {
-      "name": "User Service Documentation",
+      "name": "Workspace Service Documentation",
       "navMembers": [
-        { "kind": "module", "title": "User Services" },
-        { "kind": "module", "title": "User Role Services" },
-        { "kind": "module", "title": "Permission Services" },
-        { "kind": "module", "title": "Role Permission Services" },
-        { "kind": "module", "title": "User Role Assignments Services" }
+        { "kind": "module", "title": "Workspace Service" },
+        { "kind": "module", "title": "Workspace Member Service" }
       ]
     }
   }

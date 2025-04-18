@@ -4,7 +4,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "doc": "jsdoc -c jsdoc.json"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,8 @@
     "sequelize": "^6.37.6"
   },
   "devDependencies": {
+    "better-docs": "^2.7.3",
+    "jsdoc": "^4.0.4",
     "nodemon": "^3.1.9"
   }
 }
