@@ -1,4 +1,95 @@
-const permissionModel = require("../models/permissions");
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> rolePermissionService.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">User Service Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-rolePermissionService.html">rolePermissionService</a></li><li><a href="module-userRoleAssignmentsService.html">userRoleAssignmentsService</a></li><li><a href="module-userRoleService.html">userRoleService</a></li><li><a href="module-userService.html">userService</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>rolePermissionService.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const permissionModel = require("../models/permissions");
 const userRole = require("../models/userRoles");
 const rolePermission = require("../models/rolePermission");
 const { where } = require("sequelize");
@@ -16,7 +107,7 @@ const { where } = require("sequelize");
  * @param {Object} rolePermissionData - Data relasi role-permission yang akan dibuat
  * @param {string} rolePermissionData.role_id - ID role yang akan direlasikan
  * @param {string} rolePermissionData.permission_id - ID permission yang akan direlasikan
- * @returns {Promise<Model>} Relasi role-permission yang baru dibuat
+ * @returns {Promise&lt;Model>} Relasi role-permission yang baru dibuat
  * @throws {Error} Jika permission atau role tidak ditemukan, atau jika relasi
  *                 role-permission dengan data yang sama sudah ada
  * @example
@@ -51,7 +142,7 @@ const createRolePermission = async (rolePermissionData) => {
  * Mengambil semua relasi role-permission yang tersedia
  * @async
  * @function getRolePermissions
- * @returns {Promise<Array<Model>>} Array berisi semua relasi role-permission
+ * @returns {Promise&lt;Array&lt;Model>>} Array berisi semua relasi role-permission
  * @example
  * const rolePermissions = await getRolePermissions();
  * console.log(rolePermissions);
@@ -66,7 +157,7 @@ const getRolePermissions = async () => {
  * @async
  * @function getRolePermissionById
  * @param {number|string} id - ID relasi role-permission yang akan diambil
- * @returns {Promise<Model|Null>} Relasi role-permission yang diambil, atau null jika tidak ditemukan
+ * @returns {Promise&lt;Model|Null>} Relasi role-permission yang diambil, atau null jika tidak ditemukan
  * @example
  * const rolePermission = await getRolePermissionById(1);
  * console.log(rolePermission);
@@ -84,7 +175,7 @@ const getRolePermissionById = async (id) => {
  * @param {Object} rolePermissionData - Data relasi role-permission yang diupdate
  * @param {string} rolePermissionData.role_id - ID role yang direlasikan
  * @param {string} rolePermissionData.permission_id - ID permission yang direlasikan
- * @returns {Promise<Model|null>} Relasi role-permission yang diupdate, atau null jika relasi tidak ditemukan
+ * @returns {Promise&lt;Model|null>} Relasi role-permission yang diupdate, atau null jika relasi tidak ditemukan
  * @throws {Error} Jika permission atau role tidak ditemukan, atau jika relasi
  *                 role-permission dengan data yang sama sudah ada
  * @example
@@ -128,7 +219,7 @@ const updateRolePermission = async (id, rolePermissionData) => {
  * @async
  * @function deleteRolePermission
  * @param {number|string} id - ID relasi role-permission yang akan dihapus
- * @returns {Promise<Model|Null>} Relasi role-permission yang dihapus, atau null jika tidak ditemukan
+ * @returns {Promise&lt;Model|Null>} Relasi role-permission yang dihapus, atau null jika tidak ditemukan
  * @example
  * const deletedRolePermission = await deleteRolePermission(1);
  * console.log(deletedRolePermission);
@@ -149,3 +240,33 @@ module.exports = {
   updateRolePermission,
   deleteRolePermission,
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

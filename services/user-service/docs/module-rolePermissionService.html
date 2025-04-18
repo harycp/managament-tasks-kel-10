@@ -5,7 +5,7 @@
   
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title> userRoleAssignmentsService</title>
+  <title> rolePermissionService</title>
 
   <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -78,7 +78,7 @@
             <div class="content">
                 <header class="page-title">
                     <p>Module</p>
-                    <h1>userRoleAssignmentsService</h1>
+                    <h1>rolePermissionService</h1>
                 </header>
                 
 
@@ -99,7 +99,7 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>Module untuk mengelola penugasan user-role.</p></div>
+            <div class="description"><p>Module untuk mengelola relasi role-permission.</p></div>
         
 
         
@@ -151,9 +151,9 @@
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line5">line 5</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line6">line 6</a>
             </span>
         </p>
     
@@ -207,8 +207,8 @@
 
 
     
-    <h4 class="name" id="~createUserRoleAssignment">
-        <a class="href-link" href="#~createUserRoleAssignment">#</a>
+    <h4 class="name" id="~createRolePermission">
+        <a class="href-link" href="#~createRolePermission">#</a>
         
             
                 <span class='tag'>async</span>
@@ -218,7 +218,7 @@
         
         <span class="code-name">
             
-                createUserRoleAssignment<span class="signature">(userRoleAssignmentData)</span><span class="type-signature"> &rarr; {Promise.&lt;Model>}</span>
+                createRolePermission<span class="signature">(rolePermissionData)</span><span class="type-signature"> &rarr; {Promise.&lt;Model>}</span>
             
         </span>
     </h4>
@@ -227,7 +227,7 @@
     
     
     <div class="description">
-        <p>Membuat penugasan role ke user baru</p>
+        <p>Membuat relasi baru antara role dan permission.</p>
     </div>
     
 
@@ -265,7 +265,7 @@
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>userRoleAssignmentData</code></td>
+      <td class="name"><code>rolePermissionData</code></td>
   
 
   <td class="type">
@@ -281,33 +281,10 @@
 
   
 
-  <td class="description last"><p>Data penugasan user-role yang akan dibuat</p></td>
+  <td class="description last"><p>Data relasi role-permission yang akan dibuat</p></td>
 </tr>
 
   
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>user_id</code></td>
-  
-
-  <td class="type">
-  
-      
-<code class="param-type">string</code>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last"><p>ID user yang akan ditugaskan</p></td>
-</tr>
-
   
     
 <tr class="deep-level-1">
@@ -328,7 +305,30 @@
 
   
 
-  <td class="description last"><p>ID role yang akan ditugaskan</p></td>
+  <td class="description last"><p>ID role yang akan direlasikan</p></td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>permission_id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>ID permission yang akan direlasikan</p></td>
 </tr>
 
   
@@ -376,9 +376,9 @@
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line11">line 11</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line12">line 12</a>
             </span>
         </p>
     
@@ -406,8 +406,8 @@
                     
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Jika user atau role tidak ditemukan, atau jika penugasan
-user-role dengan data yang sama sudah ada</p></div>
+    <div class='param-desc column is-7'><p>Jika permission atau role tidak ditemukan, atau jika relasi
+role-permission dengan data yang sama sudah ada</p></div>
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
 <code class="param-type">Error</code>
@@ -431,7 +431,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Penugasan user-role yang baru dibuat</p></div>
+    <div class='param-desc column is-7'><p>Relasi role-permission yang baru dibuat</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -454,7 +454,7 @@ user-role dengan data yang sama sudah ada</p></div>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const newRoleAssignment = await createUserRoleAssignment({  user_id: 'user-123',  role_id: 'role-456',});</code></pre>
+        <pre class="prettyprint"><code>const newRolePermission = await createRolePermission({  role_id: 'role-123',  permission_id: 'permission-456',});</code></pre>
     
 
 
@@ -464,8 +464,8 @@ user-role dengan data yang sama sudah ada</p></div>
 
 
     
-    <h4 class="name" id="~deleteUserRoleAssignment">
-        <a class="href-link" href="#~deleteUserRoleAssignment">#</a>
+    <h4 class="name" id="~deleteRolePermission">
+        <a class="href-link" href="#~deleteRolePermission">#</a>
         
             
                 <span class='tag'>async</span>
@@ -475,7 +475,7 @@ user-role dengan data yang sama sudah ada</p></div>
         
         <span class="code-name">
             
-                deleteUserRoleAssignment<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|null)>}</span>
+                deleteRolePermission<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|Null)>}</span>
             
         </span>
     </h4>
@@ -484,7 +484,7 @@ user-role dengan data yang sama sudah ada</p></div>
     
     
     <div class="description">
-        <p>Menghapus penugasan user-role berdasarkan ID.</p>
+        <p>Menghapus relasi role-permission berdasarkan ID</p>
     </div>
     
 
@@ -541,7 +541,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
   
 
-  <td class="description last"><p>ID penugasan user-role yang akan dihapus.</p></td>
+  <td class="description last"><p>ID relasi role-permission yang akan dihapus</p></td>
 </tr>
 
 
@@ -587,9 +587,9 @@ user-role dengan data yang sama sudah ada</p></div>
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line120">line 120</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line126">line 126</a>
             </span>
         </p>
     
@@ -620,13 +620,13 @@ user-role dengan data yang sama sudah ada</p></div>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Penugasan user-role yang dihapus, atau null jika tidak ditemukan.</p></div>
+    <div class='param-desc column is-7'><p>Relasi role-permission yang dihapus, atau null jika tidak ditemukan</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;(Model|null)></code>
+<code class="param-type">Promise.&lt;(Model|Null)></code>
 
 
     </div>
@@ -643,7 +643,7 @@ user-role dengan data yang sama sudah ada</p></div>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const deletedAssignment = await deleteUserRoleAssignment('assignment-id');console.log(deletedAssignment);</code></pre>
+        <pre class="prettyprint"><code>const deletedRolePermission = await deleteRolePermission(1);console.log(deletedRolePermission);</code></pre>
     
 
 
@@ -653,8 +653,8 @@ user-role dengan data yang sama sudah ada</p></div>
 
 
     
-    <h4 class="name" id="~getUserRoleAssignmentById">
-        <a class="href-link" href="#~getUserRoleAssignmentById">#</a>
+    <h4 class="name" id="~getRolePermissionById">
+        <a class="href-link" href="#~getRolePermissionById">#</a>
         
             
                 <span class='tag'>async</span>
@@ -664,7 +664,7 @@ user-role dengan data yang sama sudah ada</p></div>
         
         <span class="code-name">
             
-                getUserRoleAssignmentById<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|null)>}</span>
+                getRolePermissionById<span class="signature">(id)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|Null)>}</span>
             
         </span>
     </h4>
@@ -673,7 +673,7 @@ user-role dengan data yang sama sudah ada</p></div>
     
     
     <div class="description">
-        <p>Mengambil penugasan user-role berdasarkan ID</p>
+        <p>Mengambil relasi role-permission berdasarkan ID</p>
     </div>
     
 
@@ -730,7 +730,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
   
 
-  <td class="description last"><p>ID penugasan user-role yang akan diambil</p></td>
+  <td class="description last"><p>ID relasi role-permission yang akan diambil</p></td>
 </tr>
 
 
@@ -776,9 +776,9 @@ user-role dengan data yang sama sudah ada</p></div>
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line64">line 64</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line64">line 64</a>
             </span>
         </p>
     
@@ -809,13 +809,13 @@ user-role dengan data yang sama sudah ada</p></div>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Penugasan user-role yang diambil, atau null jika tidak ditemukan</p></div>
+    <div class='param-desc column is-7'><p>Relasi role-permission yang diambil, atau null jika tidak ditemukan</p></div>
     
     
     <div class='column is-5 has-text-left'>
         <label>Type: </label>
         
-<code class="param-type">Promise.&lt;(Model|null)></code>
+<code class="param-type">Promise.&lt;(Model|Null)></code>
 
 
     </div>
@@ -832,7 +832,7 @@ user-role dengan data yang sama sudah ada</p></div>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const roleAssignment = await getUserRoleAssignmentById(1);console.log(roleAssignment);</code></pre>
+        <pre class="prettyprint"><code>const rolePermission = await getRolePermissionById(1);console.log(rolePermission);</code></pre>
     
 
 
@@ -842,8 +842,8 @@ user-role dengan data yang sama sudah ada</p></div>
 
 
     
-    <h4 class="name" id="~getUserRoleAssignments">
-        <a class="href-link" href="#~getUserRoleAssignments">#</a>
+    <h4 class="name" id="~getRolePermissions">
+        <a class="href-link" href="#~getRolePermissions">#</a>
         
             
                 <span class='tag'>async</span>
@@ -853,7 +853,7 @@ user-role dengan data yang sama sudah ada</p></div>
         
         <span class="code-name">
             
-                getUserRoleAssignments<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Model>>}</span>
+                getRolePermissions<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Array.&lt;Model>>}</span>
             
         </span>
     </h4>
@@ -862,7 +862,7 @@ user-role dengan data yang sama sudah ada</p></div>
     
     
     <div class="description">
-        <p>Mengambil semua penugasan user-role yang tersedia</p>
+        <p>Mengambil semua relasi role-permission yang tersedia</p>
     </div>
     
 
@@ -911,9 +911,9 @@ user-role dengan data yang sama sudah ada</p></div>
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line50">line 50</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line50">line 50</a>
             </span>
         </p>
     
@@ -944,7 +944,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Array berisi semua penugasan user-role</p></div>
+    <div class='param-desc column is-7'><p>Array berisi semua relasi role-permission</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -967,7 +967,7 @@ user-role dengan data yang sama sudah ada</p></div>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const roleAssignments = await getUserRoleAssignments();console.log(roleAssignments);</code></pre>
+        <pre class="prettyprint"><code>const rolePermissions = await getRolePermissions();console.log(rolePermissions);</code></pre>
     
 
 
@@ -977,8 +977,8 @@ user-role dengan data yang sama sudah ada</p></div>
 
 
     
-    <h4 class="name" id="~updateUserRoleAssignment">
-        <a class="href-link" href="#~updateUserRoleAssignment">#</a>
+    <h4 class="name" id="~updateRolePermission">
+        <a class="href-link" href="#~updateRolePermission">#</a>
         
             
                 <span class='tag'>async</span>
@@ -988,7 +988,7 @@ user-role dengan data yang sama sudah ada</p></div>
         
         <span class="code-name">
             
-                updateUserRoleAssignment<span class="signature">(id, userRoleAssignmentData)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|null)>}</span>
+                updateRolePermission<span class="signature">(id, rolePermissionData)</span><span class="type-signature"> &rarr; {Promise.&lt;(Model|null)>}</span>
             
         </span>
     </h4>
@@ -997,7 +997,7 @@ user-role dengan data yang sama sudah ada</p></div>
     
     
     <div class="description">
-        <p>Mengupdate penugasan user-role berdasarkan ID</p>
+        <p>Mengupdate relasi role-permission berdasarkan ID</p>
     </div>
     
 
@@ -1054,7 +1054,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
   
 
-  <td class="description last"><p>ID penugasan user-role yang akan diupdate</p></td>
+  <td class="description last"><p>ID relasi role-permission yang akan diupdate</p></td>
 </tr>
 
 
@@ -1063,7 +1063,7 @@ user-role dengan data yang sama sudah ada</p></div>
             
 <tr class="deep-level-0">
   
-      <td class="name"><code>userRoleAssignmentData</code></td>
+      <td class="name"><code>rolePermissionData</code></td>
   
 
   <td class="type">
@@ -1079,8 +1079,57 @@ user-role dengan data yang sama sudah ada</p></div>
 
   
 
-  <td class="description last"><p>Data penugasan user-role yang diupdate</p></td>
+  <td class="description last"><p>Data relasi role-permission yang diupdate</p></td>
 </tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>role_id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>ID role yang direlasikan</p></td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>permission_id</code></td>
+  
+
+  <td class="type">
+  
+      
+<code class="param-type">string</code>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last"><p>ID permission yang direlasikan</p></td>
+</tr>
+
+  
 
 
         
@@ -1125,9 +1174,9 @@ user-role dengan data yang sama sudah ada</p></div>
 
     
         <p class="tag-source">
-            <a href="userRoleAssignmentsService.js.html" class="button">View Source</a>
+            <a href="rolePermissionService.js.html" class="button">View Source</a>
             <span>
-                <a href="userRoleAssignmentsService.js.html">userRoleAssignmentsService.js</a>, <a href="userRoleAssignmentsService.js.html#line79">line 79</a>
+                <a href="rolePermissionService.js.html">rolePermissionService.js</a>, <a href="rolePermissionService.js.html#line79">line 79</a>
             </span>
         </p>
     
@@ -1148,6 +1197,28 @@ user-role dengan data yang sama sudah ada</p></div>
 
 
 
+    <div class='columns method-parameter'>
+        <div class="column is-2"><label>Throws:</label></div>
+        <div class="column is-10">
+            
+                    
+<div class="columns">
+    
+    <div class='param-desc column is-7'><p>Jika permission atau role tidak ditemukan, atau jika relasi
+role-permission dengan data yang sama sudah ada</p></div>
+    <div class='column is-5 has-text-left'>
+        <label>Type: </label>
+<code class="param-type">Error</code>
+
+
+    </div>
+    
+</div>
+
+                
+        </div>
+    </div>
+
 
 
     <div class='columns method-parameter'>
@@ -1158,7 +1229,7 @@ user-role dengan data yang sama sudah ada</p></div>
 
 <div class="columns">
     
-    <div class='param-desc column is-7'><p>Penugasan user-role yang diupdate, atau null jika tidak ditemukan</p></div>
+    <div class='param-desc column is-7'><p>Relasi role-permission yang diupdate, atau null jika relasi tidak ditemukan</p></div>
     
     
     <div class='column is-5 has-text-left'>
@@ -1181,7 +1252,7 @@ user-role dengan data yang sama sudah ada</p></div>
     <h5>Example</h5>
     
     
-        <pre class="prettyprint"><code>const roleAssignment = await updateUserRoleAssignment(1, { user_id: 1, role_id: 1 });console.log(roleAssignment);</code></pre>
+        <pre class="prettyprint"><code>const updatedRolePermission = await updateRolePermission(1, {  role_id: 'role-123',  permission_id: 'permission-456',});console.log(updatedRolePermission);</code></pre>
     
 
 
