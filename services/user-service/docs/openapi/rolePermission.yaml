@@ -1,0 +1,201 @@
+openapi: 3.0.3
+info:
+  title: Role Permission API
+  description: API untuk manajemen peran dan izin role
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:5001/api
+
+components:
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+
+security:
+  - cookieAuth: []
+
+paths:
+  /rolePermissions:
+    post:
+      summary: Assign izin ke role
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_id:
+                  type: string
+                permission_id:
+                  type: string
+      responses:
+        "201":
+          description: Role Permission berhasil dibuat
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      role_id:
+                        type: string
+                      permission_id:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Permission atau Role tidak ditemukan
+        "409":
+          description: Role Permission sudah ada
+
+    get:
+      summary: Ambil semua peran izin yang ada
+      security:
+        - cookieAuth: []
+      responses:
+        "200":
+          description: Daftar role permission berhasil diambil
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        role_id:
+                          type: string
+                        permission_id:
+                          type: string
+        "500":
+          description: Server error
+
+  /rolePermissions/{id}:
+    get:
+      summary: Ambil role permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role permission yang akan diambil
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Role permission ditemukan
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      role_id:
+                        type: string
+                      permission_id:
+                        type: string
+        "404":
+          description: Role permission tidak ditemukan
+        "500":
+          description: Server error
+
+    put:
+      summary: Update role permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role permission yang akan diperbarui
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                role_id:
+                  type: string
+                permission_id:
+                  type: string
+      responses:
+        "200":
+          description: Role permission berhasil diperbarui
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      role_id:
+                        type: string
+                      permission_id:
+                        type: string
+        "400":
+          description: Bad Request
+        "404":
+          description: Role permission tidak ditemukan
+        "409":
+          description: Role Permission sudah ada
+
+    delete:
+      summary: Hapus role permission berdasarkan ID
+      security:
+        - cookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID role permission yang akan dihapus
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Role permission berhasil dihapus
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  data:
+                    type: boolean
+        "404":
+          description: Role permission tidak ditemukan
+        "500":
+          description: Server error
