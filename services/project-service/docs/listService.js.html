@@ -1,4 +1,95 @@
-const { Op, Sequelize } = require("sequelize");
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> listService.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">Project Service Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-boardService.html">boardService</a></li><li><a href="module-listService.html">listService</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>listService.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { Op, Sequelize } = require("sequelize");
 const listModel = require("../models/list");
 const boardModel = require("../models/board");
 
@@ -15,7 +106,7 @@ const boardModel = require("../models/board");
  * @function createList
  * @param {string} boardId - ID dari board tempat list akan dibuat.
  * @param {string} name - Nama dari list yang akan dibuat.
- * @returns {Promise<Model>} List yang baru dibuat.
+ * @returns {Promise&lt;Model>} List yang baru dibuat.
  * @throws {Error} Jika boardId tidak disediakan atau board tidak ditemukan.
  * @example
  * const newList = await createList('boardId123', 'My New List');
@@ -63,7 +154,7 @@ const createList = async (boardId, name) => {
  * @async
  * @function getLists
  * @param {number|string} boardId - ID board yang akan di-assign
- * @returns {Promise<{board: {id: number, name: string, workspace_id: number}, lists: Model[]}>}
+ * @returns {Promise&lt;{board: {id: number, name: string, workspace_id: number}, lists: Model[]}>}
  * @throws {Error} Jika board tidak ditemukan
  * @example
  * const { board, lists } = await getLists(1);
@@ -96,7 +187,7 @@ const getLists = async (boardId) => {
  * @async
  * @function getListById
  * @param {number|string} listId - ID list yang akan diambil
- * @returns {Promise<{list: Model}>}
+ * @returns {Promise&lt;{list: Model}>}
  * @throws {Error} Jika listId tidak disediakan atau list tidak ditemukan
  * @example
  * const { list } = await getListById(1);
@@ -124,7 +215,7 @@ const getListById = async (listId) => {
  * @function updateList
  * @param {number|string} listId - ID list yang akan diupdate
  * @param {string} name - Nama baru untuk list
- * @returns {Promise<Model>} List yang telah diupdate
+ * @returns {Promise&lt;Model>} List yang telah diupdate
  * @throws {Error} Jika listId tidak disediakan atau list tidak ditemukan
  * @example
  * const updatedList = await updateList(1, 'New List Name');
@@ -152,7 +243,7 @@ const updateList = async (listId, name) => {
  * @function updateListPosition
  * @param {number|string} listId - ID list yang akan dipindahkan.
  * @param {number} newPosition - Posisi baru untuk list tersebut.
- * @returns {Promise<Model[]>} Daftar list dengan posisi yang telah diperbarui.
+ * @returns {Promise&lt;Model[]>} Daftar list dengan posisi yang telah diperbarui.
  * @throws {Error} Jika listId tidak disediakan, list tidak ditemukan, atau posisi baru tidak valid.
  * @example
  * const updatedLists = await updateListPosition('listId123', 2);
@@ -175,7 +266,7 @@ const updateListPosition = async (listId, newPosition) => {
   });
 
   // Validasi posisi baru
-  if (newPosition < 1 || newPosition > lists.length) {
+  if (newPosition &lt; 1 || newPosition > lists.length) {
     throw new Error("Invalid position");
   }
 
@@ -201,7 +292,7 @@ const updateListPosition = async (listId, newPosition) => {
  * @async
  * @function deleteList
  * @param {number|string} listId - ID list yang akan dihapus.
- * @returns {Promise<Object>} Objek berisi pesan konfirmasi penghapusan.
+ * @returns {Promise&lt;Object>} Objek berisi pesan konfirmasi penghapusan.
  * @throws {Error} Jika listId tidak disediakan atau list tidak ditemukan.
  * @example
  * const result = await deleteList('listId123');
@@ -247,3 +338,33 @@ module.exports = {
   updateListPosition,
   deleteList,
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>
