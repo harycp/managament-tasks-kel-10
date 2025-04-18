@@ -1,4 +1,95 @@
-const bcrypt = require("bcryptjs");
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title> userService.js</title>
+
+  <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="./build/entry.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,400,700|Inconsolata,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+  <link type="text/css" rel="stylesheet" href="https://jmblog.github.io/color-themes-for-google-code-prettify/themes/tomorrow-night.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/app.min.css">
+  <link type="text/css" rel="stylesheet" href="styles/iframe.css">
+  <link type="text/css" rel="stylesheet" href="">
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  
+</head>
+
+
+
+<body class="layout small-header">
+    <div id="stickyNavbarOverlay"></div>
+    
+
+<div class="top-nav">
+    <div class="inner">
+        <a id="hamburger" role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+        <div class="logo">
+            
+             
+                <a href="index.html">
+                    <h1 class="navbar-item">User Service Documentation</h1>
+                </a>
+            
+        </div>
+        <div class="menu">
+            
+            <div class="navigation">
+                <a
+                    href="index.html"
+                    class="link"
+                >
+                    Documentation
+                </a>
+                
+                
+                
+            </div>
+        </div>
+    </div>
+</div>
+    <div id="main">
+        <div
+            class="sidebar "
+            id="sidebarNav"
+        >
+            
+            <nav>
+                
+                    <h2><a href="index.html">Documentation</a></h2><div class="category"><h3>Modules</h3><ul><li><a href="module-userService.html">userService</a></li></ul></div>
+                
+            </nav>
+        </div>
+        <div class="core" id="main-content-wrapper">
+            <div class="content">
+                <header class="page-title">
+                    <p>Source</p>
+                    <h1>userService.js</h1>
+                </header>
+                
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const bcrypt = require("bcryptjs");
 const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
@@ -17,7 +108,7 @@ const { sequelize } = require("../models");
  * @param {Object} userData - Data pengguna yang akan dibuat.
  * @param {string} userData.email - Email pengguna.
  * @param {string} userData.password - Password pengguna.
- * @returns {Promise<Object>} Pengguna yang berhasil dibuat.
+ * @returns {Promise&lt;Object>} Pengguna yang berhasil dibuat.
  * @throws {Error} Jika pengguna dengan email tersebut sudah ada.
  */
 const createUser = async (userData) => {
@@ -32,7 +123,7 @@ const createUser = async (userData) => {
  * Melakukan pendaftaran email dan mengirimkan link konfirmasi.
  * Jika user sebelumnya dihapus (soft delete), maka akan direstore.
  * @param {string} email - Email yang ingin didaftarkan.
- * @returns {Promise<Object>} Status pengiriman email konfirmasi.
+ * @returns {Promise&lt;Object>} Status pengiriman email konfirmasi.
  * @throws {Error} Jika pengguna sudah terdaftar dan belum dihapus.
  */
 const registerEmail = async (email) => {
@@ -60,24 +151,24 @@ const registerEmail = async (email) => {
   await redis.set(key, user.id, "EX", expiresInSeconds);
 
   const emailContent = `
-  <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
-    <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
-      <header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
-        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
-          <h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Email Confirmation</h1>
-        </div>
-      </header>
-      <main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
-        <p style="font-size: 16px; color: #7a7a7a;">Hey there,</p>
-        <p style="font-size: 16px; color: #7a7a7a;">It looks like you need to confirm your email. Click the button below:</p>
-        <a href="${confirmLink}" style="display: inline-block; padding: 12px 24px; background-color: #4b4b4b; color: #e5e5e5; text-decoration: none; border-radius: 4px; font-size: 16px; font-weight: bold; margin-top: 10px; box-shadow: 2px 2px #1f1f1f;">Confirm Email</a>
-        <p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.</p>
-      </main>
-      <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
-        <p>© ${new Date().getFullYear()} Tuntask. All rights reserved.</p>
-      </footer>
-    </div>
-  </div>
+  &lt;div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
+    &lt;div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
+      &lt;header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
+        &lt;div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+          &lt;h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Email Confirmation&lt;/h1>
+        &lt;/div>
+      &lt;/header>
+      &lt;main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
+        &lt;p style="font-size: 16px; color: #7a7a7a;">Hey there,&lt;/p>
+        &lt;p style="font-size: 16px; color: #7a7a7a;">It looks like you need to confirm your email. Click the button below:&lt;/p>
+        &lt;a href="${confirmLink}" style="display: inline-block; padding: 12px 24px; background-color: #4b4b4b; color: #e5e5e5; text-decoration: none; border-radius: 4px; font-size: 16px; font-weight: bold; margin-top: 10px; box-shadow: 2px 2px #1f1f1f;">Confirm Email&lt;/a>
+        &lt;p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.&lt;/p>
+      &lt;/main>
+      &lt;footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
+        &lt;p>© ${new Date().getFullYear()} Tuntask. All rights reserved.&lt;/p>
+      &lt;/footer>
+    &lt;/div>
+  &lt;/div>
 `;
 
   await sendEmail(user.email, "Confirm Email", emailContent);
@@ -89,7 +180,7 @@ const registerEmail = async (email) => {
  * Verifikasi email menggunakan token dan memperbarui data pengguna.
  * @param {string} token - Token dari email konfirmasi.
  * @param {Object} userData - Data pengguna yang akan diupdate (nama, username, password).
- * @returns {Promise<Object>} Data pengguna yang telah diupdate.
+ * @returns {Promise&lt;Object>} Data pengguna yang telah diupdate.
  * @throws {Error} Jika token tidak valid, expired, atau user tidak ditemukan.
  */
 const verifyEmail = async (token, userData) => {
@@ -118,7 +209,7 @@ const verifyEmail = async (token, userData) => {
  * Melakukan login pengguna berdasarkan email atau username.
  * @param {string} usernameOrEmail - Username atau email pengguna.
  * @param {string} password - Password pengguna.
- * @returns {Promise<Object>} Data pengguna dan token autentikasi.
+ * @returns {Promise&lt;Object>} Data pengguna dan token autentikasi.
  * @throws {Error} Jika pengguna tidak ditemukan atau password salah.
  */
 const loginUser = async (usernameOrEmail, password) => {
@@ -144,7 +235,7 @@ const loginUser = async (usernameOrEmail, password) => {
 
 /**
  * Logout pengguna (sementara hanya placeholder, tidak menyimpan session).
- * @returns {Promise<boolean>} Selalu mengembalikan nilai true.
+ * @returns {Promise&lt;boolean>} Selalu mengembalikan nilai true.
  */
 const logoutUser = async () => {
   return true;
@@ -154,7 +245,7 @@ const logoutUser = async () => {
  * Mengirimkan link reset password ke email pengguna.
  * Token disimpan sementara di Redis.
  * @param {string} email - Email pengguna yang ingin mereset password.
- * @returns {Promise<Object>} Status pengiriman email reset password.
+ * @returns {Promise&lt;Object>} Status pengiriman email reset password.
  * @throws {Error} Jika pengguna tidak ditemukan.
  */
 const requestResetPassword = async (email) => {
@@ -171,24 +262,24 @@ const requestResetPassword = async (email) => {
   const resetLink = `${process.env.RESET_PASSWORD_URL}?token=${token}`;
 
   const emailContent = `
-  <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
-    <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
-      <header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
-        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
-          <h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Password Reset Request</h1>
-        </div>
-      </header>
-      <main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
-        <p style="font-size: 16px; color: #7a7a7a;">Hey there,</p>
-        <p style="font-size: 16px; color: #7a7a7a;">It looks like you need to reset your password. Click the button below:</p>
-        <a href="${resetLink}" style="display: inline-block; padding: 12px 24px; background-color: #4b4b4b; color: #e5e5e5; text-decoration: none; border-radius: 4px; font-size: 16px; font-weight: bold; margin-top: 10px; box-shadow: 2px 2px #1f1f1f;">Reset Password</a>
-        <p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.</p>
-      </main>
-      <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
-        <p>© ${new Date().getFullYear()} Tuntask. All rights reserved.</p>
-      </footer>
-    </div>
-  </div>
+  &lt;div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
+    &lt;div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
+      &lt;header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
+        &lt;div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+          &lt;h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Password Reset Request&lt;/h1>
+        &lt;/div>
+      &lt;/header>
+      &lt;main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
+        &lt;p style="font-size: 16px; color: #7a7a7a;">Hey there,&lt;/p>
+        &lt;p style="font-size: 16px; color: #7a7a7a;">It looks like you need to reset your password. Click the button below:&lt;/p>
+        &lt;a href="${resetLink}" style="display: inline-block; padding: 12px 24px; background-color: #4b4b4b; color: #e5e5e5; text-decoration: none; border-radius: 4px; font-size: 16px; font-weight: bold; margin-top: 10px; box-shadow: 2px 2px #1f1f1f;">Reset Password&lt;/a>
+        &lt;p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.&lt;/p>
+      &lt;/main>
+      &lt;footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
+        &lt;p>© ${new Date().getFullYear()} Tuntask. All rights reserved.&lt;/p>
+      &lt;/footer>
+    &lt;/div>
+  &lt;/div>
 `;
 
   await sendEmail(user.email, "Reset Password", emailContent);
@@ -200,7 +291,7 @@ const requestResetPassword = async (email) => {
  * Melakukan reset password berdasarkan token yang dikirim melalui email.
  * @param {string} token - Token reset password.
  * @param {string} newPassword - Password baru yang ingin diset.
- * @returns {Promise<Object>} Pengguna yang berhasil diupdate.
+ * @returns {Promise&lt;Object>} Pengguna yang berhasil diupdate.
  * @throws {Error} Jika token tidak valid, kadaluarsa, atau pengguna tidak ditemukan.
  */
 const resetPassword = async (token, newPassword) => {
@@ -223,7 +314,7 @@ const resetPassword = async (token, newPassword) => {
 /**
  * Mengecek apakah token (reset password / konfirmasi email) masih valid.
  * @param {string} token - Token yang ingin diverifikasi.
- * @returns {Promise<boolean>} True jika token masih valid, false jika tidak.
+ * @returns {Promise&lt;boolean>} True jika token masih valid, false jika tidak.
  */
 const verifyResetToken = async (token) => {
   const resetKey = `reset-password:${token}`;
@@ -238,7 +329,7 @@ const verifyResetToken = async (token) => {
 /**
  * Mengambil data pengguna yang sedang login berdasarkan ID.
  * @param {number} id - ID pengguna.
- * @returns {Promise<Object>} Objek pengguna dengan field yang dipilih.
+ * @returns {Promise&lt;Object>} Objek pengguna dengan field yang dipilih.
  */
 const getUserLogin = async (id) => {
   const user = await User.findByPk(id, {
@@ -252,7 +343,7 @@ const getUserLogin = async (id) => {
  * Memverifikasi password lama pengguna (biasanya untuk update password/email).
  * @param {number} userId - ID pengguna.
  * @param {string} password - Password yang ingin diverifikasi.
- * @returns {Promise<boolean>} True jika password cocok, error jika tidak cocok atau user tidak ditemukan.
+ * @returns {Promise&lt;boolean>} True jika password cocok, error jika tidak cocok atau user tidak ditemukan.
  */
 const verifyPassword = async (userId, password) => {
   const user = await User.findByPk(userId);
@@ -268,7 +359,7 @@ const verifyPassword = async (userId, password) => {
  * Mengirim OTP ke email baru pengguna untuk konfirmasi perubahan email.
  * @param {string} email - Email lama pengguna (yang sudah login).
  * @param {string} newEmail - Email baru yang ingin digunakan.
- * @returns {Promise<Object>} Status pengiriman OTP.
+ * @returns {Promise&lt;Object>} Status pengiriman OTP.
  * @throws {Error} Jika email baru sudah terdaftar atau pengguna tidak ditemukan.
  */
 const requestOtp = async (email, newEmail) => {
@@ -286,24 +377,24 @@ const requestOtp = async (email, newEmail) => {
   await redis.set(key, user.id, "EX", expiresInSeconds);
 
   const emailContent = `
-  <div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
-    <div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
-      <header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
-        <div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
-          <h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Kode OTP</h1>
-        </div>
-      </header>
-      <main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
-        <p style="font-size: 16px; color: #7a7a7a;">Hey there,</p>
-        <p style="font-size: 16px; color: #7a7a7a;">It looks like you need to confirm email with OTP.</p>
-        <p style="font-size: 22px; color: #7a7a7a;">${otp}</p>
-        <p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.</p>
-      </main>
-      <footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
-        <p>© ${new Date().getFullYear()} Tuntask. All rights reserved.</p>
-      </footer>
-    </div>
-  </div>
+  &lt;div style="font-family: Arial, Helvetica, sans-serif; padding: 20px;">
+    &lt;div style="max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); border: 2px solid #4b4b4b;">
+      &lt;header style="text-align: center; padding-bottom: 20px; border-bottom: 1px solid #4b4b4b; position: relative;">
+        &lt;div style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background-color: #4b4b4b; padding: 5px 20px; border-radius: 8px; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);">
+          &lt;h1 style="color: #e5e5e5; font-size: 24px; font-weight: bold; letter-spacing: 1px; margin: 0;">Kode OTP&lt;/h1>
+        &lt;/div>
+      &lt;/header>
+      &lt;main style="padding: 20px 0; color: #7a7a7a; line-height: 1.6;">
+        &lt;p style="font-size: 16px; color: #7a7a7a;">Hey there,&lt;/p>
+        &lt;p style="font-size: 16px; color: #7a7a7a;">It looks like you need to confirm email with OTP.&lt;/p>
+        &lt;p style="font-size: 22px; color: #7a7a7a;">${otp}&lt;/p>
+        &lt;p style="font-size: 14px; color: #7a7a7a; margin-top: 20px;">If this wasn't you, feel free to ignore this email.&lt;/p>
+      &lt;/main>
+      &lt;footer style="text-align: center; padding-top: 20px; border-top: 1px solid #4b4b4b; font-size: 12px; color: #7a7a7a;">
+        &lt;p>© ${new Date().getFullYear()} Tuntask. All rights reserved.&lt;/p>
+      &lt;/footer>
+    &lt;/div>
+  &lt;/div>
 `;
 
   await sendEmail(newEmail, "Kode OTP", emailContent);
@@ -315,7 +406,7 @@ const requestOtp = async (email, newEmail) => {
  * Verifikasi OTP untuk mengganti email pengguna.
  * @param {string} otp - Kode OTP yang dikirimkan ke email baru.
  * @param {string} email - Email baru yang akan diperbarui ke akun.
- * @returns {Promise<Object>} Pengguna setelah update email.
+ * @returns {Promise&lt;Object>} Pengguna setelah update email.
  * @throws {Error} Jika OTP tidak valid atau pengguna tidak ditemukan.
  */
 const verifyUpdatedEmail = async (otp, email) => {
@@ -335,7 +426,7 @@ const verifyUpdatedEmail = async (otp, email) => {
 
 /**
  * Mengambil semua data pengguna dari database.
- * @returns {Promise<Array<Object>>} Array berisi semua pengguna.
+ * @returns {Promise&lt;Array&lt;Object>>} Array berisi semua pengguna.
  */
 const getUsers = async () => {
   return await User.findAll();
@@ -344,7 +435,7 @@ const getUsers = async () => {
 /**
  * Mengambil data pengguna berdasarkan ID.
  * @param {number} id - ID pengguna.
- * @returns {Promise<Object|null>} Objek pengguna jika ditemukan, null jika tidak.
+ * @returns {Promise&lt;Object|null>} Objek pengguna jika ditemukan, null jika tidak.
  */
 const getUserById = async (id) => {
   return await User.findByPk(id);
@@ -354,7 +445,7 @@ const getUserById = async (id) => {
  * Memperbarui data pengguna.
  * @param {number} id - ID pengguna yang akan diupdate.
  * @param {Object} userData - Data pengguna baru.
- * @returns {Promise<Object|null>} Pengguna yang diperbarui atau null jika tidak ditemukan.
+ * @returns {Promise&lt;Object|null>} Pengguna yang diperbarui atau null jika tidak ditemukan.
  * @throws {Error} Jika username baru sudah digunakan pengguna lain.
  */
 const updateUser = async (id, userData) => {
@@ -382,7 +473,7 @@ const updateUser = async (id, userData) => {
  * @param {number} id - ID pengguna.
  * @param {string} oldPassword - Password lama pengguna.
  * @param {string} newPassword - Password baru yang ingin diatur.
- * @returns {Promise<Object|null>} Pengguna yang diperbarui atau null jika tidak ditemukan.
+ * @returns {Promise&lt;Object|null>} Pengguna yang diperbarui atau null jika tidak ditemukan.
  * @throws {Error} Jika password lama tidak cocok.
  */
 const updatePassword = async (id, oldPassword, newPassword) => {
@@ -401,7 +492,7 @@ const updatePassword = async (id, oldPassword, newPassword) => {
 /**
  * Menghapus pengguna berdasarkan ID.
  * @param {number} id - ID pengguna yang akan dihapus.
- * @returns {Promise<Object|null>} Pengguna yang dihapus atau null jika tidak ditemukan.
+ * @returns {Promise&lt;Object|null>} Pengguna yang dihapus atau null jika tidak ditemukan.
  */
 const deleteUser = async (id) => {
   const user = await User.findByPk(id);
@@ -414,7 +505,7 @@ const deleteUser = async (id) => {
 /**
  * Mengambil data pengguna berdasarkan email.
  * @param {string} email - Email pengguna.
- * @returns {Promise<Object|null>} Objek pengguna yang berisi field dasar (id, username, email, name) atau null jika tidak ditemukan.
+ * @returns {Promise&lt;Object|null>} Objek pengguna yang berisi field dasar (id, username, email, name) atau null jika tidak ditemukan.
  */
 const getUserByEmail = async (email) => {
   const user = await User.findOne({ where: { email } });
@@ -446,3 +537,33 @@ module.exports = {
   deleteUser,
   getUserByEmail,
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+            </div>
+            
+            <footer class="footer">
+                <div class="content has-text-centered">
+                    <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 4.0.4</a></p>
+                    <p class="sidebar-created-by">
+                        <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by
+                        <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>
+                    </p>
+                </div>
+            </footer>
+            
+        </div>
+        <div id="side-nav" class="side-nav">
+        </div>
+    </div>
+<script src="scripts/app.min.js"></script>
+<script>PR.prettyPrint();</script>
+<script src="scripts/linenumber.js"> </script>
+
+
+</body>
+</html>

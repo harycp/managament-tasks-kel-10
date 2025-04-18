@@ -1,0 +1,19 @@
+{
+  "source": {
+    "include": ["src"],
+    "includePattern": ".js$",
+    "excludePattern": "(node_modules|docs)"
+  },
+  "plugins": ["plugins/markdown", "node_modules/better-docs/category"],
+  "opts": {
+    "template": "node_modules/better-docs",
+    "destination": "docs/",
+    "recurse": true
+  },
+  "templates": {
+    "better-docs": {
+      "name": "User Service Documentation",
+      "navMembers": [{ "kind": "module", "title": "User Services" }]
+    }
+  }
+}
