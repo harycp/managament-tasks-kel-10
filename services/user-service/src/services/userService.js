@@ -3,6 +3,7 @@ const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
 const redis = require("../utils/redisClient");
+const emailQueue = require("../workers/queues/emailQueue");
 
 const User = require("../models/user");
 const { sequelize } = require("../models");
@@ -80,7 +81,12 @@ const registerEmail = async (email) => {
   </div>
 `;
 
-  await sendEmail(user.email, "Confirm Email", emailContent);
+  // await sendEmail(user.email, "Confirm Email", emailContent);
+  await emailQueue.add("send-confirm-email", {
+    to: user.email,
+    subject: "Confirm Email",
+    html: emailContent,
+  });
 
   return { message: "Email confirmation link sent to your email" };
 };
