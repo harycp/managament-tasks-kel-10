@@ -89,7 +89,6 @@ const getWorkspaceMembers = async (userID) => {
   }));
 };
 
-
 /**
  * Mengambil detail workspace member berdasarkan ID
  * @async
@@ -131,7 +130,6 @@ const getWorkspaceMemberById = async (workspaceMemberId, userID) => {
     },
   };
 };
-
 
 /**
  * Mengupdate data workspace member
@@ -182,7 +180,6 @@ const updateWorkspaceMember = async (workspaceMemberData) => {
 
   return updatedMembers[0];
 };
-
 
 /**
  * Menghapus workspace member
