@@ -1,0 +1,408 @@
+openapi: 3.0.3
+info:
+  title: List API
+  description: API untuk mengelola daftar (lists) di dalam board.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5003/api
+    description: Local development server
+tags:
+  - name: List
+    description: Operasi terkait daftar (lists) dalam board.
+
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+      description: Token otentikasi yang disimpan di cookie.
+
+paths:
+  /boards/{id}/lists:
+    post:
+      tags:
+        - List
+      summary: Membuat list baru di dalam board tertentu.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari board tempat list akan dibuat.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Nama list yang akan dibuat.
+              example:
+                name: "To Do"
+      responses:
+        "201":
+          description: List berhasil dibuat.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "List created"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID unik list.
+                      board_id:
+                        type: integer
+                        description: ID board tempat list berada.
+                      name:
+                        type: string
+                        description: Nama list.
+                      position:
+                        type: integer
+                        description: Posisi list dalam board.
+                    example:
+                      id: 1
+                      board_id: 1
+                      name: "To Do"
+                      position: 1
+        "400":
+          description: Kesalahan validasi atau data tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Board not found"
+
+    get:
+      tags:
+        - List
+      summary: Mendapatkan semua list di dalam board tertentu.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari board tempat list berada.
+      responses:
+        "200":
+          description: Daftar list berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Lists retrieved"
+                  data:
+                    type: object
+                    properties:
+                      board:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                          workspace_id:
+                            type: integer
+                      lists:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                            board_id:
+                              type: integer
+                            name:
+                              type: string
+                            position:
+                              type: integer
+                    example:
+                      board:
+                        id: 1
+                        name: "Project Alpha"
+                        workspace_id: 1
+                      lists:
+                        - id: 1
+                          board_id: 1
+                          name: "To Do"
+                          position: 1
+                        - id: 2
+                          board_id: 1
+                          name: "In Progress"
+                          position: 2
+        "400":
+          description: Board tidak ditemukan atau tidak memiliki akses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Board not found"
+
+  /lists/{id}:
+    get:
+      tags:
+        - List
+      summary: Mendapatkan detail list berdasarkan ID.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari list.
+      responses:
+        "200":
+          description: Detail list berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "List retrieved"
+                  data:
+                    type: object
+                    properties:
+                      list:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          board_id:
+                            type: integer
+                          name:
+                            type: string
+                          position:
+                            type: integer
+                          board:
+                            type: object
+                            properties:
+                              id:
+                                type: integer
+                              name:
+                                type: string
+                              workspace_id:
+                                type: integer
+                    example:
+                      list:
+                        id: 1
+                        board_id: 1
+                        name: "To Do"
+                        position: 1
+                        board:
+                          id: 1
+                          name: "Project Alpha"
+                          workspace_id: 1
+        "400":
+          description: List tidak ditemukan atau tidak memiliki akses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "List not found"
+
+    put:
+      tags:
+        - List
+      summary: Memperbarui nama list.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Nama baru untuk list.
+              example:
+                name: "Completed Tasks"
+      responses:
+        "200":
+          description: List berhasil diperbarui.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "List updated"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      board_id:
+                        type: integer
+                      name:
+                        type: string
+                      position:
+                        type: integer
+                    example:
+                      id: 1
+                      board_id: 1
+                      name: "Completed Tasks"
+                      position: 1
+        "400":
+          description: List tidak ditemukan atau data tidak valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "List not found"
+
+    delete:
+      tags:
+        - List
+      summary: Menghapus list.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari list.
+      responses:
+        "200":
+          description: List berhasil dihapus.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "List deleted"
+                  data:
+                    type: boolean
+                    example: true
+        "400":
+          description: List tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "List not found"
+
+  /lists/{id}/position:
+    put:
+      tags:
+        - List
+      summary: Memperbarui posisi list (drag & drop).
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari list.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - newPosition
+              properties:
+                newPosition:
+                  type: integer
+                  description: Posisi baru untuk list.
+              example:
+                newPosition: 2
+      responses:
+        "200":
+          description: Posisi list berhasil diperbarui.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "List position updated"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        board_id:
+                          type: integer
+                        name:
+                          type: string
+                        position:
+                          type: integer
+                    example:
+                      - id: 1
+                        board_id: 1
+                        name: "To Do"
+                        position: 1
+                      - id: 2
+                        board_id: 1
+                        name: "In Progress"
+                        position: 2
+        "400":
+          description: Posisi tidak valid atau list tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Invalid position"

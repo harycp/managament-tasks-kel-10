@@ -1,0 +1,288 @@
+openapi: 3.0.3
+info:
+  title: Board API
+  description: API untuk mengelola board dalam workspace.
+  version: 1.0.0
+servers:
+  - url: http://localhost:5003/api
+    description: Local development server
+tags:
+  - name: Board
+    description: Operasi terkait board dalam workspace.
+
+components:
+  securitySchemes:
+    CookieAuth:
+      type: apiKey
+      in: cookie
+      name: authToken
+      description: Token otentikasi yang disimpan di cookie.
+
+paths:
+  /workspaces/{id}/boards:
+    post:
+      tags:
+        - Board
+      summary: Membuat board baru dalam workspace tertentu.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari workspace tempat board akan dibuat.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Nama board yang akan dibuat.
+              example:
+                name: "Project Alpha"
+      responses:
+        "201":
+          description: Board berhasil dibuat.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Board created"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                        description: ID unik board.
+                      workspace_id:
+                        type: integer
+                        description: ID workspace tempat board berada.
+                      name:
+                        type: string
+                        description: Nama board.
+                    example:
+                      id: 1
+                      workspace_id: 1
+                      name: "Project Alpha"
+        "400":
+          description: Kesalahan validasi atau data tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace not found"
+
+    get:
+      tags:
+        - Board
+      summary: Mendapatkan semua board dalam workspace tertentu.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari workspace tempat board berada.
+      responses:
+        "200":
+          description: Daftar board berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Boards retrieved"
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        workspace_id:
+                          type: integer
+                        name:
+                          type: string
+                    example:
+                      - id: 1
+                        workspace_id: 1
+                        name: "Project Alpha"
+                      - id: 2
+                        workspace_id: 1
+                        name: "Project Beta"
+        "400":
+          description: Workspace tidak ditemukan atau tidak memiliki akses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Workspace not found"
+
+  /boards/{id}:
+    get:
+      tags:
+        - Board
+      summary: Mendapatkan detail board berdasarkan ID.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari board.
+      responses:
+        "200":
+          description: Detail board berhasil diambil.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Board retrieved"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      workspace_id:
+                        type: integer
+                      name:
+                        type: string
+                    example:
+                      id: 1
+                      workspace_id: 1
+                      name: "Project Alpha"
+        "400":
+          description: Board tidak ditemukan atau tidak memiliki akses.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Board not found"
+
+    put:
+      tags:
+        - Board
+      summary: Memperbarui nama board.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari board.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - name
+              properties:
+                name:
+                  type: string
+                  description: Nama baru untuk board.
+              example:
+                name: "Updated Project Alpha"
+      responses:
+        "200":
+          description: Board berhasil diperbarui.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Board updated"
+                  data:
+                    type: object
+                    properties:
+                      id:
+                        type: integer
+                      workspace_id:
+                        type: integer
+                      name:
+                        type: string
+                    example:
+                      id: 1
+                      workspace_id: 1
+                      name: "Updated Project Alpha"
+        "400":
+          description: Board tidak ditemukan atau data tidak valid.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Board not found"
+
+    delete:
+      tags:
+        - Board
+      summary: Menghapus board.
+      security:
+        - CookieAuth: []
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+          description: ID dari board.
+      responses:
+        "200":
+          description: Board berhasil dihapus.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: "Board deleted"
+                  data:
+                    type: boolean
+                    example: true
+        "400":
+          description: Board tidak ditemukan.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Board not found"
