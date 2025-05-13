@@ -11,6 +11,9 @@ const db = require("./models");
 
 dotenv.config();
 
+// Worker
+require("./workers/userEventWorker");
+
 const app = express();
 
 app.use(cookieParser());
@@ -22,6 +25,7 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use("/api", workspaceRoutes);
 app.use("/api", workspaceMemberRoutes);
 

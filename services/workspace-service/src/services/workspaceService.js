@@ -34,6 +34,17 @@ const createWorkspace = async (workspaceData, userId) => {
   return workspace;
 };
 
+const createDefaultWorkspace = async (userId) => {
+  if (!userId) throw new Error("Unauthorized: User Id is required");
+
+  const workspace = await workspaceModel.create({
+    name: `Personal Workspace`,
+    owner_id: userId,
+  });
+
+  return workspace;
+};
+
 /**
  * Mengambil semua workspace milik user
  * @async
@@ -135,6 +146,7 @@ const deleteWorkspace = async (workspaceID, userID) => {
 
 module.exports = {
   createWorkspace,
+  createDefaultWorkspace,
   getWorkspaces,
   getWorkspaceById,
   updateWorkspace,

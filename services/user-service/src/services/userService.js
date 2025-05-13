@@ -4,6 +4,7 @@ const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
 const redis = require("../utils/redisClient");
 const emailQueue = require("../workers/queues/emailQueue");
+const userEventQueue = require("../workers/queues/userEventQueue");
 
 const User = require("../models/user");
 const { sequelize } = require("../models");
@@ -98,6 +99,7 @@ const registerEmail = async (email) => {
  * @returns {Promise<Object>} Data pengguna yang telah diupdate.
  * @throws {Error} Jika token tidak valid, expired, atau user tidak ditemukan.
  */
+
 const verifyEmail = async (token, userData) => {
   const { id } = verifyToken(token);
   const key = `email-confirm:${token}`;
@@ -109,6 +111,12 @@ const verifyEmail = async (token, userData) => {
   if (!user) throw new Error("User not found");
 
   const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+  await userEventQueue.add("userRegistered", {
+    userId: user.id,
+    email: user.email,
+  });
+
   await user.update({
     ...userData,
     password: hashedPassword,
