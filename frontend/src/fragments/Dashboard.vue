@@ -16,13 +16,30 @@
         </NavDropdown>
       </nav>
 
-      <!-- :isActive="profileUmumDropdownLink.some(item => item.routeName == name)"
-                v-if="profileUmumDropdownLink.length > 0"
-                title="Profile Umum"
-                :options="profileUmumDropdownLink" -->
-
       <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
+        <NavItem title="Home" link="/h" :isActive="name == 'Home'">
+          <svg
+            width="24px"
+            height="24px"
+            viewBox="0 0 24 24"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M14 2h-4v2H8v2H6v2H4v2H2v2h2v10h7v-6h2v6h7V12h2v-2h-2V8h-2V6h-2V4h-2V2zm0 2v2h2v2h2v2h2v2h-2v8h-3v-6H9v6H6v-8H4v-2h2V8h2V6h2V4h4z"
+                fill="#000000"
+              ></path>
+            </g>
+          </svg>
+        </NavItem>
         <NavItem title="Boards" link="/boards">
           <svg
             width="24px"
@@ -46,7 +63,7 @@
           </svg>
         </NavItem>
 
-        <NavItem title="Notifications" link="/notifications">
+        <NavItem title="Templates" link="/templates">
           <svg
             width="24px"
             height="24px"
@@ -62,53 +79,7 @@
             ></g>
             <g id="SVGRepo_iconCarrier">
               <path
-                d="M14 4V2h-4v2H5v2h14V4h-5zm5 12H5v-4H3v6h5v4h2v-4h4v2h-4v2h6v-4h5v-6h-2V6h-2v8h2v2zM5 6v8h2V6H5z"
-                fill="#000000"
-              ></path>
-            </g>
-          </svg>
-        </NavItem>
-
-        <NavItem title="Members" link="/members">
-          <svg
-            width="24px"
-            height="24px"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              <path
-                d="M11 0H5v2H3v6h2v2h6V8H5V2h6V0zm0 2h2v6h-2V2zM0 14h2v4h12v2H0v-6zm2 0h12v-2H2v2zm14 0h-2v6h2v-6zM15 0h4v2h-4V0zm4 8h-4v2h4V8zm0-6h2v6h-2V2zm5 12h-2v4h-4v2h6v-6zm-6-2h4v2h-4v-2z"
-                fill="#000000"
-              ></path>
-            </g>
-          </svg>
-        </NavItem>
-
-        <NavItem title="Workspace Settings" link="/settings">
-          <svg
-            width="24px"
-            height="24px"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-            <g
-              id="SVGRepo_tracerCarrier"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            ></g>
-            <g id="SVGRepo_iconCarrier">
-              <path
-                d="M2 5h20v14H2V5zm18 12V7H4v10h16zM8 9h2v2h2v2h-2v2H8v-2H6v-2h2V9zm6 0h2v2h-2V9zm4 4h-2v2h2v-2z"
+                d="M3 3h8v10H3V3zm2 2v6h4V5H5zm8-2h8v6h-8V3zm2 2v2h4V5h-4zm-2 6h8v10h-8V11zm2 2v6h4v-6h-4zM3 15h8v6H3v-6zm2 2v2h4v-2H5z"
                 fill="#000000"
               ></path>
             </g>

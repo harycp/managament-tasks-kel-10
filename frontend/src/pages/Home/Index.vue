@@ -2,6 +2,7 @@
   <section>
     <Dashboard
       @loaded="(isLoading) => (dashboardLoading = isLoading)"
+      :name="name"
       title="Dashboard"
     >
       <div class="flex flex-col gap-4 h-full">
@@ -25,6 +26,7 @@ export default {
   data() {
     return {
       dashboardLoading: true,
+      name: "Home",
     };
   },
   mounted() {

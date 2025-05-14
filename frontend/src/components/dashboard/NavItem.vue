@@ -3,7 +3,7 @@
     :to="link"
     :class="[
       isActive
-        ? 'bg-gray-800 fill-white stroke-white text-white'
+        ? 'bg-gray-500 fill-white stroke-white text-white'
         : 'hover:bg-gray-100',
       AddClass,
     ]"
