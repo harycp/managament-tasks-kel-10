@@ -7,13 +7,19 @@
       </h2>
 
       <nav class="flex-grow">
-        <NavItem
+        <NavDropdown
           v-for="workspace in workspaces"
           :key="workspace.id"
           :title="workspace.name"
-          :link="`/workspace/${workspace.id}`"
-        />
+          :options="workspaceDropdownLink[workspace.id] || []"
+        >
+        </NavDropdown>
       </nav>
+
+      <!-- :isActive="profileUmumDropdownLink.some(item => item.routeName == name)"
+                v-if="profileUmumDropdownLink.length > 0"
+                title="Profile Umum"
+                :options="profileUmumDropdownLink" -->
 
       <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
@@ -155,7 +161,8 @@ export default {
   data() {
     return {
       user: {},
-      workspaces: {},
+      workspaces: [],
+      workspaceDropdownLink: {},
       isLoading: true,
       showProfilePopup: false,
     };
@@ -191,8 +198,29 @@ export default {
             withCredentials: true,
           }
         );
-        console.log(response);
         this.workspaces = response.data.data;
+
+        this.workspaceDropdownLink = {};
+        this.workspaces.forEach((workspace) => {
+          this.workspaceDropdownLink[workspace.id] = [
+            {
+              label: "Boards",
+              route: `/workspace/${workspace.id}/boards`,
+            },
+            {
+              label: "Notifications",
+              route: `/workspace/${workspace.id}/notifications`,
+            },
+            {
+              label: "Members",
+              route: `/workspace/${workspace.id}/members`,
+            },
+            {
+              label: "Settings",
+              route: `/workspace/${workspace.id}/settings`,
+            },
+          ];
+        });
       } catch (error) {
         console.error("Error fetching workspaces:", error);
         this.workspaces = null;

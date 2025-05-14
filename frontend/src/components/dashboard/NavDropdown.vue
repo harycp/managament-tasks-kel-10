@@ -9,7 +9,7 @@
       >
         <slot></slot>
 
-        <span>{{ selectedWorkspace ? selectedWorkspace.name : title }}</span>
+        <span>{{ title }}</span>
 
         <svg
           :class="isOpen ? '-rotate-90' : 'rotate-0'"
@@ -33,11 +33,11 @@
         <ul>
           <li
             v-for="option in options"
-            :key="option.id"
+            :key="option.label"
             class="block py-2 ms-9 hover:text-gray-900 cursor-pointer transform transition-transform duration-400 ease-in-out hover:translate-x-2"
-            @click="selectWorkspace(option)"
+            @click="selectOption(option)"
           >
-            {{ option.name }}
+            {{ option.label }}
           </li>
         </ul>
       </div>
@@ -56,17 +56,18 @@ export default {
   data() {
     return {
       isOpen: false,
-      selectedWorkspace: null,
+      selectedOption: null,
     };
   },
   methods: {
     toggleDropdown() {
       this.isOpen = !this.isOpen;
     },
-    selectWorkspace(option) {
-      this.selectedWorkspace = option;
+    selectOption(option) {
+      this.selectedOption = option.label;
       this.isOpen = false;
-      this.$emit("workspace-selected", option); // Emit seluruh objek workspace
+      this.$emit("option-selected", option);
+      this.$router.push(option.route);
     },
   },
 };
