@@ -3,10 +3,12 @@
     <Dashboard
       @loaded="(isLoading) => (dashboardLoading = isLoading)"
       :name="name"
-      title="Home"
+      title="Boards"
     >
       <div class="flex flex-col gap-4 h-full">
-        <div class="p-6 bg-white rounded-xl h-full"></div>
+        <div class="p-6 bg-white rounded-xl h-full">
+          <h1 class="text-2xl font-bold">Recenty viewed</h1>
+        </div>
       </div>
     </Dashboard>
   </section>
@@ -18,17 +20,17 @@ import LoadingScreen from "../../components/common/LoadingScreen.vue";
 import Dashboard from "../../fragments/Dashboard.vue";
 
 export default {
-  name: "Home",
+  name: "Boards",
   components: { LoadingScreen, Dashboard },
 
   data() {
     return {
       dashboardLoading: true,
-      name: "Home",
+      name: "Boards",
     };
   },
   mounted() {
-    document.title = "Home | Tuntask";
+    document.title = "Boards | Tuntask";
   },
 };
 </script>
