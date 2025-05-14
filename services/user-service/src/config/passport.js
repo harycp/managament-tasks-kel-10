@@ -5,6 +5,8 @@ const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/user");
 const { generateToken } = require("../utils/jwt");
 
+const userEventQueue = require("../workers/queues/userEventQueue");
+
 require("dotenv").config();
 
 const findOrCreateUser = async (profile) => {
@@ -25,6 +27,12 @@ const findOrCreateUser = async (profile) => {
       email: profile.emails[0].value,
       name: profile.displayName,
       password: "oauth",
+      isVerified: true,
+    });
+
+    await userEventQueue.add("userRegistered", {
+      userId: user.id,
+      email: user.email,
     });
   }
 
