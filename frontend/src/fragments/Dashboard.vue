@@ -6,6 +6,15 @@
         Your Workspaces
       </h2>
 
+      <nav class="flex-grow">
+        <NavItem
+          v-for="workspace in workspaces"
+          :key="workspace.id"
+          :title="workspace.name"
+          :link="`/workspace/${workspace.id}`"
+        />
+      </nav>
+
       <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
         <NavItem title="Projects" link="/projects">
@@ -146,6 +155,7 @@ export default {
   data() {
     return {
       user: {},
+      workspaces: {},
       isLoading: true,
       showProfilePopup: false,
     };
@@ -156,6 +166,7 @@ export default {
   },
   async created() {
     await this.fetchUserProfile();
+    await this.fetchWorkspaces();
   },
   methods: {
     async fetchUserProfile() {
@@ -167,6 +178,24 @@ export default {
       } catch (error) {
         console.error("Error fetching user profile:", error);
         this.user = null;
+      } finally {
+        this.isLoading = false;
+      }
+    },
+
+    async fetchWorkspaces() {
+      try {
+        const response = await axios.get(
+          "http://localhost:5002/api/workspaces",
+          {
+            withCredentials: true,
+          }
+        );
+        console.log(response);
+        this.workspaces = response.data.data;
+      } catch (error) {
+        console.error("Error fetching workspaces:", error);
+        this.workspaces = null;
       } finally {
         this.isLoading = false;
       }
