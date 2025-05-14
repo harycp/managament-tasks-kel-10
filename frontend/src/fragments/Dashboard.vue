@@ -17,7 +17,7 @@
 
       <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
-        <NavItem title="Projects" link="/projects">
+        <NavItem title="Boards" link="/boards">
           <svg
             width="24px"
             height="24px"
