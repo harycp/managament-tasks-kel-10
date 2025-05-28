@@ -2,7 +2,6 @@
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
-const sequelize = require("./database");
 const db = require("./models");
 const cookieParser = require("cookie-parser");
 
@@ -12,7 +11,7 @@ const listRoutes = require("./routes/listRoutes");
 dotenv.config();
 
 // Worker
-require("./workers/userEventWorker");
+require("./workers/boardEventWorker");
 
 const app = express();
 app.use(

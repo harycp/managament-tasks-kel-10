@@ -5,13 +5,13 @@ const boardService = require("../services/boardService");
 const worker = new Worker(
   "boardEventQueue",
   async (job) => {
-    if (job.name === "WorkspaceCreated") {
+    if (job.name === "workspaceCreated") {
       const { workspaceId, workspaceName, ownerId } = job.data;
 
       await boardService.createDefaultBoard({
-        title: `${workspaceName}'s Board`,
-        workspace_id: workspaceId,
-        owner_id: ownerId,
+        name: `${workspaceName} Board`,
+        workspaceId,
+        ownerId,
       });
 
       console.log(

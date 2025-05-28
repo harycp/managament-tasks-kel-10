@@ -34,11 +34,12 @@ const createBoard = async (workspaceId, name, token) => {
   return board;
 };
 
-const createDefaultBoard = async (title, workspaceId, ownerId) => {
+const createDefaultBoard = async ({ name, workspaceId, ownerId }) => {
+  console.log(name, workspaceId, ownerId);
   if (!workspaceId) throw new Error("Unauthorized: Workspace Id is required");
 
   const board = await boardModel.create({
-    name: title,
+    name,
     workspace_id: workspaceId,
     owner_id: ownerId,
   });

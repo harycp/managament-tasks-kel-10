@@ -1,6 +1,7 @@
 const workspaceModel = require("../models/workspace");
 
 const workspaceMemberModel = require("../models/workspaceMembers");
+const boardEventQueue = require("../workers/queue/boardEventQueue");
 
 /**
  * Module untuk mengelola penugasan user-role.
@@ -31,6 +32,12 @@ const createWorkspace = async (workspaceData, userId) => {
     owner_id: userId,
   });
 
+  await boardEventQueue.add("workspaceCreated", {
+    workspaceId: workspace.id,
+    workspaceName: workspace.name,
+    ownerId: userId,
+  });
+
   return workspace;
 };
 
@@ -40,6 +47,12 @@ const createDefaultWorkspace = async (userId) => {
   const workspace = await workspaceModel.create({
     name: `Personal Workspace`,
     owner_id: userId,
+  });
+
+  await boardEventQueue.add("workspaceCreated", {
+    workspaceId: workspace.id,
+    workspaceName: "Personal",
+    ownerId: userId,
   });
 
   return workspace;
