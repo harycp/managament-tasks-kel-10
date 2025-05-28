@@ -34,6 +34,18 @@ const createBoard = async (workspaceId, name, token) => {
   return board;
 };
 
+const createDefaultBoard = async (title, workspaceId, ownerId) => {
+  if (!workspaceId) throw new Error("Unauthorized: Workspace Id is required");
+
+  const board = await boardModel.create({
+    name: title,
+    workspace_id: workspaceId,
+    owner_id: ownerId,
+  });
+
+  return board;
+};
+
 // Fungsi untuk mengambil semua board yang ada dalam satu workspace
 
 /**
@@ -131,6 +143,7 @@ const deleteBoard = async (boardId) => {
 // Mengekspor semua fungsi agar bisa digunakan di file lain
 module.exports = {
   createBoard,
+  createDefaultBoard,
   getBoards,
   getBoardById,
   updateBoard,

@@ -6,7 +6,9 @@
       title="Home"
     >
       <div class="flex flex-col gap-4 h-full">
-        <div class="p-6 bg-white rounded-xl h-full"></div>
+        <div class="p-6 bg-white rounded-xl h-full">
+          <h1 class="text-xl font-semibold text-gray-800">Welcome back</h1>
+        </div>
       </div>
     </Dashboard>
   </section>
