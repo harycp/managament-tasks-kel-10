@@ -9,6 +9,8 @@ const workspaceRoutes = require("./routes/workspaceRoutes");
 const workspaceMemberRoutes = require("./routes/workspaceMemberRoutes");
 const db = require("./models");
 
+const userEventConsumer = require("./kafka/consumers/userEventConsumer");
+
 dotenv.config();
 
 // Worker
@@ -35,6 +37,8 @@ const startServer = async () => {
   try {
     await db.sequelize.sync();
     console.log("Database connected");
+
+    await userEventConsumer.runConsumer();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);
