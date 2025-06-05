@@ -11,9 +11,8 @@ const permissionRoutes = require("./routes/permissionRoutes");
 const rolePermissionRoutes = require("./routes/rolePermissionRoutes");
 const userRoleAssignmentRoutes = require("./routes/userRoleAssignmentRoutes");
 const userRoleRoutes = require("./routes/userRoleRoutes");
+const emailConsumer = require("./kafka/consumers/emailConsumer");
 const db = require("./models");
-
-require("../src/workers/worker");
 
 dotenv.config();
 
@@ -49,6 +48,8 @@ const startServer = async () => {
   try {
     await db.sequelize.sync({ alter: true });
     console.log("Database connected");
+
+    await emailConsumer.runEmailConsumer();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);

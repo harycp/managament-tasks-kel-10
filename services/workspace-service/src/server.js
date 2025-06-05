@@ -14,7 +14,7 @@ const userEventConsumer = require("./kafka/consumers/userEventConsumer");
 dotenv.config();
 
 // Worker
-require("./workers/userEventWorker");
+// require("./workers/userEventWorker");
 
 const app = express();
 
@@ -38,7 +38,7 @@ const startServer = async () => {
     await db.sequelize.sync();
     console.log("Database connected");
 
-    await userEventConsumer.runConsumer();
+    await userEventConsumer.runUserConsumer();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);

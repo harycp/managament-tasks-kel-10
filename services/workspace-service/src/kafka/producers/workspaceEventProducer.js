@@ -1,16 +1,16 @@
 const kafka = require("../../config/kafkaClient");
 
-const { USER_EVENTS } = require("../topic");
+const { WORKSPACE_EVENTS } = require("../topic");
 
 const producer = kafka.producer();
 
-const sendUserRegisteredEvent = async (data) => {
+const sendWorkspaceCreatedEvent = async (data) => {
   await producer.connect();
   await producer.send({
-    topic: USER_EVENTS,
+    topic: WORKSPACE_EVENTS,
     messages: [
       {
-        key: "userRegistered",
+        key: "workspaceCreated",
         value: JSON.stringify(data),
       },
     ],
@@ -18,4 +18,4 @@ const sendUserRegisteredEvent = async (data) => {
   await producer.disconnect();
 };
 
-module.exports = { sendUserRegisteredEvent };
+module.exports = { sendWorkspaceCreatedEvent };

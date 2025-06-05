@@ -8,10 +8,12 @@ const cookieParser = require("cookie-parser");
 const boardRoutes = require("./routes/boardRoutes");
 const listRoutes = require("./routes/listRoutes");
 
+const workspaceEventConsumer = require("./kafka/consumers/workspaceEventConsumer");
+
 dotenv.config();
 
 // Worker
-require("./workers/boardEventWorker");
+// require("./workers/boardEventWorker");
 
 const app = express();
 app.use(
@@ -33,6 +35,8 @@ const startServer = async () => {
   try {
     await db.sequelize.sync({ alter: true });
     console.log("Database connected");
+
+    await workspaceEventConsumer.runWorkspaceConsumer();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);

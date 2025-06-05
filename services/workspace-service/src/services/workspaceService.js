@@ -1,7 +1,6 @@
 const workspaceModel = require("../models/workspace");
-
 const workspaceMemberModel = require("../models/workspaceMembers");
-const boardEventQueue = require("../workers/queue/boardEventQueue");
+const workspaceEventProducer = require("../kafka/producers/workspaceEventProducer");
 
 /**
  * Module untuk mengelola penugasan user-role.
@@ -32,9 +31,9 @@ const createWorkspace = async (workspaceData, userId) => {
     owner_id: userId,
   });
 
-  await boardEventQueue.add("workspaceCreated", {
+  await workspaceEventProducer.sendWorkspaceCreatedEvent({
     workspaceId: workspace.id,
-    workspaceName: workspace.name,
+    workspaceName: "Personal",
     ownerId: userId,
   });
 
@@ -49,7 +48,7 @@ const createDefaultWorkspace = async (userId) => {
     owner_id: userId,
   });
 
-  await boardEventQueue.add("workspaceCreated", {
+  await workspaceEventProducer.sendWorkspaceCreatedEvent({
     workspaceId: workspace.id,
     workspaceName: "Personal",
     ownerId: userId,

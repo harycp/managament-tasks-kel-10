@@ -5,7 +5,7 @@ const GitHubStrategy = require("passport-github2").Strategy;
 const User = require("../models/user");
 const { generateToken } = require("../utils/jwt");
 
-const userEventQueue = require("../workers/queues/userEventQueue");
+const userEventProducer = require("../kafka/producers/userEventProducer");
 
 require("dotenv").config();
 
@@ -30,7 +30,7 @@ const findOrCreateUser = async (profile) => {
       isVerified: true,
     });
 
-    await userEventQueue.add("userRegistered", {
+    await userEventProducer.sendUserRegisteredEvent({
       userId: user.id,
       email: user.email,
     });

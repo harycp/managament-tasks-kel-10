@@ -1,11 +1,11 @@
 const kafka = require("../../config/kafkaClient");
 
-const { USER_EVENTS } = require("../topics");
+const { USER_EVENTS } = require("../topic");
 const workspaceService = require("../../services/workspaceService");
 
 const consumer = kafka.consumer({ groupId: "workspace-service-group" });
 
-const runConsumer = async () => {
+const runUserConsumer = async () => {
   await consumer.connect();
   await consumer.subscribe({ topic: USER_EVENTS, fromBeginning: false });
 
@@ -25,4 +25,4 @@ const runConsumer = async () => {
   });
 };
 
-runConsumer().catch(console.error);
+module.exports = { runUserConsumer };

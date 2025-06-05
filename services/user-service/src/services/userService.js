@@ -3,8 +3,8 @@ const { generateToken, verifyToken } = require("../utils/jwt");
 const { Op } = require("sequelize");
 const sendEmail = require("../utils/sendEmail");
 const redis = require("../utils/redisClient");
-const emailQueue = require("../workers/queues/emailQueue");
-const userEventQueue = require("../workers/queues/userEventQueue");
+const userEventProducer = require("../kafka/producers/userEventProducer");
+const emailProducer = require("../kafka/producers/emailProducer");
 
 const User = require("../models/user");
 const { sequelize } = require("../models");
@@ -82,8 +82,7 @@ const registerEmail = async (email) => {
   </div>
 `;
 
-  // await sendEmail(user.email, "Confirm Email", emailContent);
-  await emailQueue.add("send-confirm-email", {
+  await emailProducer.sendEmailEvent({
     to: user.email,
     subject: "Confirm Email",
     html: emailContent,
@@ -112,7 +111,7 @@ const verifyEmail = async (token, userData) => {
 
   const hashedPassword = await bcrypt.hash(userData.password, 10);
 
-  await userEventQueue.add("userRegistered", {
+  await userEventProducer.sendUserRegisteredEvent({
     userId: user.id,
     email: user.email,
   });
@@ -205,7 +204,7 @@ const requestResetPassword = async (email) => {
   </div>
 `;
 
-  await emailQueue.add("reset-password", {
+  await emailProducer.sendEmailEvent({
     to: user.email,
     subject: "Reset Password",
     html: emailContent,
@@ -324,7 +323,7 @@ const requestOtp = async (email, newEmail) => {
   </div>
 `;
 
-  await emailQueue.add("request-otp", {
+  await emailProducer.sendEmailEvent({
     to: newEmail,
     subject: "Kode OTP",
     html: emailContent,
