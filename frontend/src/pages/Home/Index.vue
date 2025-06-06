@@ -68,6 +68,51 @@
             </div>
           </div>
         </div>
+
+        <!-- Your Workspace -->
+        <div class="mt-10">
+          <div class="flex items-center justify-between mb-4">
+            <h3 class="text-lg font-semibold text-gray-800">Your Workspaces</h3>
+            <button
+              @click="goToAddWorkspace"
+              class="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 text-sm font-medium rounded-lg shadow transition flex items-center"
+            >
+              <svg
+                class="w-4 h-4 hover:text-gray-500 transition"
+                viewBox="0 0 24 24"
+                fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg"
+                transform="rotate(45)"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M5 5h2v2H5V5zm4 4H7V7h2v2zm2 2H9V9h2v2zm2 0h-2v2H9v2H7v2H5v2h2v-2h2v-2h2v-2h2v2h2v2h2v2h2v-2h-2v-2h-2v-2h-2v-2zm2-2v2h-2V9h2zm2-2v2h-2V7h2zm0 0V5h2v2h-2z"
+                  ></path>
+                </g>
+              </svg>
+              <span class="ml-2">Add Workspace</span>
+            </button>
+          </div>
+
+          <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div
+              v-for="(workspace, index) in workspaces"
+              :key="index"
+              class="p-5 bg-white border border-gray-200 rounded-xl hover:shadow-md transition cursor-pointer"
+            >
+              <h4 class="text-gray-800 font-medium mb-1">
+                {{ workspace.name }}
+              </h4>
+              <p class="text-sm text-gray-500">{{ workspace.description }}</p>
+            </div>
+          </div>
+        </div>
       </div>
     </Dashboard>
   </section>
@@ -103,7 +148,23 @@ export default {
           isTemplate: true,
         },
       ],
+      workspaces: [
+        {
+          name: "Tuntask Team",
+          description: "Collaboration and task tracking for Tuntask.",
+        },
+        {
+          name: "Development",
+          description: "Internal dev projects and sprint planning.",
+        },
+      ],
     };
+  },
+  methods: {
+    goToAddWorkspace() {
+      // Ganti ini sesuai routing app kamu
+      this.$router.push("/workspace/create");
+    },
   },
   mounted() {
     document.title = "Home | Tuntask";
