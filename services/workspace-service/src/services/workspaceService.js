@@ -33,7 +33,7 @@ const createWorkspace = async (workspaceData, userId) => {
 
   await workspaceEventProducer.sendWorkspaceCreatedEvent({
     workspaceId: workspace.id,
-    workspaceName: "Personal",
+    workspaceName: workspaceData.name,
     ownerId: userId,
   });
 
@@ -45,6 +45,8 @@ const createDefaultWorkspace = async (userId) => {
 
   const workspace = await workspaceModel.create({
     name: `Personal Workspace`,
+    type: "personal",
+    description: "Personal Workspace",
     owner_id: userId,
   });
 

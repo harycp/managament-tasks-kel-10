@@ -17,6 +17,26 @@ const workspace = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    type: {
+      type: DataTypes.ENUM,
+      values: [
+        "engineering_it",
+        "human_resources",
+        "marketting",
+        "sales_crm",
+        "operation",
+        "small_business",
+        "education",
+        "student_organization",
+        "personal",
+        "other",
+      ],
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     owner_id: {
       type: DataTypes.UUID,
       allowNull: false,

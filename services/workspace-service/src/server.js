@@ -35,7 +35,7 @@ const PORT = process.env.PORT || 5000;
 
 const startServer = async () => {
   try {
-    await db.sequelize.sync();
+    await db.sequelize.sync({ alter: true });
     console.log("Database connected");
 
     await userEventConsumer.runUserConsumer();

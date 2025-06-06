@@ -103,7 +103,7 @@
 
       <!--CONTENT HERE -->
       <div class="flex-grow overflow-auto">
-        <slot></slot>
+        <slot :user="user"></slot>
       </div>
     </main>
   </div>
