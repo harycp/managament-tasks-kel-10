@@ -209,7 +209,6 @@ export default {
           }
         );
         this.workspaces = response.data.data;
-        console.log(this.workspaces);
       } catch (error) {
         console.error("Failed to fetch workspaces:", error);
       }

@@ -9,6 +9,7 @@ import Dashboard from "../pages/Dashboard/Index.vue";
 import RegisterEmail from "../pages/Auth/RegisterEmail.vue";
 import ResetPassword from "../pages/Auth/ResetPassword.vue";
 import RequestResetPassword from "../pages/Auth/RequestResetPassword.vue";
+import Boards from "../pages/Boards/Boards.vue";
 
 const routes = [
   { path: "/", name: "landing", component: Index },
@@ -35,6 +36,12 @@ const routes = [
     path: "/h",
     name: "home",
     component: Home,
+    meta: { requiresAuth: true },
+  },
+  {
+    path: "/b",
+    name: "boards",
+    component: Boards,
     meta: { requiresAuth: true },
   },
   {

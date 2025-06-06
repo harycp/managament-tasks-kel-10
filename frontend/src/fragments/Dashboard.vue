@@ -40,7 +40,7 @@
             </g>
           </svg>
         </NavItem>
-        <NavItem title="Boards" link="/boards">
+        <NavItem title="Boards" link="/b" :isActive="name == 'Boards'">
           <svg
             width="24px"
             height="24px"
