@@ -5,13 +5,14 @@ const createBoard = async (req, res) => {
   try {
     const workspaceId = req.params.id;
     const name = req.body.name;
-
-    const token = req.headers.authorization?.split(" ")[1];
-
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const ownerId = req.body.ownerId;
 
     // Panggil service untuk membuat board
-    const board = await boardService.createBoard(workspaceId, name, token);
+    const board = await boardService.createBoard({
+      workspaceId,
+      name,
+      ownerId,
+    });
 
     res.status(201).json({ message: "Board created", data: board });
   } catch (error) {
@@ -22,11 +23,9 @@ const createBoard = async (req, res) => {
 // Fungsi untuk mengambil semua board dalam satu workspace
 const getBoards = async (req, res) => {
   try {
+    // console.log(req.cookies);
     const workspaceId = req.params.id;
-
-    const token = req.cookies.authToken; // Ambil token dari cookie
-
-    if (!token) return res.status(401).json({ message: "Unauthorized" });
+    const token = req.cookies.authToken;
 
     // Ambil semua board dari service
     const boards = await boardService.getBoards(workspaceId, token);
@@ -69,7 +68,7 @@ const updateBoard = async (req, res) => {
 const deleteBoard = async (req, res) => {
   try {
     const boardId = req.params.id;
-    
+
     // Hapus board menggunakan service
     await boardService.deleteBoard(boardId);
 

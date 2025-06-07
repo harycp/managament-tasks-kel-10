@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const USER_SERVICE_URL = "http://localhost:5001/api/workspaces";
+const USER_SERVICE_URL = "http://localhost:500/api/workspaces";
 
 async function getWorkspaceById(workspaceId, token) {
   try {

@@ -50,67 +50,45 @@
         <form @submit.prevent="submitForm" class="space-y-4">
           <div>
             <InputLabel
-              for="nameWorkspace"
-              label="Nama Workspace"
+              for="nameBoard"
+              label="Nama Board"
               :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
             />
             <TextInput
-              id="nameWorkspace"
+              id="nameBoard"
               type="text"
-              name="nameWorkspace"
-              placeholder="Masukkan nama workspace"
-              autocomplete="current-nameWorkspace"
-              v-model="form.nameWorkspace"
+              name="nameBoard"
+              placeholder="Masukkan nama board"
+              autocomplete="current-nameBoard"
+              v-model="form.nameBoard"
               required
             />
           </div>
           <div>
             <InputLabel
-              for="typeWorkspace"
-              label="Tipe Workspace"
+              for="visibilityBoard"
+              label="Tipe Visibilitas"
               :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
             />
             <select
-              v-model="form.typeWorkspace"
+              v-model="form.visibilityBoard"
               class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
               required
             >
               <option value="" disabled>Pilih tipe</option>
-              <option value="engineering_it">Engineering & IT</option>
-              <option value="human_resources">Human Resources</option>
-              <option value="marketting">Marketing</option>
-              <option value="sales_crm">Sales & CRM</option>
-              <option value="operation">Operation</option>
-              <option value="small_business">Small Business</option>
-              <option value="education">Education</option>
-              <option value="student_organization">Student Organization</option>
-              <option value="personal">Personal</option>
-              <option value="other">Other</option>
+              <option value="public">Public</option>
+              <option value="private">Private</option>
+              <option value="workspace">Workspace</option>
             </select>
-          </div>
-
-          <div>
-            <InputLabel
-              for="descriptionWorkspace"
-              label="Deskripsi Workspace"
-              :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
-            />
-            <textarea
-              v-model="form.descriptionWorkspace"
-              rows="3"
-              class="h-22 border-2 w-full rounded-lg p-2.5 text-sm lg:text-base focus:outline-none focus:ring-opacity-50 sm:text-sm border-gray-400 focus:ring-gray-500 focus:borderring-gray-500 hover:border-primary"
-            ></textarea>
           </div>
 
           <div class="h-10 mb-32">
             <PrimaryButton
               :inactive="isSubmitting"
-              label="Simpan"
+              :label="isSubmitting ? 'Menyimpan...' : 'Simpan'"
               :additionalClass="'text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black'"
             />
           </div>
-
-          <p v-if="error" class="text-red-600 text-sm">{{ error }}</p>
         </form>
       </div>
     </div>
@@ -133,16 +111,16 @@ export default {
   props: {
     isOpen: Boolean,
     user: Object,
+    workspace: Object,
   },
-  emits: ["close", "workspaceCreated"],
+  emits: ["close", "boardCreated"],
   data() {
     return {
       imageSrc: ImageSuccess,
       imageSrcFailed: ImageFailed,
       form: {
-        nameWorkspace: "",
-        typeWorkspace: "",
-        descriptionWorkspace: "",
+        nameBoard: "",
+        visibilityBoard: "",
       },
       flashMessages: {
         error: { title: "", description: "" },
@@ -162,14 +140,14 @@ export default {
 
       try {
         const payload = {
-          name: this.form.nameWorkspace,
-          type: this.form.typeWorkspace,
-          description: this.form.descriptionWorkspace,
+          name: this.form.nameBoard,
+          visibility: this.form.visibilityBoard,
           owner_id: this.user.id,
+          workspace_id: this.workspace.id,
         };
 
         const response = await axios.post(
-          "http://localhost:5002/api/workspaces",
+          `http://localhost:5003/api/workspaces/${this.workspace.id}/boards`,
           {
             ...payload,
           },
@@ -182,42 +160,37 @@ export default {
 
         if (!response) {
           this.flashMessages.error = {
-            title: "Gagal Membuat Workspace",
-            description: data.error || "Kesalahan saat membuat workspace",
+            title: "Gagal Membuat Board",
+            description: data.error || "Kesalahan saat membuat board",
           };
-          throw new Error(data.error || "Gagal membuat workspace");
+          throw new Error(data.error || "Gagal membuat board");
         }
 
         this.flashMessages.success = {
-          title: "Workspace Berhasil Dibuat",
-          description: "Workspace telah berhasil dibuat",
+          title: "Board Berhasil Dibuat",
+          description: "Board telah berhasil dibuat",
         };
 
-        // Emit event ke parent agar bisa refetch data
-        this.$emit("workspaceCreated");
-
         this.form = {
-          nameWorkspace: "",
-          typeWorkspace: "",
-          descriptionWorkspace: "",
+          nameBoard: "",
+          visibilityBoard: "",
         };
 
         setTimeout(() => {
           // Emit event ke parent agar bisa refetch data
-          this.$emit("workspaceCreated");
+          this.$emit("boardCreated");
           this.closePopup();
         }, 2000);
       } catch (err) {
         console.log(err);
         this.form = {
-          nameWorkspace: "",
-          typeWorkspace: "",
-          descriptionWorkspace: "",
+          nameBoard: "",
+          visibilityBoard: "",
         };
 
         this.flashMessages.error = {
-          title: "Gagal Membuat Workspace",
-          description: "Terjadi kesalahan saat membuat workspace",
+          title: "Gagal Membuat Board",
+          description: "Terjadi kesalahan saat membuat board",
         };
 
         setTimeout(() => {

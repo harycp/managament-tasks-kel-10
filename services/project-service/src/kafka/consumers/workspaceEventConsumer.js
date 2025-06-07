@@ -18,6 +18,7 @@ const runWorkspaceConsumer = async () => {
         const { workspaceId, workspaceName, ownerId } = data;
         await boardService.createDefaultBoard({
           name: `${workspaceName} Board`,
+          visibility: "private",
           workspaceId,
           ownerId,
         });

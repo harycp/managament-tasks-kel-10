@@ -37,6 +37,11 @@ const board = sequelize.define(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    visibility: {
+      type: DataTypes.ENUM,
+      values: ["public", "private", "workspace"],
+      allowNull: false,
+    },
   },
   {
     timestamps: true,

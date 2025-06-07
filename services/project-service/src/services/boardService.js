@@ -20,26 +20,27 @@ const { getWorkspaceById } = require("./workspaceService");
  * @example
  * const newBoard = await createBoard(1, 'Project X', 'token');
  */
-const createBoard = async (workspaceId, name, token) => {
-  // Mendapatkan data workspace berdasarkan ID dan token
-  const workspace = await getWorkspaceById(workspaceId, token);
+const createBoard = async ({ name, workspaceId, ownerId }) => {
+  if (!workspaceId) throw new Error("Unauthorized: Workspace Id is required");
+  const workspace = await getWorkspaceById(workspaceId);
   if (!workspace) throw new Error("Workspace not found");
 
   // Membuat board baru yang terhubung dengan workspace
   const board = await boardModel.create({
-    workspace_id: workspace.data.id,
     name,
+    workspace_id: workspaceId,
+    owner_id: ownerId,
   });
 
   return board;
 };
 
 const createDefaultBoard = async ({ name, workspaceId, ownerId }) => {
-  console.log(name, workspaceId, ownerId);
   if (!workspaceId) throw new Error("Unauthorized: Workspace Id is required");
 
   const board = await boardModel.create({
     name,
+    visibility: "private",
     workspace_id: workspaceId,
     owner_id: ownerId,
   });
