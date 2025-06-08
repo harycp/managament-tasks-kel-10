@@ -32,7 +32,7 @@
 
         <div class="flex items-center space-x-4">
           <div
-            class="w-16 h-16 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-2xl font-medium text-white duration-300 transition-opacity hover:opacity-70"
+            class="w-16 h-16 flex items-center justify-center bg-gradient-to-tr from-gray-400 to-gray-300 rounded-full text-2xl font-medium text-white duration-300 transition-opacity hover:opacity-70"
           >
             {{ user.name ? user.name.charAt(0) : "" }}
           </div>

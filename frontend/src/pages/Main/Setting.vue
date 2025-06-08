@@ -55,25 +55,46 @@
                 label="Tipe Workspace"
                 :additionalClass="'mb-2 text-sm font-medium text-gray-900'"
               />
-              <select
-                v-model="form.type"
-                class="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring focus:ring-blue-300"
-                required
-              >
-                <option value="" disabled>Pilih tipe</option>
-                <option value="engineering_it">Engineering & IT</option>
-                <option value="human_resources">Human Resources</option>
-                <option value="marketting">Marketing</option>
-                <option value="sales_crm">Sales & CRM</option>
-                <option value="operation">Operation</option>
-                <option value="small_business">Small Business</option>
-                <option value="education">Education</option>
-                <option value="student_organization">
-                  Student Organization
-                </option>
-                <option value="personal">Personal</option>
-                <option value="other">Other</option>
-              </select>
+              <div class="relative">
+                <select
+                  v-model="form.type"
+                  id="typeWorkspace"
+                  class="block w-full appearance-none rounded-md border border-gray-300 bg-white px-4 py-2 pr-10 text-gray-900 text-base leading-6 focus:border-black focus:outline-none focus:ring-1 focus:ring-black"
+                  required
+                >
+                  <option value="" disabled>Pilih tipe</option>
+                  <option value="engineering_it">Engineering & IT</option>
+                  <option value="human_resources">Human Resources</option>
+                  <option value="marketing">Marketing</option>
+                  <option value="sales_crm">Sales & CRM</option>
+                  <option value="operation">Operation</option>
+                  <option value="small_business">Small Business</option>
+                  <option value="education">Education</option>
+                  <option value="student_organization">
+                    Student Organization
+                  </option>
+                  <option value="personal">Personal</option>
+                  <option value="other">Other</option>
+                </select>
+                <!-- Custom arrow -->
+                <div
+                  class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
+                >
+                  <svg
+                    class="h-5 w-5 text-gray-400"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 20 20"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
+                    <path
+                      fill-rule="evenodd"
+                      d="M5.23 7.21a.75.75 0 011.06.02L10 11.584l3.71-4.354a.75.75 0 111.14.976l-4.25 5a.75.75 0 01-1.14 0l-4.25-5a.75.75 0 01.02-1.06z"
+                      clip-rule="evenodd"
+                    />
+                  </svg>
+                </div>
+              </div>
             </div>
 
             <div>

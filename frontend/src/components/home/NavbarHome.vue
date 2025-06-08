@@ -39,7 +39,7 @@
 
       <button @click="$emit('openProfile')" class="flex items-center space-x-2">
         <div
-          class="w-8 h-8 flex items-center justify-center bg-gray-500 border border-gray-900 rounded-full text-xl font-medium text-white durataion-300 transition-opacity hover:opacity-70"
+          class="w-8 h-8 flex items-center justify-center bg-gradient-to-tr from-gray-400 to-gray-300 border rounded-full text-xl font-medium text-white durataion-300 transition-opacity hover:opacity-70"
         >
           {{ user.name ? user.name.charAt(0) : "" }}
         </div>
