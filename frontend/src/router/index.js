@@ -12,6 +12,7 @@ import RequestResetPassword from "../pages/Auth/RequestResetPassword.vue";
 import Boards from "../pages/Boards/Boards.vue";
 
 import Main from "../pages/Main/Index.vue";
+import Member from "../pages/Main/Member.vue";
 
 const routes = [
   { path: "/", name: "landing", component: Index },
@@ -57,6 +58,12 @@ const routes = [
     name: "Main",
     component: Main,
   },
+  {
+  path: '/workspace/:workspaceId/member',
+  name: 'WorkspaceMember',
+  component: Member
+}
+
 ];
 
 const router = createRouter({

@@ -34,6 +34,47 @@
       </nav>
 
       <!-- Navigation Menu -->
+      <nav class="flex-grow mt-2">
+        <NavItem
+          title="Member"
+          :link="`/workspace/${$route.params.workspaceId}/member`"
+          :isActive="name === 'Members'"
+        >
+          <svg
+            class="w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M15 2H9v2H7v6h2V4h6V2zm0 8H9v2h6v-2zm0-6h2v6h-2V4zM4 16h2v-2h12v2H6v4h12v-4h2v6H4v-6z"
+            />
+          </svg>
+        </NavItem>
+
+        <NavItem title="Settings" link="/h" :isActive="name == 'Settings'">
+          <svg
+            class="w-6 h-6"
+            viewBox="0 0 24 24"
+            fill="currentColor"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+            <g
+              id="SVGRepo_tracerCarrier"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            ></g>
+            <g id="SVGRepo_iconCarrier">
+              <path
+                d="M20 2h-2v4H6v2H4v8h2v2h2v4h8v-2h4v-2h-4v-2h4v-2h-4v-2H8v4H6V8h12V6h2V2zm-6 18h-4v-6h4v6z"
+              ></path>
+            </g>
+          </svg>
+        </NavItem>
+      </nav>
+
+      <!-- Navigation Menu -->
       <nav class="flex-grow mt-10">
         <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">Boards</h2>
         <div v-if="activeWorkspace" class="mb-4">
@@ -50,6 +91,27 @@
                 {{ board.name ? board.name.charAt(0) : "" }}
               </div>
             </NavItem>
+          </div>
+          <!-- Tombol Tambah Board -->
+          <div
+            @click="openCreateBoard(activeWorkspace)"
+            class="flex items-center gap-2 px-3 py-2 mt-2 ml-3 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer transition"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-4 w-4 text-gray-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 4v16m8-8H4"
+              />
+            </svg>
+            Tambah Board
           </div>
         </div>
       </nav>
@@ -72,6 +134,14 @@
       <div class="flex-grow overflow-auto">
         <slot :user="user"></slot>
       </div>
+
+      <CreateBoard
+        :isOpen="showCreateBoard"
+        @close="showCreateBoard = false"
+        @boardCreated="handleBoardCreated"
+        :user="user"
+        :workspace="selectedWorkspace"
+      />
     </main>
   </div>
 </template>
@@ -84,6 +154,7 @@ import NavItem from "../components/dashboard/NavItem.vue";
 import SideBar from "../components/dashboard/SideBar.vue";
 import NavbarHome from "../components/home/NavbarHome.vue";
 import Profile from "../components/common/Profile.vue";
+import CreateBoard from "../components/common/CreateBoard.vue";
 
 export default {
   components: {
@@ -93,6 +164,7 @@ export default {
     NavDropdown,
     NavbarHome,
     Profile,
+    CreateBoard,
   },
 
   data() {
@@ -103,6 +175,8 @@ export default {
       isLoading: true,
       showProfilePopup: false,
       isSidebarCollapsed: false,
+      showCreateBoard: false,
+      selectedWorkspace: null,
     };
   },
   props: {
@@ -177,10 +251,27 @@ export default {
         console.error("Failed to fetch workspaces:", error);
       }
     },
+    async handleBoardCreated() {
+      await this.fetchWorkspaces();
 
+      if (this.selectedWorkspace) {
+        this.activeWorkspace =
+          this.workspaces.find((ws) => ws.id === this.selectedWorkspace.id) ||
+          this.activeWorkspace;
+      }
+
+      this.showCreateBoard = false;
+    },
     toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
+    openCreateBoard(workspace) {
+      this.selectedWorkspace = workspace;
+      this.showCreateBoard = true;
+    },
+  },
+  mounted() {
+    this.fetchWorkspaces();
   },
 };
 </script>
