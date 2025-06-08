@@ -52,7 +52,11 @@
           </svg>
         </NavItem>
 
-        <NavItem title="Settings" link="/h" :isActive="name == 'Settings'">
+        <NavItem
+          title="Settings"
+          :link="`/workspace/${$route.params.workspaceId}/settings`"
+          :isActive="name === 'Settings'"
+        >
           <svg
             class="w-6 h-6"
             viewBox="0 0 24 24"

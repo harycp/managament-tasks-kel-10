@@ -13,6 +13,7 @@ import Boards from "../pages/Boards/Boards.vue";
 
 import Main from "../pages/Main/Index.vue";
 import Member from "../pages/Main/Member.vue";
+import Setting from "../pages/Main/Setting.vue";
 
 const routes = [
   { path: "/", name: "landing", component: Index },
@@ -59,11 +60,15 @@ const routes = [
     component: Main,
   },
   {
-  path: '/workspace/:workspaceId/member',
-  name: 'WorkspaceMember',
-  component: Member
-}
-
+    path: "/workspace/:workspaceId/member",
+    name: "WorkspaceMember",
+    component: Member,
+  },
+  {
+    path: "/workspace/:workspaceId/settings",
+    name: "WorkspaceSetting",
+    component: Setting,
+  },
 ];
 
 const router = createRouter({
