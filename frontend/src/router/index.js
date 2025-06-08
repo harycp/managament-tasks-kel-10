@@ -11,6 +11,8 @@ import ResetPassword from "../pages/Auth/ResetPassword.vue";
 import RequestResetPassword from "../pages/Auth/RequestResetPassword.vue";
 import Boards from "../pages/Boards/Boards.vue";
 
+import Main from "../pages/Main/Index.vue";
+
 const routes = [
   { path: "/", name: "landing", component: Index },
   { path: "/register", name: "register", component: RegisterEmail },
@@ -49,6 +51,11 @@ const routes = [
     name: "dashboard",
     component: Dashboard,
     meta: { requiresAuth: true },
+  },
+  {
+    path: "/workspace/:workspaceId/boards",
+    name: "Main",
+    component: Main,
   },
 ];
 

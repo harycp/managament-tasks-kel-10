@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-screen">
     <!-- Sidebar -->
-    <SideBar>
+    <SideBar :is-collapsed="false" :show-collapse="false">
       <h2 class="ms-3 mb-2 text-md font-medium text-gray-700">
         Your Workspaces
       </h2>
@@ -141,6 +141,14 @@ export default {
   props: {
     title: String,
     name: String,
+    isCollapsed: {
+      type: Boolean,
+      required: true,
+    },
+    showCollapse: {
+      type: Boolean,
+      default: true, // Default true agar tetap tampil jika tidak didefinisikan
+    },
   },
   async created() {
     await this.fetchUserProfile();

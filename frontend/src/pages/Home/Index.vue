@@ -120,30 +120,35 @@
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              <div
+              <router-link
                 v-for="(workspace, index) in workspaces"
                 :key="index"
-                class="p-5 bg-white border border-gray-200 rounded-xl hover:shadow-md transition cursor-pointer"
+                :to="`/workspace/${workspace.id}/boards`"
+                class="block"
               >
-                <div class="flex items-start gap-4">
-                  <!-- Inisial -->
-                  <div
-                    class="w-10 h-10 rounded-md bg-gray-500 text-white flex items-center justify-center font-semibold text-sm"
-                  >
-                    {{ workspace.name ? workspace.name.charAt(0) : "" }}
-                  </div>
+                <div
+                  class="p-5 bg-white border border-gray-200 rounded-xl hover:shadow-md transition cursor-pointer"
+                >
+                  <div class="flex items-start gap-4">
+                    <!-- Inisial -->
+                    <div
+                      class="w-10 h-10 rounded-md bg-gray-500 text-white flex items-center justify-center font-semibold text-sm"
+                    >
+                      {{ workspace.name ? workspace.name.charAt(0) : "" }}
+                    </div>
 
-                  <!-- Nama dan Deskripsi -->
-                  <div class="flex flex-col">
-                    <h4 class="text-gray-800 font-medium leading-tight">
-                      {{ workspace.name }}
-                    </h4>
-                    <p class="text-sm text-gray-500">
-                      {{ workspace.description }}
-                    </p>
+                    <!-- Nama dan Deskripsi -->
+                    <div class="flex flex-col">
+                      <h4 class="text-gray-800 font-medium leading-tight">
+                        {{ workspace.name }}
+                      </h4>
+                      <p class="text-sm text-gray-500">
+                        {{ workspace.description }}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </router-link>
             </div>
           </div>
 
