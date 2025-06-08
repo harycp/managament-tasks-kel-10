@@ -142,7 +142,6 @@ export default {
         const payload = {
           name: this.form.nameBoard,
           visibility: this.form.visibilityBoard,
-          owner_id: this.user.id,
           workspace_id: this.workspace.id,
         };
 

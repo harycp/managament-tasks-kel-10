@@ -5,12 +5,14 @@ const createBoard = async (req, res) => {
   try {
     const workspaceId = req.params.id;
     const name = req.body.name;
-    const ownerId = req.body.ownerId;
+    const visibility = req.body.visibility;
+    const ownerId = req.user.id;
 
     // Panggil service untuk membuat board
     const board = await boardService.createBoard({
       workspaceId,
       name,
+      visibility,
       ownerId,
     });
 
@@ -23,11 +25,9 @@ const createBoard = async (req, res) => {
 // Fungsi untuk mengambil semua board dalam satu workspace
 const getBoards = async (req, res) => {
   try {
-    // console.log(req.cookies);
     const workspaceId = req.params.id;
-    const token = req.cookies.authToken;
+    const token = req.cookies.authToken; 
 
-    // Ambil semua board dari service
     const boards = await boardService.getBoards(workspaceId, token);
 
     res.status(200).json({ message: "Boards retrieved", data: boards });

@@ -16,6 +16,7 @@ dotenv.config();
 // require("./workers/boardEventWorker");
 
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -24,7 +25,6 @@ app.use(
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 app.use("/api", boardRoutes);
 app.use("/api", listRoutes);

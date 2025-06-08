@@ -8,7 +8,6 @@ const router = express.Router();
 router.post(
   "/workspaces/:id/boards",
   authenticate,
-  checkRole,
   boardController.createBoard
 );
 router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);

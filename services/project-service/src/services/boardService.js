@@ -20,14 +20,13 @@ const { getWorkspaceById } = require("./workspaceService");
  * @example
  * const newBoard = await createBoard(1, 'Project X', 'token');
  */
-const createBoard = async ({ name, workspaceId, ownerId }) => {
+const createBoard = async ({ name, workspaceId, ownerId, visibility }) => {
   if (!workspaceId) throw new Error("Unauthorized: Workspace Id is required");
-  const workspace = await getWorkspaceById(workspaceId);
-  if (!workspace) throw new Error("Workspace not found");
 
   // Membuat board baru yang terhubung dengan workspace
   const board = await boardModel.create({
     name,
+    visibility,
     workspace_id: workspaceId,
     owner_id: ownerId,
   });
@@ -62,11 +61,9 @@ const createDefaultBoard = async ({ name, workspaceId, ownerId }) => {
  * const boards = await getBoards(1, 'token');
  */
 const getBoards = async (workspaceId, token) => {
-  // Mendapatkan data workspace berdasarkan ID dan token
   const workspace = await getWorkspaceById(workspaceId, token);
   if (!workspace) throw new Error("Workspace not found");
 
-  // Mencari semua board yang memiliki workspace_id sesuai
   const boards = await boardModel.findAll({
     where: {
       workspace_id: workspace.data.id,
@@ -75,8 +72,6 @@ const getBoards = async (workspaceId, token) => {
 
   return boards;
 };
-
-// Fungsi untuk mengambil satu board berdasarkan ID-nya
 
 /**
  * Mengambil satu board berdasarkan ID-nya
