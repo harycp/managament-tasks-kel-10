@@ -136,7 +136,7 @@
 
       <!-- CONTENT HERE -->
       <div class="flex-grow overflow-auto">
-        <slot :user="user"></slot>
+        <slot :user="user" :workspace="activeWorkspace"></slot>
       </div>
 
       <CreateBoard
@@ -175,7 +175,7 @@ export default {
     return {
       user: {},
       workspaces: [],
-      activeWorkspace: null, // Hanya satu workspace aktif
+      activeWorkspace: {}, // Hanya satu workspace aktif
       isLoading: true,
       showProfilePopup: false,
       isSidebarCollapsed: false,
@@ -266,6 +266,7 @@ export default {
 
       this.showCreateBoard = false;
     },
+
     toggleSidebar() {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
     },
@@ -273,9 +274,6 @@ export default {
       this.selectedWorkspace = workspace;
       this.showCreateBoard = true;
     },
-  },
-  mounted() {
-    this.fetchWorkspaces();
   },
 };
 </script>

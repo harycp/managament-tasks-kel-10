@@ -192,7 +192,7 @@ export default {
             },
             {
               label: "Members",
-              route: `/workspace/${workspace.id}/members`,
+              route: `/workspace/${workspace.id}/member`,
             },
             {
               label: "Settings",

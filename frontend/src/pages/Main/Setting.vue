@@ -5,34 +5,33 @@
       :name="name"
       title="Workspace Settings"
     >
-      <transition @before-enter="beforeEnter" @enter="enter" @leave="leave">
-        <SessionAlert
-          v-if="flashMessages.error.title"
-          btnTitle="Periksa Kembali"
-          :title="flashMessages.error.title"
-          :image="imageSrcFailed"
-          @close-alert="clearFlashMessage"
-        >
-          {{ flashMessages.error.description }}
-        </SessionAlert>
-
-        <SessionAlert
-          v-else-if="flashMessages.success.title"
-          btnTitle="Tutup"
-          :title="flashMessages.success.title"
-          :image="imageSrc"
-          @close-alert="clearFlashMessage"
-        >
-          {{ flashMessages.success.description }}
-        </SessionAlert>
-      </transition>
       <div class="max-w-2xl mx-auto p-6">
+        <transition @before-enter="beforeEnter" @enter="enter" @leave="leave">
+          <SessionAlert
+            v-if="flashMessages.error.title"
+            btnTitle="Periksa Kembali"
+            :title="flashMessages.error.title"
+            :image="imageSrcFailed"
+            @close-alert="clearFlashMessage"
+          >
+            {{ flashMessages.error.description }}
+          </SessionAlert>
+
+          <SessionAlert
+            v-else-if="flashMessages.success.title"
+            btnTitle="Tutup"
+            :title="flashMessages.success.title"
+            :image="imageSrc"
+            @close-alert="clearFlashMessage"
+          >
+            {{ flashMessages.success.description }}
+          </SessionAlert>
+        </transition>
         <div class="bg-white border rounded-xl shadow-sm p-6 space-y-6">
           <h2 class="text-lg font-semibold text-gray-800">
             Workspace Settings
           </h2>
-          <!-- Form -->
-          <form @submit.prevent="submitForm" class="space-y-4">
+          <form @submit.prevent="saveSettings" class="space-y-4">
             <div>
               <InputLabel
                 for="nameWorkspace"
@@ -76,7 +75,6 @@
                   <option value="personal">Personal</option>
                   <option value="other">Other</option>
                 </select>
-                <!-- Custom arrow -->
                 <div
                   class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3"
                 >
@@ -114,25 +112,11 @@
               <PrimaryButton
                 :inactive="isSubmitting"
                 label="Simpan"
+                type="submit"
                 :additionalClass="'text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black'"
               />
             </div>
           </form>
-          <!-- Delete Workspace -->
-          <div class="pt-6 border-t mt-10">
-            <h3 class="text-sm font-semibold text-red-600 mb-2">Danger Zone</h3>
-            <div class="flex justify-between items-center">
-              <p class="text-sm text-gray-700">
-                Menghapus workspace akan menghapus semua data terkait.
-              </p>
-              <button
-                @click="confirmDelete"
-                class="text-sm text-white bg-red-600 hover:bg-red-700 px-4 py-2 rounded-md transition"
-              >
-                Hapus Workspace
-              </button>
-            </div>
-          </div>
         </div>
       </div>
     </DashMain>
@@ -146,25 +130,22 @@ import DashMain from "../../fragments/DashMain.vue";
 import InputLabel from "../../components/common/InputLabel.vue";
 import TextInput from "../../components/common/TextInput.vue";
 import PrimaryButton from "../../components/common/PrimaryButton.vue";
+import SessionAlert from "../../components/common/SessionAlert.vue";
 
 import ImageSuccess from "../../assets/register-success.svg";
 import ImageFailed from "../../assets/register-failed.svg";
 
 export default {
   name: "SettingsPage",
-  components: { DashMain, InputLabel, TextInput, PrimaryButton },
-  props: {
-    workspaceId: {
-      type: String,
-      required: true,
-    },
-  },
+  components: { DashMain, InputLabel, TextInput, PrimaryButton, SessionAlert },
+  emits: ["workspaceChanged"],
   data() {
     return {
       imageSrc: ImageSuccess,
       imageSrcFailed: ImageFailed,
       dashboardLoading: true,
       name: "Settings",
+      isSubmitting: false, // Tambahkan untuk menonaktifkan tombol saat submit
       form: {
         name: "",
         type: "",
@@ -176,8 +157,17 @@ export default {
       },
     };
   },
+  computed: {
+    workspaceId() {
+      return this.$route.params.workspaceId;
+    },
+  },
   methods: {
     async fetchSettings() {
+      if (!this.workspaceId) {
+        console.error("Workspace ID not found.");
+        return;
+      }
       try {
         const res = await axios.get(
           `http://localhost:5002/api/workspaces/${this.workspaceId}`,
@@ -194,18 +184,39 @@ export default {
       }
     },
     async saveSettings() {
+      this.clearFlashMessage();
+      this.isSubmitting = true;
+      if (!this.workspaceId) {
+        console.error("Workspace ID not found.");
+        this.isSubmitting = false;
+        return;
+      }
       try {
         await axios.put(
-          `http://localhost:5002/api/workspaces/${this.workspaceId}`,
+          `http://localhost:5002/api/workspaces/${this.workspaceId}`, // Gunakan computed property
           this.form,
           {
             withCredentials: true,
           }
         );
-        alert("Settings saved successfully!");
+
+        this.$emit("workspaceChanged");
+
+        this.flashMessages.success = {
+          title: "Berhasil Disimpan!",
+          description: "Berhasil Mengubah Workspace.",
+        };
+
+        await this.fetchSettings();
       } catch (err) {
         console.error("Failed to save settings", err);
-        alert("Failed to save. Please try again.");
+
+        this.flashMessages.error = {
+          title: "Gagal Menyimpan",
+          description: "Terjadi kesalahan saat mengubah workspace.",
+        };
+      } finally {
+        this.isSubmitting = false;
       }
     },
     clearFlashMessage() {
@@ -221,7 +232,6 @@ export default {
   },
   setup() {
     const { beforeEnter, enter, leave } = useFadeAlert();
-
     return {
       beforeEnter,
       enter,

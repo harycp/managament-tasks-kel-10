@@ -69,21 +69,24 @@
                 </h2>
               </div>
               <div class="flex gap-2 text-sm text-gray-500">
-                <button
+                <router-link
+                  :to="`/workspace/${workspace.id}/boards`"
                   class="px-3 py-1.5 bg-gray-100 rounded hover:bg-gray-200"
                 >
                   Boards
-                </button>
-                <button
+                </router-link>
+                <router-link
+                  :to="`/workspace/${workspace.id}/member`"
                   class="px-3 py-1.5 bg-gray-100 rounded hover:bg-gray-200"
                 >
-                  Views
-                </button>
-                <button
+                  Members
+                </router-link>
+                <router-link
+                  :to="`/workspace/${workspace.id}/settings`"
                   class="px-3 py-1.5 bg-gray-100 rounded hover:bg-gray-200"
                 >
                   Settings
-                </button>
+                </router-link>
               </div>
             </div>
 
