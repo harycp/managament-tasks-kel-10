@@ -233,10 +233,46 @@ const getWorkspaceMembers = async (userID, workspaceId, token) => {
   return fullMemberDetails;
 };
 
+const addMember = async (workspaceId, email, role, token) => {
+  if (!email || !role) {
+    throw new Error("Email and role are required fields.");
+  }
+
+  const responseUser = await userService.findUserByEmail(email, token);
+  if (!responseUser || !responseUser.data) {
+    throw new Error(
+      "Invalid response from User Service when fetching by email."
+    );
+  }
+
+  const userToAdd = responseUser.data;
+  const userId = userToAdd.id;
+
+  const existingMember = await workspaceMemberModel.findOne({
+    where: {
+      workspace_id: workspaceId,
+      user_id: userId,
+    },
+  });
+
+  if (existingMember) {
+    throw new Error("This user is already a member of the workspace.");
+  }
+
+  const newMember = await workspaceMemberModel.create({
+    workspace_id: workspaceId,
+    user_id: userId,
+    role: role,
+  });
+
+  return newMember;
+};
+
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,
   getWorkspaceMemberById,
   updateWorkspaceMember,
   deleteWorkspaceMember,
+  addMember,
 };

@@ -8,12 +8,12 @@ const { route } = require("./workspaceRoutes");
 const router = express.Router();
 
 // API FOR WORKSPACE
-router.post(
-  "/workspaceMembers",
-  authenticate,
-  checkRole,
-  workspaceMemberController.createWorkspaceMember
-);
+// router.post(
+//   "/workspaceMembers",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.createWorkspaceMember
+// );
 
 router.get(
   "/workspaceMembers/:workspaceId",
@@ -40,6 +40,12 @@ router.delete(
   authenticate,
   checkRole,
   workspaceMemberController.deleteWorkspaceMember
+);
+
+router.post(
+  "/workspaces/:workspaceId/members",
+  authenticate,
+  workspaceMemberController.addWorkspaceMember
 );
 
 module.exports = router;

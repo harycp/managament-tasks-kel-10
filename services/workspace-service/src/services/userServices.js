@@ -21,4 +21,25 @@ const userResponse = async (token, userIds) => {
   }
 };
 
-module.exports = { userResponse };
+const findUserByEmail = async (email, token) => {
+  try {
+    const encodedEmail = encodeURIComponent(email);
+    const response = await axios.get(
+      `${USER_SERVICE_URL}/by-email?email=${encodedEmail}`,
+      {
+        headers: {
+          Cookie: `authToken=${token}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (error) {
+    if (error.response && error.response.status === 404) {
+      throw new Error(`User with email "${email}" was not found.`);
+    }
+    console.error("Error finding user by email:", error.message);
+    throw new Error("Error communicating with User Service.");
+  }
+};
+
+module.exports = { userResponse, findUserByEmail };

@@ -83,10 +83,38 @@ const deleteWorkspaceMember = async (req, res) => {
   }
 };
 
+const addWorkspaceMember = async (req, res) => {
+  try {
+    const { workspaceId } = req.params;
+    const { email, role } = req.body;
+    const token = req.cookies.authToken;
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Authentication token is missing." });
+    }
+
+    const newMemberData = await workspaceMemberService.addMember(
+      workspaceId,
+      email,
+      role,
+      token
+    );
+
+    res
+      .status(201)
+      .json({ message: "Member added successfully", data: newMemberData });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,
   getWorkspaceMemberById,
   updateWorkspaceMember,
   deleteWorkspaceMember,
+  addWorkspaceMember,
 };

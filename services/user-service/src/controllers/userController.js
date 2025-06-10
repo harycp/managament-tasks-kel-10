@@ -211,7 +211,7 @@ const deleteUser = async (req, res) => {
 
 const getUserByEmail = async (req, res) => {
   try {
-    const email = req.query;
+    const { email } = req.query;
     const user = await userService.getUserByEmail(email);
     res.status(200).json({ message: "User retrieved", data: user });
   } catch (error) {
