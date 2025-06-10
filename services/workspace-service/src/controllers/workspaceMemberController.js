@@ -18,8 +18,12 @@ const createWorkspaceMember = async (req, res) => {
 const getWorkspaceMembers = async (req, res) => {
   try {
     const userId = req.user.id;
+    const token = req.cookies.authToken;
+    const { workspaceId } = req.params;
     const workspaceMembers = await workspaceMemberService.getWorkspaceMembers(
-      userId
+      userId,
+      workspaceId,
+      token
     );
     res
       .status(200)

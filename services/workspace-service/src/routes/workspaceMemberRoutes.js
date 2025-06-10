@@ -16,18 +16,17 @@ router.post(
 );
 
 router.get(
-  "/workspaceMembers",
+  "/workspaceMembers/:workspaceId",
   authenticate,
-  checkRole,
   workspaceMemberController.getWorkspaceMembers
 );
 
-router.get(
-  "/workspaceMembers/:id",
-  authenticate,
-  checkRole,
-  workspaceMemberController.getWorkspaceMemberById
-);
+// router.get(
+//   "/workspaceMembers/:id",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.getWorkspaceMemberById
+// );
 
 router.put(
   "/workspaceMembers/:id",

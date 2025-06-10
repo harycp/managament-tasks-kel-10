@@ -211,9 +211,19 @@ const deleteUser = async (req, res) => {
 
 const getUserByEmail = async (req, res) => {
   try {
-    const email = req.params.email;
+    const email = req.query;
     const user = await userService.getUserByEmail(email);
     res.status(200).json({ message: "User retrieved", data: user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
+const getUsersBatch = async (req, res) => {
+  try {
+    const { userIds } = req.body;
+    const users = await userService.getUsersBatch(userIds);
+    res.status(200).json({ message: "Users retrieved", data: users });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -238,4 +248,5 @@ module.exports = {
   updatePassword,
   deleteUser,
   getUserByEmail,
+  getUsersBatch,
 };

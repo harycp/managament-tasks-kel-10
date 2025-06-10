@@ -11,7 +11,7 @@
         <div class="flex justify-end">
           <button
             @click="showAddMemberModal = true"
-            class="px-4 py-2 bg-black text-white text-sm rounded-md hover:bg-neutral-800 transition"
+            class="px-4 py-2 bg-black text-white text-sm rounded-md hover:bg-white hover:!text-black transition"
           >
             + Add Member
           </button>
@@ -156,16 +156,17 @@
 <script>
 import axios from "axios";
 import DashMain from "../../fragments/DashMain.vue";
+import PrimaryButton from "../../components/common/PrimaryButton.vue";
 
 export default {
   name: "MemberPage",
-  components: { DashMain },
+  components: { DashMain, PrimaryButton },
   data() {
     return {
       name: "Members",
-      members: [], // Mulai dengan array kosong
+      members: [],
       isLoading: true,
-      workspaceId: null, // Simpan workspaceId
+      workspaceId: null,
       showAddMemberModal: false,
       newMember: {
         email: "",
@@ -188,13 +189,12 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          `http://localhost:5002/api/workspaces/${this.workspaceId}/members`,
+          `http://localhost:5002/api/workspaceMembers/${this.workspaceId}`,
           { withCredentials: true }
         );
         this.members = response.data.data;
       } catch (error) {
         console.error("Error fetching members:", error);
-        // Handle error, maybe show a toast notification
         this.members = [];
       } finally {
         this.isLoading = false;

@@ -1,9 +1,13 @@
 const workspaceMemberModel = require("../models/workspaceMembers");
 const workspaceModel = require("../models/workspace");
+const userService = require("./userServices");
 
-const userModel = require("../../../user-service/src/models/user");
+const axios = require("axios");
+const USER_SERVICE_URL = "http://localhost:5001/api";
 
-const userRole = require("../../../user-service/src/models/userRoles");
+// const userModel = require("../../../user-service/src/models/user");
+
+// const userRole = require("../../../user-service/src/models/userRoles");
 
 /**
  * Module untuk mengelola penugasan user workspace.
@@ -66,28 +70,28 @@ const createWorkspaceMember = async (workspaceMemberData) => {
  * @example
  * const workspaces = await getWorkspaceMembers(123);
  */
-const getWorkspaceMembers = async (userID) => {
-  if (!userID) throw new Error("Unauthorized: User Id is required");
+// const getWorkspaceMembers = async (userID) => {
+//   if (!userID) throw new Error("Unauthorized: User Id is required");
 
-  const workspaces = await workspaceModel.findAll({
-    where: { owner_id: userID },
-    include: [{ model: workspaceMemberModel, as: "members" }],
-  });
+//   const workspaces = await workspaceModel.findAll({
+//     where: { owner_id: userID },
+//     include: [{ model: workspaceMemberModel, as: "members" }],
+//   });
 
-  if (!workspaces.length) throw new Error("No workspaces found for this user");
+//   if (!workspaces.length) throw new Error("No workspaces found for this user");
 
-  return workspaces.map((workspace) => ({
-    workspace: {
-      id: workspace.id,
-      name: workspace.name,
-    },
-    members: workspace.members.map((member) => ({
-      id: member.id,
-      user_id: member.user_id,
-      role: member.role,
-    })),
-  }));
-};
+//   return workspaces.map((workspace) => ({
+//     workspace: {
+//       id: workspace.id,
+//       name: workspace.name,
+//     },
+//     members: workspace.members.map((member) => ({
+//       id: member.id,
+//       user_id: member.user_id,
+//       role: member.role,
+//     })),
+//   }));
+// };
 
 /**
  * Mengambil detail workspace member berdasarkan ID
@@ -198,6 +202,35 @@ const deleteWorkspaceMember = async (workspaceMemberId) => {
   if (!workspaceMember) throw new Error("Workspace member not found");
 
   return await workspaceMember.destroy();
+};
+
+const getWorkspaceMembers = async (userID, workspaceId, token) => {
+  if (!userID) throw new Error("Unauthorized: User Id is required");
+
+  const members = await workspaceMemberModel.findAll({
+    where: { workspace_id: workspaceId },
+    attributes: ["id", "user_id", "role"],
+    raw: true,
+  });
+
+  const userIds = members.map((member) => member.user_id);
+
+  const userResponse = await userService.userResponse(token, userIds);
+
+  const users = userResponse.data;
+  const userMap = new Map(users.map((user) => [user.id, user]));
+
+  const fullMemberDetails = members.map((member) => {
+    const userDetails = userMap.get(member.user_id);
+    return {
+      id: member.user_id,
+      name: userDetails.name,
+      email: userDetails.email,
+      role: member.role,
+    };
+  });
+
+  return fullMemberDetails;
 };
 
 module.exports = {

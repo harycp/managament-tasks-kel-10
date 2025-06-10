@@ -447,6 +447,19 @@ const getUserByEmail = async (email) => {
   };
 };
 
+const getUsersBatch = async (userIds) => {
+  const users = await User.findAll({
+    where: {
+      id: {
+        [Op.in]: userIds,
+      },
+    },
+    attributes: ["id", "username", "email", "name"],
+  });
+
+  return users;
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -466,4 +479,5 @@ module.exports = {
   updatePassword,
   deleteUser,
   getUserByEmail,
+  getUsersBatch,
 };
