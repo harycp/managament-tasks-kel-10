@@ -6,7 +6,7 @@ const sequelize = require("./database");
 const cookieParser = require("cookie-parser");
 
 const workspaceRoutes = require("./routes/workspaceRoutes");
-const workspaceMemberRoutes = require("./routes/workspaceMemberRoutes");
+// const workspaceMemberRoutes = require("./routes/workspaceMemberRoutes");
 const db = require("./models");
 
 const userEventConsumer = require("./kafka/consumers/userEventConsumer");
@@ -29,7 +29,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", workspaceRoutes);
-app.use("/api", workspaceMemberRoutes);
+// app.use("/api", workspaceMemberRoutes);
 
 const PORT = process.env.PORT || 5000;
 

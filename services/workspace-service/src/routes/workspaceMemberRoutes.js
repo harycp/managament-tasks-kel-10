@@ -8,39 +8,39 @@ const { route } = require("./workspaceRoutes");
 const router = express.Router();
 
 // API FOR WORKSPACE
-router.post(
-  "/workspaceMembers",
-  authenticate,
-  checkRole,
-  workspaceMemberController.createWorkspaceMember
-);
+// router.post(
+//   "/workspaceMembers",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.createWorkspaceMember
+// );
 
-router.get(
-  "/workspaceMembers",
-  authenticate,
-  checkRole,
-  workspaceMemberController.getWorkspaceMembers
-);
+// router.get(
+//   "/workspaceMembers",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.getWorkspaceMembers
+// );
 
-router.get(
-  "/workspaceMembers/:id",
-  authenticate,
-  checkRole,
-  workspaceMemberController.getWorkspaceMemberById
-);
+// router.get(
+//   "/workspaceMembers/:id",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.getWorkspaceMemberById
+// );
 
-router.put(
-  "/workspaceMembers/:id",
-  authenticate,
-  checkRole,
-  workspaceMemberController.updateWorkspaceMember
-);
+// router.put(
+//   "/workspaceMembers/:id",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.updateWorkspaceMember
+// );
 
-router.delete(
-  "/workspaceMembers/:id",
-  authenticate,
-  checkRole,
-  workspaceMemberController.deleteWorkspaceMember
-);
+// router.delete(
+//   "/workspaceMembers/:id",
+//   authenticate,
+//   checkRole,
+//   workspaceMemberController.deleteWorkspaceMember
+// );
 
 module.exports = router;

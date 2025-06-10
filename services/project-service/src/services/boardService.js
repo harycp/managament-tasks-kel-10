@@ -1,3 +1,4 @@
+const board = require("../models/board");
 const boardModel = require("../models/board");
 const { getWorkspaceById } = require("./workspaceService");
 
@@ -137,6 +138,14 @@ const deleteBoard = async (boardId) => {
   return board.destroy();
 };
 
+const deleteBoardsByWorkspaceId = async (workspaceId) => {
+  return boardModel.destroy({
+    where: {
+      workspace_id: workspaceId,
+    },
+  });
+};
+
 // Mengekspor semua fungsi agar bisa digunakan di file lain
 module.exports = {
   createBoard,
@@ -145,4 +154,5 @@ module.exports = {
   getBoardById,
   updateBoard,
   deleteBoard,
+  deleteBoardsByWorkspaceId,
 };

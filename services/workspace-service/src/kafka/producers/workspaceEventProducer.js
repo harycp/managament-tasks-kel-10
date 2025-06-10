@@ -18,4 +18,18 @@ const sendWorkspaceCreatedEvent = async (data) => {
   await producer.disconnect();
 };
 
-module.exports = { sendWorkspaceCreatedEvent };
+const sendWorkspaceDeletedEvent = async (data) => {
+  await producer.connect();
+  await producer.send({
+    topic: WORKSPACE_EVENTS,
+    messages: [
+      {
+        key: "workspaceDeleted",
+        value: JSON.stringify(data),
+      },
+    ],
+  });
+  await producer.disconnect();
+};
+
+module.exports = { sendWorkspaceCreatedEvent, sendWorkspaceDeletedEvent };

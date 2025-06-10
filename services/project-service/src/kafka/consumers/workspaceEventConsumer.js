@@ -26,6 +26,14 @@ const runWorkspaceConsumer = async () => {
           `[BoardService] Default board created for ${workspaceName}`
         );
       }
+
+      if (key === "workspaceDeleted") {
+        const { workspaceId } = data;
+        await boardService.deleteBoardsByWorkspaceId(workspaceId);
+        console.log(
+          `[BoardService] Boards deleted for workspace ${workspaceId}`
+        );
+      }
     },
   });
 };

@@ -118,7 +118,30 @@
             </div>
           </form>
         </div>
+        <div
+          class="mt-6 rounded-xl border border-red-200 bg-white p-6 shadow-sm"
+        >
+          <h2 class="text-lg font-semibold text-red-600">Danger Zone</h2>
+          <p class="mt-1 text-sm text-gray-600">
+            Tindakan menghapus workspace tidak dapat diurungkan. Mohon
+            pertimbangkan dengan baik sebelum melanjutkan.
+          </p>
+          <div class="mt-4">
+            <PrimaryButton
+              @click="openDeleteModal"
+              label="Hapus Workspace Ini"
+              :additionalClass="'text-sm font-semibold bg-red-600 text-white hover:bg-red-700'"
+            />
+          </div>
+        </div>
       </div>
+
+      <DeleteWorkspacePopup
+        :isOpen="isDeleteModalOpen"
+        :is-deleting="isSubmitting"
+        @close="closeDeleteModal"
+        @confirm-delete="handleDeleteWorkspace"
+      />
     </DashMain>
   </section>
 </template>
@@ -134,10 +157,18 @@ import SessionAlert from "../../components/common/SessionAlert.vue";
 
 import ImageSuccess from "../../assets/register-success.svg";
 import ImageFailed from "../../assets/register-failed.svg";
+import DeleteWorkspacePopup from "../../components/common/DeleteWorkspacePopup.vue";
 
 export default {
   name: "SettingsPage",
-  components: { DashMain, InputLabel, TextInput, PrimaryButton, SessionAlert },
+  components: {
+    DashMain,
+    InputLabel,
+    TextInput,
+    PrimaryButton,
+    SessionAlert,
+    DeleteWorkspacePopup,
+  },
   emits: ["workspaceChanged"],
   data() {
     return {
@@ -145,7 +176,8 @@ export default {
       imageSrcFailed: ImageFailed,
       dashboardLoading: true,
       name: "Settings",
-      isSubmitting: false, // Tambahkan untuk menonaktifkan tombol saat submit
+      isSubmitting: false,
+      isDeleteModalOpen: false,
       form: {
         name: "",
         type: "",
@@ -217,6 +249,57 @@ export default {
         };
       } finally {
         this.isSubmitting = false;
+      }
+    },
+    openDeleteModal() {
+      this.isDeleteModalOpen = true;
+    },
+    closeDeleteModal() {
+      this.isDeleteModalOpen = false;
+    },
+    async handleDeleteWorkspace() {
+      this.clearFlashMessage();
+      this.isSubmitting = true;
+
+      try {
+        const response = await axios.delete(
+          `http://localhost:5002/api/workspaces/${this.workspaceId}`,
+          { withCredentials: true }
+        );
+
+        const data = await response.data;
+
+        if (!response) {
+          this.flashMessages.error = {
+            title: "Gagal Menghapus Workspace",
+            description: "Kesalahan saat menghapus workspace",
+          };
+          throw new Error("Gagal menghapus workspace");
+        }
+
+        this.flashMessages.success = {
+          title: "Workspace Berhasil Dihapus",
+          description: "Workspace berhasil dihapus.",
+        };
+
+        this.closeDeleteModal();
+
+        setTimeout(() => {
+          this.$router.push("/h");
+        }, 2000);
+      } catch (err) {
+        console.error("Failed to delete workspace", err);
+
+        this.flashMessages.error = {
+          title: "Gagal Menghapus Workspace",
+          description: "Kesalahan saat menghapus workspace",
+        };
+
+        this.closeDeleteModal();
+        
+        setTimeout(() => {
+          this.isSubmitting = false;
+        }, 1000);
       }
     },
     clearFlashMessage() {
