@@ -13,11 +13,11 @@ const checkRole = async (req, res, next) => {
       return next();
     }
 
-    const isAdmin = await workspaceMemberModel.findOne({
-      where: { user_id: userId, role: "admin" },
+    const isMember = await workspaceMemberModel.findOne({
+      where: { user_id: userId, role: "owner" },
     });
 
-    if (!isAdmin)
+    if (!isMember)
       throw new Error(
         "Unauthorized: User does not have permission to perform this action"
       );
