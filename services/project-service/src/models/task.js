@@ -44,6 +44,11 @@ const task = sequelize.define(
         min: 1,
       },
     },
+    completed: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   },
   {
     timestamps: true,
