@@ -84,12 +84,10 @@ const getBoardMembers = async (req, res) => {
     const token = req.cookies.authToken; // Ambil token dari cookies
 
     if (!token) {
-      return res
-        .status(401)
-        .json({
-          success: false,
-          message: "Unauthorized: Auth token not found.",
-        });
+      return res.status(401).json({
+        success: false,
+        message: "Unauthorized: Auth token not found.",
+      });
     }
 
     const members = await boardService.getBoardMembers(boardId, token);
