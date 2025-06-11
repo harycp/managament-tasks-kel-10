@@ -1,5 +1,6 @@
 <template>
   <div
+    @click="openTaskDetail"
     class="task-item group bg-white p-3 rounded-lg border border-gray-200 hover:border-gray-300 shadow-sm mb-2 cursor-pointer"
   >
     <div class="flex justify-between items-start">
@@ -41,11 +42,13 @@ export default {
       required: true,
     },
   },
-  emits: ["complete"],
+  emits: ["complete", "open-task"],
   methods: {
     onComplete() {
-      // Kirim event ke parent (List.vue) dengan ID task
       this.$emit("complete", this.task.id);
+    },
+    openTaskDetail() {
+      this.$emit("open-task", this.task);
     },
   },
 };

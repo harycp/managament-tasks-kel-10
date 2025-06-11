@@ -66,7 +66,11 @@
         @end="onTaskDragEnd"
       >
         <template #item="{ element: task }">
-          <TaskItem :task="task" @complete="onCompleteTask" />
+          <TaskItem
+            :task="task"
+            @complete="onCompleteTask"
+            @open-task="onOpenTaskDetail"
+          />
         </template>
       </draggable>
 
@@ -358,6 +362,9 @@ export default {
         taskId: movedTask.id,
         newPosition,
       });
+    },
+    onOpenTaskDetail(task) {
+      this.$emit("open-task", task);
     },
   },
   watch: {

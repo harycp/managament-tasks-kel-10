@@ -43,6 +43,7 @@
                   @add-task="handleAddNewTask"
                   @complete-task="handleCompleteTask"
                   @update-task-position="handleUpdateTaskPosition"
+                  @open-task="openTaskDetailModal"
                 />
               </template>
 
@@ -56,6 +57,14 @@
           </div>
         </div>
       </div>
+
+      <TaskDetailModal
+        :isOpen="isTaskDetailOpen"
+        :task="selectedTask"
+        :boardMembers="boardMembers"
+        @close="closeTaskDetailModal"
+        @update-task="handleUpdateTask"
+      />
     </DashMain>
   </section>
 </template>
@@ -65,12 +74,13 @@ import axios from "axios";
 import DashMain from "../../fragments/DashMain.vue";
 import AddList from "../../components/board/AddList.vue";
 import List from "../../components/board/List.vue";
+import TaskDetailModal from "../../components/board/TaskDetailModal.vue";
 
 import draggable from "vuedraggable";
 
 export default {
   name: "BoardDetail",
-  components: { DashMain, List, AddList, draggable },
+  components: { DashMain, List, AddList, draggable, TaskDetailModal },
   data() {
     return {
       dashboardLoading: true, // Dari parent
@@ -78,6 +88,9 @@ export default {
       // boardId: this.$route.params.boardId,
       board: null,
       lists: [],
+      boardMembers: [],
+      isTaskDetailOpen: false,
+      selectedTask: null,
     };
   },
   methods: {
@@ -89,6 +102,13 @@ export default {
           `http://localhost:5003/api/boards/${boardId}`,
           { withCredentials: true }
         );
+
+        const membersRes = await axios.get(
+          `http://localhost:5003/api/boards/${boardId}/members`,
+          { withCredentials: true }
+        );
+        this.boardMembers = membersRes.data.data;
+
         this.board = response.data.data;
         this.lists = response.data.data.lists || [];
         document.title = `${this.board.name} | Tuntask`;
@@ -189,6 +209,40 @@ export default {
         }
       } catch (error) {
         console.error("Failed to add new task:", error);
+      }
+    },
+
+    openTaskDetailModal(task) {
+      this.selectedTask = task;
+      this.isTaskDetailOpen = true;
+    },
+
+    closeTaskDetailModal() {
+      this.isTaskDetailOpen = false;
+      this.selectedTask = null;
+    },
+
+    async handleUpdateTask({ taskId, payload }) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5003/api/tasks/${taskId}`,
+          payload,
+          { withCredentials: true }
+        );
+        const updatedTask = response.data.data;
+
+        for (const list of this.lists) {
+          const taskIndex = list.tasks.findIndex((t) => t.id === taskId);
+          if (taskIndex !== -1) {
+            list.tasks[taskIndex] = {
+              ...list.tasks[taskIndex],
+              ...updatedTask,
+            };
+            break;
+          }
+        }
+      } catch (error) {
+        console.error("Failed to update task:", error);
       }
     },
 
