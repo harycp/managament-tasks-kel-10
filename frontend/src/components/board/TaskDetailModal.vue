@@ -56,18 +56,16 @@
           </div>
         </div>
 
-        <div
-          class="bg-gray-50 px-6 py-4 flex flex-row-reverse gap-3 rounded-b-xl"
-        >
+        <div class="px-6 py-4 flex flex-row-reverse gap-3 rounded-b-xl">
           <button
             @click="saveChanges"
-            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 font-semibold"
+            class="px-4 py-2 text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black hover:border-gray-300 hover:border rounded-md transition-all duration-300"
           >
             Save Changes
           </button>
           <button
             @click="close"
-            class="px-4 py-2 bg-gray-200 rounded-md hover:bg-gray-300 font-semibold"
+            class="px-4 py-2 text-sm font-semibold bg-white text-black border-gray-300 border hover:bg-black hover:!text-white rounded-md transition-all duration-300"
           >
             Close
           </button>

@@ -119,9 +119,9 @@
           </form>
         </div>
         <div
-          class="mt-6 rounded-xl border border-red-200 bg-white p-6 shadow-sm"
+          class="mt-6 rounded-xl border border-gray-200 bg-white p-6 shadow-sm"
         >
-          <h2 class="text-lg font-semibold text-red-600">Danger Zone</h2>
+          <h2 class="text-lg font-semibold text-gray-900">Danger Zone</h2>
           <p class="mt-1 text-sm text-gray-600">
             Tindakan menghapus workspace tidak dapat diurungkan. Mohon
             pertimbangkan dengan baik sebelum melanjutkan.
@@ -130,7 +130,7 @@
             <PrimaryButton
               @click="openDeleteModal"
               label="Hapus Workspace Ini"
-              :additionalClass="'text-sm font-semibold bg-red-600 text-white hover:bg-red-700'"
+              :additionalClass="'text-sm font-semibold py-2'"
             />
           </div>
         </div>
@@ -296,7 +296,7 @@ export default {
         };
 
         this.closeDeleteModal();
-        
+
         setTimeout(() => {
           this.isSubmitting = false;
         }, 1000);

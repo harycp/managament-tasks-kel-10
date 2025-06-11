@@ -42,7 +42,7 @@
             @click="$emit('confirm-delete')"
             label="Ya, Hapus Workspace"
             :inactive="isDeleting"
-            :additionalClass="'py-2 text-sm font-semibold bg-red-600 text-white hover:bg-red-700'"
+            :additionalClass="'py-2 text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black'"
           />
         </div>
       </div>

@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tiptap/extension-underline": "^2.14.0",
     "@tiptap/starter-kit": "^2.14.0",
     "@tiptap/vue-3": "^2.14.0",
     "axios": "^1.8.1",

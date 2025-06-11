@@ -151,13 +151,13 @@
         <div class="flex gap-2">
           <button
             @click="addNewTask"
-            class="bg-gray-600 text-white text-sm font-medium px-4 py-1.5 rounded-md hover:bg-gray-700"
+            class="text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black hover:border-gray-300 hover:border rounded-md transition-all duration-300 px-4 py-1.5"
           >
             Add task
           </button>
           <button
             @click="hideAddTaskForm"
-            class="text-gray-500 hover:text-gray-700 text-sm p-1.5"
+            class="text-sm font-semibold bg-white text-black border-gray-300 border hover:bg-black hover:!text-white rounded-md transition-all duration-300 p-1.5"
           >
             Cancel
           </button>
@@ -176,10 +176,10 @@
           <div class="px-6 py-5">
             <div class="flex items-start gap-4">
               <div
-                class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100"
+                class="flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-gray-100"
               >
                 <svg
-                  class="h-6 w-6 text-red-600"
+                  class="h-6 w-6 text-gray-600"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   xmlns="http://www.w3.org/2000/svg"
@@ -212,13 +212,13 @@
           >
             <button
               @click="handleDeleteConfirm"
-              class="inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-red-600 text-base font-medium text-white hover:bg-red-700 focus:outline-none sm:text-sm"
+              class="px-4 py-2 text-sm font-semibold bg-black text-white hover:bg-white hover:!text-black hover:border-gray-300 hover:border rounded-md transition-all duration-300"
             >
               Ya, Hapus
             </button>
             <button
               @click="cancelDelete"
-              class="inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none sm:text-sm"
+              class="px-4 py-2 text-sm font-semibold bg-white text-black border-gray-300 border hover:bg-black hover:!text-white rounded-md transition-all duration-300"
             >
               Batal
             </button>
