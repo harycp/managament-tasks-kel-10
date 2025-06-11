@@ -3,14 +3,14 @@
     <div
       v-if="!isEditing"
       @click="showForm"
-      class="cursor-pointer px-4 py-2 text-sm text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-xl transition"
+      class="cursor-pointer px-4 py-2 text-sm text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md transition"
     >
       + {{ buttonText }}
     </div>
 
     <div
       v-else
-      class="bg-white border border-gray-300 rounded-xl p-3 shadow-sm space-y-2"
+      class="bg-white border border-gray-300 rounded-md p-3 shadow-sm space-y-2"
     >
       <input
         ref="inputName"
