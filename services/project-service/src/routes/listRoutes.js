@@ -18,8 +18,11 @@ router.get(
   listController.getLists
 );
 router.get("/lists/:id", authenticate, listController.getListById);
-router.put("/lists/:id", authenticate, checkRole, listController.updateList);
+
+router.put("/lists/:id", authenticate, listController.updateList);
+
 router.put("/lists/:id/position", authenticate, checkRole, listController.updateListPosition);
+
 router.delete("/lists/:id", authenticate, checkRole, listController.deleteList);
 
 module.exports = router;

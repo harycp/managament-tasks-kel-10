@@ -190,6 +190,7 @@ export default {
   async created() {
     await this.fetchUserProfile();
     await this.fetchWorkspaces();
+    this.setActiveWorkspace(this.$route.params.workspaceId);
 
     const workspaceId = this.$route.params.workspaceId;
     if (workspaceId) {
@@ -201,6 +202,19 @@ export default {
     }
   },
   methods: {
+    setActiveWorkspace(workspaceId) {
+      if (this.workspaces.length === 0) {
+        this.activeWorkspace = null;
+        return;
+      }
+      if (workspaceId) {
+        this.activeWorkspace =
+          this.workspaces.find((ws) => ws.id === workspaceId) ||
+          this.workspaces[0];
+      } else {
+        this.activeWorkspace = this.workspaces[0];
+      }
+    },
     async fetchUserProfile() {
       try {
         const response = await axios.get("http://localhost:5001/api/profile", {
@@ -257,13 +271,9 @@ export default {
     },
     async handleBoardCreated() {
       await this.fetchWorkspaces();
-
       if (this.selectedWorkspace) {
-        this.activeWorkspace =
-          this.workspaces.find((ws) => ws.id === this.selectedWorkspace.id) ||
-          this.activeWorkspace;
+        this.setActiveWorkspace(this.selectedWorkspace.id);
       }
-
       this.showCreateBoard = false;
     },
 
@@ -273,6 +283,13 @@ export default {
     openCreateBoard(workspace) {
       this.selectedWorkspace = workspace;
       this.showCreateBoard = true;
+    },
+  },
+  watch: {
+    "$route.params.workspaceId": {
+      handler(newWorkspaceId) {
+        this.setActiveWorkspace(newWorkspaceId);
+      },
     },
   },
 };

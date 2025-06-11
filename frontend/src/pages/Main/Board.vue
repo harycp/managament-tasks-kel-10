@@ -50,7 +50,6 @@
                 />
               </template>
             </draggable>
-            
           </div>
         </div>
       </div>
@@ -73,27 +72,27 @@ export default {
     return {
       dashboardLoading: true, // Dari parent
       isLoading: true, // Loading spesifik untuk konten board
-      boardId: this.$route.params.boardId,
+      // boardId: this.$route.params.boardId,
       board: null,
       lists: [],
     };
   },
   methods: {
-    async fetchBoardDetails() {
+    async fetchBoardDetails(boardId) {
+      if (!boardId) return;
       this.isLoading = true;
       try {
         const response = await axios.get(
-          `http://localhost:5003/api/boards/${this.boardId}`,
+          `http://localhost:5003/api/boards/${boardId}`,
           { withCredentials: true }
         );
-
         this.board = response.data.data;
-        console.log(this.board);
         this.lists = response.data.data.lists || [];
         document.title = `${this.board.name} | Tuntask`;
       } catch (error) {
         console.error("Failed to fetch board details:", error);
-        // Mungkin redirect ke halaman not found
+        this.board = null;
+        this.lists = [];
       } finally {
         this.isLoading = false;
       }
@@ -102,13 +101,11 @@ export default {
     async handleAddNewList(listName) {
       try {
         const response = await axios.post(
-          `http://localhost:5003/api/boards/${this.boardId}/lists`, // Ganti port jika perlu
+          `http://localhost:5003/api/boards/${this.$route.params.boardId}/lists`,
           { name: listName },
           { withCredentials: true }
         );
-
-        const newList = response.data.data;
-        this.lists.push(newList);
+        this.lists.push(response.data.data);
       } catch (error) {
         console.error("Failed to add new list:", error);
       }
@@ -171,8 +168,13 @@ export default {
     },
   },
 
-  mounted() {
-    this.fetchBoardDetails();
+  watch: {
+    "$route.params.boardId": {
+      handler(newBoardId) {
+        this.fetchBoardDetails(newBoardId);
+      },
+      immediate: true,
+    },
   },
 };
 </script>

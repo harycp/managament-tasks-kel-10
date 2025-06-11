@@ -17,6 +17,7 @@ list.belongsTo(board, {
 list.hasMany(task, {
   foreignKey: "list_id",
   as: "tasks",
+  onDelete: "CASCADE",
 });
 
 task.belongsTo(list, {

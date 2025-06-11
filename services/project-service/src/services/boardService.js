@@ -1,5 +1,6 @@
 const board = require("../models/board");
 const boardModel = require("../models/board");
+const listModel = require("../models/list");
 const { getWorkspaceById } = require("./workspaceService");
 
 /**
@@ -88,7 +89,18 @@ const getBoards = async (workspaceId, token) => {
 
 const getBoardById = async (boardId) => {
   // Mencari board berdasarkan primary key (ID)
-  const board = await boardModel.findByPk(boardId);
+  const board = await boardModel.findByPk(boardId, {
+    include: [
+      {
+        model: listModel,
+        as: "lists",
+        order: [["position", "ASC"]],
+      },
+    ],
+  });
+
+  if (!board) throw new Error("Board not found");
+
   return board;
 };
 
