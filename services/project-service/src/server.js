@@ -7,6 +7,7 @@ const cookieParser = require("cookie-parser");
 
 const boardRoutes = require("./routes/boardRoutes");
 const listRoutes = require("./routes/listRoutes");
+const taskRoutes = require("./routes/taskRoutes");
 
 const workspaceEventConsumer = require("./kafka/consumers/workspaceEventConsumer");
 
@@ -28,6 +29,7 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", boardRoutes);
 app.use("/api", listRoutes);
+app.use("/api", taskRoutes);
 
 const PORT = process.env.PORT || 5000;
 
