@@ -15,6 +15,7 @@ router.get("/users", authenticate, userController.getUsers);
 
 router.get("/users/by-email", authenticate, userController.getUserByEmail);
 router.post("/users/batch", authenticate, userController.getUsersBatch);
+router.get("/users/batch", authenticate, userController.getUsersInBatch);
 
 router.get("/users/:id", authenticate, userController.getUserById);
 router.put("/users/:id", authenticate, userController.updateUser);

@@ -229,6 +229,20 @@ const getUsersBatch = async (req, res) => {
   }
 };
 
+const getUsersInBatch = async (req, res) => {
+  try {
+    const { ids } = req.query;
+
+    const userIds = ids.split(",");
+
+    const users = await userService.getUsersBatch(userIds);
+
+    res.status(200).json({ message: "Users retrieved", data: users });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+};
+
 module.exports = {
   createUser,
   loginUser,
@@ -249,4 +263,5 @@ module.exports = {
   deleteUser,
   getUserByEmail,
   getUsersBatch,
+  getUsersInBatch,
 };

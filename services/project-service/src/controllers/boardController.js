@@ -26,7 +26,7 @@ const createBoard = async (req, res) => {
 const getBoards = async (req, res) => {
   try {
     const workspaceId = req.params.id;
-    const token = req.cookies.authToken; 
+    const token = req.cookies.authToken;
 
     const boards = await boardService.getBoards(workspaceId, token);
 
@@ -78,10 +78,34 @@ const deleteBoard = async (req, res) => {
   }
 };
 
+const getBoardMembers = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+    const token = req.cookies.authToken; // Ambil token dari cookies
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({
+          success: false,
+          message: "Unauthorized: Auth token not found.",
+        });
+    }
+
+    const members = await boardService.getBoardMembers(boardId, token);
+
+    res.status(200).json({ success: true, data: members });
+  } catch (error) {
+    console.error("Error in getBoardMembers controller:", error.message);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
 module.exports = {
   createBoard,
   getBoards,
   getBoardById,
   updateBoard,
   deleteBoard,
+  getBoardMembers,
 };

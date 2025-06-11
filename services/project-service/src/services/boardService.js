@@ -2,7 +2,10 @@ const board = require("../models/board");
 const boardModel = require("../models/board");
 const listModel = require("../models/list");
 const taskModel = require("../models/task");
+const boardMemberModel = require("../models/boardMember");
 const { getWorkspaceById } = require("./workspaceService");
+
+const { userResponse } = require("./userService");
 
 /**
  * Module untuk mengelola data board.
@@ -173,6 +176,41 @@ const deleteBoardsByWorkspaceId = async (workspaceId) => {
   });
 };
 
+const getBoardMembers = async (boardId, token) => {
+  const membersInBoard = await boardMemberModel.findAll({
+    where: { board_id: boardId },
+    attributes: ["user_id", "role"],
+    raw: true,
+  });
+
+  // Jika tidak ada anggota, kembalikan array kosong.
+  if (!membersInBoard || membersInBoard.length === 0) {
+    return [];
+  }
+
+  const userIds = membersInBoard.map((member) => member.user_id);
+
+  const usersDataResponse = await userResponse(token, userIds);
+  if (!usersDataResponse || !usersDataResponse.success) {
+    console.error("Failed to fetch user details from User Service.");
+    return [];
+  }
+  const usersData = usersDataResponse.data;
+
+  const hydratedMembers = membersInBoard.map((member) => {
+    const userDetail = usersData.find((user) => user.id === member.user_id);
+    return {
+      id: member.user_id,
+      username: userDetail ? userDetail.username : "UnknownUser",
+      name: userDetail ? userDetail.name : "Unknown User",
+      email: userDetail ? userDetail.email : "N/A",
+      role: member.role,
+    };
+  });
+
+  return hydratedMembers;
+};
+
 // Mengekspor semua fungsi agar bisa digunakan di file lain
 module.exports = {
   createBoard,
@@ -182,4 +220,5 @@ module.exports = {
   updateBoard,
   deleteBoard,
   deleteBoardsByWorkspaceId,
+  getBoardMembers,
 };

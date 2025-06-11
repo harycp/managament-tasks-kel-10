@@ -11,6 +11,14 @@ router.post(
   boardController.createBoard
 );
 router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);
+
+router.get(
+  "/boards/:boardId/members",
+  authenticate,
+  checkRole,
+  boardController.getBoardMembers
+);
+
 router.get("/boards/:id", authenticate, boardController.getBoardById);
 router.put("/boards/:id", authenticate, checkRole, boardController.updateBoard);
 router.delete(

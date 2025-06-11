@@ -3,6 +3,7 @@ const sequelize = require("../database");
 const board = require("./board");
 const list = require("./list");
 const task = require("./task");
+const boardMember = require("./boardMember");
 
 board.hasMany(list, {
   foreignKey: "board_id",
@@ -25,5 +26,15 @@ task.belongsTo(list, {
   as: "list",
 });
 
-const db = { sequelize, board, list, task };
+board.hasMany(boardMember, {
+  foreignKey: "board_id",
+  as: "members",
+});
+
+boardMember.belongsTo(board, {
+  foreignKey: "board_id",
+  as: "board",
+});
+
+const db = { sequelize, board, list, task, boardMember };
 module.exports = db;
