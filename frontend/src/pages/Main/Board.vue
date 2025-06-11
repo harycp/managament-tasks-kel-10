@@ -26,12 +26,31 @@
               <div class="text-gray-400">Loading lists...</div>
             </template>
 
-            <List v-for="list in lists" :key="list.id" :list="list" />
+            <draggable
+              v-model="lists"
+              item-key="id"
+              class="flex items-start gap-4 h-full"
+              @end="handleDragEnd"
+              handle=".drag-handle"
+              :animation="200"
+            >
+              <template #item="{ element: list, index }">
+                <List
+                  :key="list.id"
+                  :list="list"
+                  @update-list-name="handleUpdateListName"
+                  @delete-list="handleDeleteList(index)"
+                />
+              </template>
 
-            <AddList
-              :has-lists="lists.length > 0"
-              @add-list="handleAddNewList"
-            />
+              <template #footer>
+                <AddList
+                  :has-lists="lists.length > 0"
+                  @add-list="handleAddNewList"
+                />
+              </template>
+            </draggable>
+            
           </div>
         </div>
       </div>
@@ -45,9 +64,11 @@ import DashMain from "../../fragments/DashMain.vue";
 import AddList from "../../components/board/AddList.vue";
 import List from "../../components/board/List.vue";
 
+import draggable from "vuedraggable";
+
 export default {
   name: "BoardDetail",
-  components: { DashMain, List, AddList },
+  components: { DashMain, List, AddList, draggable },
   data() {
     return {
       dashboardLoading: true, // Dari parent
@@ -90,6 +111,62 @@ export default {
         this.lists.push(newList);
       } catch (error) {
         console.error("Failed to add new list:", error);
+      }
+    },
+
+    async handleUpdateListName({ listId, newName }) {
+      try {
+        await axios.put(
+          `http://localhost:5003/api/lists/${listId}`,
+          { name: newName },
+          { withCredentials: true }
+        );
+
+        const listToUpdate = this.lists.find((list) => list.id === listId);
+        if (listToUpdate) {
+          listToUpdate.name = newName;
+        }
+      } catch (error) {
+        console.error("Failed to update list name:", error);
+      }
+    },
+
+    async handleDeleteList(listIndex) {
+      const listToDelete = this.lists[listIndex];
+      if (!listToDelete) return;
+
+      try {
+        await axios.delete(
+          `http://localhost:5003/api/lists/${listToDelete.id}`,
+          { withCredentials: true }
+        );
+
+        this.lists.splice(listIndex, 1);
+      } catch (error) {
+        console.error("Failed to delete list:", error);
+      }
+    },
+
+    async handleDragEnd(event) {
+      const { oldIndex, newIndex } = event;
+
+      if (oldIndex === newIndex) return;
+
+      const movedList = this.lists[newIndex];
+      const listId = movedList.id;
+
+      const newPosition = newIndex + 1;
+
+      try {
+        await axios.put(
+          `http://localhost:5003/api/lists/${listId}/position`,
+          { newPosition },
+          { withCredentials: true }
+        );
+      } catch (error) {
+        console.error("Failed to update list position:", error);
+        const item = this.lists.splice(newIndex, 1)[0];
+        this.lists.splice(oldIndex, 0, item);
       }
     },
   },

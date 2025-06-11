@@ -99,33 +99,38 @@
                 :key="index"
                 class="px-4 py-3 hover:bg-gray-50 transition flex justify-between items-center cursor-pointer"
               >
-                <div class="flex flex-col">
-                  <span class="font-medium text-gray-800">{{
-                    board.name
-                  }}</span>
-                  <span class="text-xs text-gray-500"
-                    >Last updated 3 days ago</span
-                  >
-                </div>
-                <svg
-                  class="w-4 h-4"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  xmlns="http://www.w3.org/2000/svg"
-                  transform="rotate(90)"
+                <router-link
+                  :to="`/workspace/${workspace.id}/boards/${board.id}`"
+                  class="flex justify-between items-center w-full"
                 >
-                  <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                  <g
-                    id="SVGRepo_tracerCarrier"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  ></g>
-                  <g id="SVGRepo_iconCarrier">
-                    <path
-                      d="M11 20h2V8h2V6h-2V4h-2v2H9v2h2v12zM7 10V8h2v2H7zm0 0v2H5v-2h2zm10 0V8h-2v2h2zm0 0v2h2v-2h-2z"
-                    ></path>
-                  </g>
-                </svg>
+                  <div class="flex flex-col">
+                    <span class="font-medium text-gray-800">{{
+                      board.name
+                    }}</span>
+                    <span class="text-xs text-gray-500"
+                      >Last updated 3 days ago</span
+                    >
+                  </div>
+                  <svg
+                    class="w-4 h-4"
+                    viewBox="0 0 24 24"
+                    fill="currentColor"
+                    xmlns="http://www.w3.org/2000/svg"
+                    transform="rotate(90)"
+                  >
+                    <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                    <g
+                      id="SVGRepo_tracerCarrier"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                    ></g>
+                    <g id="SVGRepo_iconCarrier">
+                      <path
+                        d="M11 20h2V8h2V6h-2V4h-2v2H9v2h2v12zM7 10V8h2v2H7zm0 0v2H5v-2h2zm10 0V8h-2v2h2zm0 0v2h2v-2h-2z"
+                      ></path>
+                    </g>
+                  </svg>
+                </router-link>
               </div>
 
               <!-- Create New Board -->
