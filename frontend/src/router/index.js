@@ -14,6 +14,7 @@ import Boards from "../pages/Boards/Boards.vue";
 import Main from "../pages/Main/Index.vue";
 import Member from "../pages/Main/Member.vue";
 import Setting from "../pages/Main/Setting.vue";
+import MainBoard from "../pages/Main/Board.vue";
 
 const routes = [
   { path: "/", name: "landing", component: Index },
@@ -58,6 +59,11 @@ const routes = [
     path: "/workspace/:workspaceId/boards",
     name: "Main",
     component: Main,
+  },
+  {
+    path: "/workspace/:workspaceId/boards/:boardId",
+    name: "MainBoard",
+    component: MainBoard,
   },
   {
     path: "/workspace/:workspaceId/member",

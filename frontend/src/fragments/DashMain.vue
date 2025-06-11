@@ -85,7 +85,7 @@
           <div v-for="board in activeWorkspace.boards" :key="board.id">
             <NavItem
               :title="board.name"
-              :link="`/boards/${board.id}`"
+              :link="`/workspace/${activeWorkspace.id}/boards/${board.id}`"
               :isActive="name === board.name"
             >
               <!-- optional icon -->
