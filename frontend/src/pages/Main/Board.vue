@@ -40,6 +40,9 @@
                   :list="list"
                   @update-list-name="handleUpdateListName"
                   @delete-list="handleDeleteList(index)"
+                  @add-task="handleAddNewTask"
+                  @complete-task="handleCompleteTask"
+                  @update-task-position="handleUpdateTaskPosition"
                 />
               </template>
 
@@ -164,6 +167,64 @@ export default {
         console.error("Failed to update list position:", error);
         const item = this.lists.splice(newIndex, 1)[0];
         this.lists.splice(oldIndex, 0, item);
+      }
+    },
+
+    async handleAddNewTask({ listId, name }) {
+      try {
+        const response = await axios.post(
+          `http://localhost:5003/api/lists/${listId}/tasks`,
+          { name },
+          { withCredentials: true }
+        );
+        const newTask = response.data.data;
+
+        // Cari list yang sesuai dan tambahkan task baru ke dalamnya
+        const targetList = this.lists.find((l) => l.id === listId);
+        if (targetList) {
+          if (!targetList.tasks) {
+            targetList.tasks = [];
+          }
+          targetList.tasks.push(newTask);
+        }
+      } catch (error) {
+        console.error("Failed to add new task:", error);
+      }
+    },
+
+    async handleCompleteTask({ taskId }) {
+      try {
+        const response = await axios.put(
+          `http://localhost:5003/api/tasks/${taskId}`,
+          { completed: true },
+          { withCredentials: true }
+        );
+        const updatedTask = response.data.data;
+
+        // Cari dan update task di state lokal
+        for (const list of this.lists) {
+          const taskIndex = list.tasks.findIndex((t) => t.id === taskId);
+          if (taskIndex !== -1) {
+            // Ganti objek task lama dengan yang baru dari server
+            list.tasks[taskIndex] = updatedTask;
+            break;
+          }
+        }
+      } catch (error) {
+        console.error("Failed to complete task:", error);
+      }
+    },
+
+    async handleUpdateTaskPosition({ taskId, newPosition }) {
+      try {
+        await axios.put(
+          `http://localhost:5003/api/tasks/${taskId}/position`,
+          { newPosition },
+          { withCredentials: true }
+        );
+        this.fetchBoardDetails(this.$route.params.boardId);
+      } catch (error) {
+        console.error("Failed to update task position:", error);
       }
     },
   },

@@ -9,16 +9,21 @@
       >
         <svg
           class="w-full h-full text-gray-400 hover:text-green-500"
-          fill="none"
           viewBox="0 0 24 24"
-          stroke="currentColor"
+          fill="currentColor"
+          xmlns="http://www.w3.org/2000/svg"
         >
-          <path
+          <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+          <g
+            id="SVGRepo_tracerCarrier"
             stroke-linecap="round"
             stroke-linejoin="round"
-            stroke-width="2"
-            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-          ></path>
+          ></g>
+          <g id="SVGRepo_iconCarrier">
+            <path
+              d="M5 3H3v18h18V3H5zm0 2h14v14H5V5zm4 7H7v2h2v2h2v-2h2v-2h2v-2h2V8h-2v2h-2v2h-2v2H9v-2z"
+            ></path>
+          </g>
         </svg>
       </button>
 

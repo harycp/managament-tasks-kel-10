@@ -1,6 +1,7 @@
 const board = require("../models/board");
 const boardModel = require("../models/board");
 const listModel = require("../models/list");
+const taskModel = require("../models/task");
 const { getWorkspaceById } = require("./workspaceService");
 
 /**
@@ -94,8 +95,22 @@ const getBoardById = async (boardId) => {
       {
         model: listModel,
         as: "lists",
-        order: [["position", "ASC"]],
+        include: [
+          {
+            model: taskModel,
+            as: "tasks",
+          },
+        ],
       },
+    ],
+    order: [
+      [{ model: listModel, as: "lists" }, "position", "ASC"],
+      [
+        { model: listModel, as: "lists" },
+        { model: taskModel, as: "tasks" },
+        "position",
+        "ASC",
+      ],
     ],
   });
 

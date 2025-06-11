@@ -57,35 +57,109 @@
         </li>
       </ul>
     </div>
-    <div class="flex-1 overflow-y-auto px-4 py-2">
-      <div
-        v-if="!list.tasks || list.tasks.length === 0"
-        class="text-center text-sm text-gray-400 italic py-6"
+    <div class="flex-1 overflow-y-auto px-2 pt-2">
+      <draggable
+        v-model="localIncompleteTasks"
+        item-key="id"
+        class="min-h-[10px]"
+        group="tasks"
+        @end="onTaskDragEnd"
       >
-        No tasks yet
+        <template #item="{ element: task }">
+          <TaskItem :task="task" @complete="onCompleteTask" />
+        </template>
+      </draggable>
+
+      <div
+        v-if="completedTasks.length > 0 && incompleteTasks.length > 0"
+        class="my-3 px-2"
+      >
+        <div class="border-t border-gray-300"></div>
+      </div>
+
+      <div v-if="completedTasks.length > 0">
+        <h4 class="text-xs font-bold text-gray-400 uppercase px-2 mb-2">
+          {{ completedTasks.length }} Completed
+        </h4>
+        <div v-for="task in completedTasks" :key="task.id" class="opacity-70">
+          <div
+            class="bg-white p-3 rounded-lg border mb-2 flex items-center gap-3"
+          >
+            <svg
+              class="w-4 h-4 text-green-500 flex-shrink-0"
+              viewBox="0 0 24 24"
+              fill="currentColor"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+              <g
+                id="SVGRepo_tracerCarrier"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></g>
+              <g id="SVGRepo_iconCarrier">
+                <path
+                  d="M5 3H3v18h18V3H5zm0 2h14v14H5V5zm4 7H7v2h2v2h2v-2h2v-2h2v-2h2V8h-2v2h-2v2h-2v2H9v-2z"
+                ></path>
+              </g>
+            </svg>
+            <span class="text-sm text-gray-600 line-through">{{
+              task.name
+            }}</span>
+          </div>
+        </div>
       </div>
     </div>
 
-    <button
-      class="mt-auto text-sm flex items-center gap-2 text-gray-500 hover:text-gray-600 px-4 py-2 text-left transition"
-    >
-      <svg
-        class="w-4 h-4"
-        fill="none"
-        stroke="currentColor"
-        viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          stroke-width="2"
-          d="M12 6v6m0 0v6m0-6h6m-6 0H6"
-        ></path>
-      </svg>
-      <span>Add a task</span>
-    </button>
-
+    <div class="px-3 pt-2 pb-3">
+      <div v-if="!isAddingTask">
+        <button
+          @click="showAddTaskForm"
+          class="mt-auto w-full text-sm flex items-center gap-2 text-gray-500 hover:text-gray-600 px-2 py-1.5 text-left transition hover:bg-gray-200 rounded-md"
+        >
+          <svg
+            class="w-4 h-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            ></path>
+          </svg>
+          <span>Add a task</span>
+        </button>
+      </div>
+      <div v-else class="space-y-2">
+        <textarea
+          ref="newTaskTextarea"
+          v-model="newTaskName"
+          @keyup.enter.prevent="addNewTask"
+          @keyup.esc="hideAddTaskForm"
+          placeholder="Enter a title for this task..."
+          class="w-full text-sm border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-gray-500 shadow-sm resize-none"
+          rows="3"
+        ></textarea>
+        <div class="flex gap-2">
+          <button
+            @click="addNewTask"
+            class="bg-gray-600 text-white text-sm font-medium px-4 py-1.5 rounded-md hover:bg-gray-700"
+          >
+            Add task
+          </button>
+          <button
+            @click="hideAddTaskForm"
+            class="text-gray-500 hover:text-gray-700 text-sm p-1.5"
+          >
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
     <transition name="modal-fade">
       <div
         v-if="showDeleteConfirm"
@@ -152,8 +226,12 @@
 </template>
 
 <script>
+import draggable from "vuedraggable";
+import TaskItem from "./TaskItem.vue";
+
 export default {
   name: "ListComponent",
+  components: { draggable, TaskItem },
   props: {
     list: {
       type: Object,
@@ -166,12 +244,31 @@ export default {
       isEditingName: false,
       editedListName: "",
       showDeleteConfirm: false, // State untuk kontrol modal
+      isAddingTask: false,
+      newTaskName: "",
     };
   },
   computed: {
-    // Computed property untuk membuat pesan dinamis
     deleteConfirmationMessage() {
       return `Apakah Anda yakin ingin menghapus list "${this.list.name}"? Semua task di dalamnya juga akan terhapus secara permanen. Aksi ini tidak dapat dibatalkan.`;
+    },
+    incompleteTasks() {
+      if (!this.list.tasks) return [];
+      return this.list.tasks
+        .filter((t) => !t.completed)
+        .sort((a, b) => a.position - b.position);
+    },
+    completedTasks() {
+      if (!this.list.tasks) return [];
+      return this.list.tasks
+        .filter((t) => t.completed)
+        .sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+    },
+    localIncompleteTasks: {
+      get() {
+        return this.incompleteTasks;
+      },
+      set(newTasks) {},
     },
   },
   methods: {
@@ -231,6 +328,36 @@ export default {
       ) {
         this.closeMenu();
       }
+    },
+
+    showAddTaskForm() {
+      this.isAddingTask = true;
+      this.$nextTick(() => this.$refs.newTaskTextarea.focus());
+    },
+    hideAddTaskForm() {
+      this.isAddingTask = false;
+      this.newTaskName = "";
+    },
+    addNewTask() {
+      const trimmedName = this.newTaskName.trim();
+      if (!trimmedName) return;
+      this.$emit("add-task", { listId: this.list.id, name: trimmedName });
+      this.hideAddTaskForm();
+    },
+    onCompleteTask(taskId) {
+      this.$emit("complete-task", { taskId });
+    },
+    onTaskDragEnd(event) {
+      const { oldIndex, newIndex } = event;
+      if (oldIndex === newIndex) return;
+
+      const movedTask = this.incompleteTasks[newIndex];
+      const newPosition = newIndex + 1;
+
+      this.$emit("update-task-position", {
+        taskId: movedTask.id,
+        newPosition,
+      });
     },
   },
   watch: {
