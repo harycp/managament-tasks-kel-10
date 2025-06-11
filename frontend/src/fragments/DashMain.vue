@@ -123,7 +123,7 @@
 
     <main class="flex-1 p-1 overflow-y-scroll h-screen flex flex-col gap-4">
       <!-- Profile Header -->
-      <NavbarHome
+      <NavbarMain
         :user="user"
         @openProfile="showProfilePopup = true"
         :title="title"
@@ -156,7 +156,7 @@ import Logo from "../components/layout/Logo.vue";
 import NavDropdown from "../components/dashboard/NavDropdown.vue";
 import NavItem from "../components/dashboard/NavItem.vue";
 import SideBar from "../components/dashboard/SideBar.vue";
-import NavbarHome from "../components/home/NavbarHome.vue";
+import NavbarMain from "../components/home/NavbarMain.vue";
 import Profile from "../components/common/Profile.vue";
 import CreateBoard from "../components/common/CreateBoard.vue";
 
@@ -166,7 +166,7 @@ export default {
     NavItem,
     SideBar,
     NavDropdown,
-    NavbarHome,
+    NavbarMain,
     Profile,
     CreateBoard,
   },
