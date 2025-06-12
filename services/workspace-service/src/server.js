@@ -9,7 +9,10 @@ const workspaceRoutes = require("./routes/workspaceRoutes");
 const workspaceMemberRoutes = require("./routes/workspaceMemberRoutes");
 const db = require("./models");
 
-const userEventConsumer = require("./kafka/consumers/userEventConsumer");
+// const userEventConsumer = require("./kafka/consumers/userEventConsumer");
+// const boardEventConsumer = require("./kafka/consumers/boardEventConsumer");
+
+const { runMainConsumer } = require("./kafka/consumers/mainConsumer");
 
 dotenv.config();
 
@@ -35,7 +38,11 @@ const startServer = async () => {
     await db.sequelize.sync({ alter: true });
     console.log("Database connected");
 
-    await userEventConsumer.runUserConsumer();
+    runMainConsumer().catch((error) => {
+      console.error("FATAL: Kafka consumer failed to start.", error);
+      process.exit(1);
+    });
+
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);

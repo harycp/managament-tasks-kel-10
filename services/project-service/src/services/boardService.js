@@ -5,7 +5,10 @@ const taskModel = require("../models/task");
 const boardMemberModel = require("../models/boardMember");
 const { getWorkspaceById } = require("./workspaceService");
 
+const boardEventProducer = require("../kafka/producers/boardEventProducer");
+
 const { userResponse, findUserByEmail } = require("./userService");
+const { Op } = require("sequelize");
 
 /**
  * Module untuk mengelola data board.
@@ -35,6 +38,12 @@ const createBoard = async ({ name, workspaceId, ownerId, visibility }) => {
     visibility,
     workspace_id: workspaceId,
     owner_id: ownerId,
+  });
+
+  await boardMemberModel.create({
+    board_id: board.id,
+    user_id: ownerId,
+    role: "admin",
   });
 
   return board;
@@ -202,9 +211,23 @@ const addBoardMembers = async (boardId, email, role, token) => {
     throw new Error("This user is already a member of the board.");
   }
 
+  const board = await boardModel.findByPk(boardId, {
+    attributes: ["workspace_id"],
+  });
+
+  if (!board) {
+    throw new Error("Board not found.");
+  }
+
   await boardMemberModel.create({
     board_id: boardId,
     user_id: userId,
+    role: role,
+  });
+
+  await boardEventProducer.sendMemberAddedToBoardEvent({
+    userId: userId,
+    workspaceId: board.workspace_id,
     role: role,
   });
 
@@ -252,6 +275,66 @@ const getBoardMembers = async (boardId, token) => {
   return hydratedMembers;
 };
 
+const getBoardsForUser = async (userId, token) => {
+  const memberships = await boardMemberModel.findAll({
+    where: { user_id: userId },
+    attributes: ["board_id"],
+    raw: true,
+  });
+  const memberBoardIds = memberships.map((m) => m.board_id);
+
+  const ownedBoards = await boardModel.findAll({
+    where: { owner_id: userId },
+    attributes: ["id"],
+    raw: true,
+  });
+  const ownedBoardIds = ownedBoards.map((b) => b.id);
+
+  const allBoardIds = [...new Set([...memberBoardIds, ...ownedBoardIds])];
+
+  if (allBoardIds.length === 0) {
+    return [];
+  }
+
+  const boards = await boardModel.findAll({
+    where: {
+      id: { [Op.in]: allBoardIds },
+    },
+    raw: true,
+  });
+
+  if (boards.length === 0) {
+    return [];
+  }
+
+  const uniqueWorkspaceIds = [...new Set(boards.map((b) => b.workspace_id))];
+  const workspacePromises = uniqueWorkspaceIds.map((wsId) =>
+    getWorkspaceById(wsId, token)
+  );
+  const workspaceResponses = await Promise.all(workspacePromises);
+  const workspaceMap = new Map();
+  workspaceResponses.forEach((response) => {
+    if (response && response.data) {
+      workspaceMap.set(response.data.id, response.data);
+    }
+  });
+
+  const hydratedBoards = boards.map((board) => {
+    const workspaceData = workspaceMap.get(board.workspace_id);
+    return {
+      ...board,
+      workspace: workspaceData || {
+        name: "Unknown Workspace",
+        id: board.workspace_id,
+      },
+    };
+  });
+
+  hydratedBoards.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
+
+  return hydratedBoards;
+};
+
 // Mengekspor semua fungsi agar bisa digunakan di file lain
 module.exports = {
   createBoard,
@@ -263,4 +346,5 @@ module.exports = {
   deleteBoardsByWorkspaceId,
   addBoardMembers,
   getBoardMembers,
+  getBoardsForUser,
 };

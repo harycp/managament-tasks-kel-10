@@ -268,6 +268,30 @@ const addMember = async (workspaceId, email, role, token) => {
   return newMember;
 };
 
+const addMemberById = async (workspaceId, userId, role) => {
+  const existingMember = await workspaceMemberModel.findOne({
+    where: { workspace_id: workspaceId, user_id: userId },
+  });
+
+  if (existingMember) {
+    console.log(
+      `[WorkspaceService] User ${userId} is already a member of workspace ${workspaceId}. Skipping.`
+    );
+    return existingMember;
+  }
+
+  const newMember = await workspaceMemberModel.create({
+    workspace_id: workspaceId,
+    user_id: userId,
+    role: role,
+  });
+
+  console.log(
+    `[WorkspaceService] User ${userId} added to workspace ${workspaceId} via Kafka event.`
+  );
+  return newMember;
+};
+
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,
@@ -275,4 +299,5 @@ module.exports = {
   updateWorkspaceMember,
   deleteWorkspaceMember,
   addMember,
+  addMemberById,
 };

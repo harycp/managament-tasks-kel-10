@@ -126,6 +126,18 @@ const getBoardMembers = async (req, res) => {
   }
 };
 
+const getBoardsForUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const token = req.cookies.authToken;
+    const boards = await boardService.getBoardsForUser(userId, token);
+
+    res.status(200).json({ message: "Boards retrieved", data: boards });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createBoard,
   getBoards,
@@ -134,4 +146,5 @@ module.exports = {
   deleteBoard,
   addBoardMembers,
   getBoardMembers,
+  getBoardsForUser,
 };
