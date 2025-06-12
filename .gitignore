@@ -11,6 +11,9 @@ pnpm-debug.log*
 .env.test.local
 .env.production.local
 
+# Mengabaikan file _env.disabled secara spesifik
+_env.disabled
+
 # Logs
 logs
 *.log
@@ -22,6 +25,7 @@ lerna-debug.log
 node_modules/.cache
 
 # Docker
+docker-compose.yml
 docker-compose.override.yml
 .docker/
 *.pid
