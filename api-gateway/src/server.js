@@ -2,13 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const axios = require("axios");
-// const db = require("./models");
-// const notificationService = require("../services/notification-service/src/server.js");
-// const projectService = require("../../services/project-service/src/server.js");
-// const userService = require("../../services/user-service/src/server.js");
-// const workspaceService = require("../../services/workspace-service/src/server.js");
 
-// Variabel environment dari file .env
 dotenv.config();
 
 const app = express();
@@ -74,10 +68,6 @@ const PORT = process.env.PORT || 5050;
 
 const startServer = async () => {
   try {
-    // await db.sequelize.sync({ alter: true });
-    // console.log("Database connected");
-
-    // await workspaceEventConsumer.runWorkspaceConsumer();
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   } catch (error) {
     console.error("Error connecting to database:", error);
@@ -85,10 +75,3 @@ const startServer = async () => {
 };
 
 startServer();
-
-// app.listen(PORT, () => {
-//   console.log(`API Gateway running on port ${PORT}`);
-//   console.log(`http://localhost:${PORT}/project/project-service`);
-//   console.log(`http://localhost:${PORT}/user/user-service`);
-//   console.log(`http://localhost:${PORT}/workspace/workspace-service`);
-// });
