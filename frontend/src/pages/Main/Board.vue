@@ -17,6 +17,31 @@
           <p v-if="board?.description" class="text-gray-500 mt-1 text-sm">
             {{ board.description }}
           </p>
+
+          <div class="flex items-center gap-4 mt-4">
+            <div class="flex -space-x-2">
+              <div
+                v-for="member in boardMembers.slice(0, 5)"
+                :key="member.id"
+                :title="member.name"
+                class="w-8 h-8 rounded-full border-2 border-white bg-gray-500 text-white flex items-center justify-center font-semibold text-sm ring-1 ring-gray-300"
+              >
+                {{ member.name ? member.name.charAt(0).toUpperCase() : "?" }}
+              </div>
+              <div
+                v-if="boardMembers.length > 5"
+                class="w-8 h-8 rounded-full border-2 border-white bg-gray-200 text-gray-600 flex items-center justify-center font-semibold text-xs ring-1 ring-gray-300"
+              >
+                +{{ boardMembers.length - 5 }}
+              </div>
+            </div>
+            <button
+              @click="isAddMemberModalOpen = true"
+              class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-200"
+            >
+              Invite
+            </button>
+          </div>
         </div>
 
         <!-- List Container -->
@@ -38,6 +63,7 @@
                 <List
                   :key="list.id"
                   :list="list"
+                  :boardMembers="boardMembers"
                   @update-list-name="handleUpdateListName"
                   @delete-list="handleDeleteList(index)"
                   @add-task="handleAddNewTask"
@@ -65,6 +91,13 @@
         @close="closeTaskDetailModal"
         @update-task="handleUpdateTask"
       />
+
+      <AddMemberModal
+        :isOpen="isAddMemberModalOpen"
+        :boardId="$route.params.boardId"
+        @close="isAddMemberModalOpen = false"
+        @member-added="handleMemberAdded"
+      />
     </DashMain>
   </section>
 </template>
@@ -75,12 +108,20 @@ import DashMain from "../../fragments/DashMain.vue";
 import AddList from "../../components/board/AddList.vue";
 import List from "../../components/board/List.vue";
 import TaskDetailModal from "../../components/board/TaskDetailModal.vue";
+import AddMemberModal from "../../components/board/AddMemberModal.vue";
 
 import draggable from "vuedraggable";
 
 export default {
   name: "BoardDetail",
-  components: { DashMain, List, AddList, draggable, TaskDetailModal },
+  components: {
+    DashMain,
+    List,
+    AddList,
+    draggable,
+    TaskDetailModal,
+    AddMemberModal,
+  },
   data() {
     return {
       dashboardLoading: true, // Dari parent
@@ -91,6 +132,7 @@ export default {
       boardMembers: [],
       isTaskDetailOpen: false,
       selectedTask: null,
+      isAddMemberModalOpen: false,
     };
   },
   methods: {
@@ -98,26 +140,39 @@ export default {
       if (!boardId) return;
       this.isLoading = true;
       try {
-        const response = await axios.get(
-          `http://localhost:5003/api/boards/${boardId}`,
-          { withCredentials: true }
-        );
+        const [boardRes, membersRes] = await Promise.all([
+          axios.get(`http://localhost:5003/api/boards/${boardId}`, {
+            withCredentials: true,
+          }),
+          axios.get(`http://localhost:5003/api/boards/${boardId}/members`, {
+            withCredentials: true,
+          }),
+        ]);
 
-        const membersRes = await axios.get(
-          `http://localhost:5003/api/boards/${boardId}/members`,
-          { withCredentials: true }
-        );
+        this.board = boardRes.data.data;
+        this.lists = boardRes.data.data.lists || [];
+
         this.boardMembers = membersRes.data.data;
-
-        this.board = response.data.data;
-        this.lists = response.data.data.lists || [];
         document.title = `${this.board.name} | Tuntask`;
       } catch (error) {
         console.error("Failed to fetch board details:", error);
         this.board = null;
         this.lists = [];
+        this.boardMembers = [];
       } finally {
         this.isLoading = false;
+      }
+    },
+
+    async handleMemberAdded() {
+      try {
+        const membersRes = await axios.get(
+          `http://localhost:5003/api/boards/${this.$route.params.boardId}/members`,
+          { withCredentials: true }
+        );
+        this.boardMembers = membersRes.data.data;
+      } catch (error) {
+        console.error("Failed to refetch board members:", error);
       }
     },
 

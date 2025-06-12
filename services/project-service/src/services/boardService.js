@@ -5,7 +5,7 @@ const taskModel = require("../models/task");
 const boardMemberModel = require("../models/boardMember");
 const { getWorkspaceById } = require("./workspaceService");
 
-const { userResponse } = require("./userService");
+const { userResponse, findUserByEmail } = require("./userService");
 
 /**
  * Module untuk mengelola data board.
@@ -176,6 +176,47 @@ const deleteBoardsByWorkspaceId = async (workspaceId) => {
   });
 };
 
+const addBoardMembers = async (boardId, email, role, token) => {
+  if (!email || !role) {
+    throw new Error("Email and role are required fields.");
+  }
+
+  const responseUser = await findUserByEmail(email, token);
+  if (!responseUser || !responseUser.data) {
+    throw new Error(
+      "Invalid response from User Service when fetching by email."
+    );
+  }
+
+  const userToAdd = responseUser.data;
+  const userId = userToAdd.id;
+
+  const existingMember = await boardMemberModel.findOne({
+    where: {
+      board_id: boardId,
+      user_id: userId,
+    },
+  });
+
+  if (existingMember) {
+    throw new Error("This user is already a member of the board.");
+  }
+
+  await boardMemberModel.create({
+    board_id: boardId,
+    user_id: userId,
+    role: role,
+  });
+
+  return {
+    id: userToAdd.id,
+    username: userToAdd.username,
+    name: userToAdd.name,
+    email: userToAdd.email,
+    role: role,
+  };
+};
+
 const getBoardMembers = async (boardId, token) => {
   const membersInBoard = await boardMemberModel.findAll({
     where: { board_id: boardId },
@@ -183,7 +224,6 @@ const getBoardMembers = async (boardId, token) => {
     raw: true,
   });
 
-  // Jika tidak ada anggota, kembalikan array kosong.
   if (!membersInBoard || membersInBoard.length === 0) {
     return [];
   }
@@ -191,7 +231,8 @@ const getBoardMembers = async (boardId, token) => {
   const userIds = membersInBoard.map((member) => member.user_id);
 
   const usersDataResponse = await userResponse(token, userIds);
-  if (!usersDataResponse || !usersDataResponse.success) {
+
+  if (!usersDataResponse) {
     console.error("Failed to fetch user details from User Service.");
     return [];
   }
@@ -220,5 +261,6 @@ module.exports = {
   updateBoard,
   deleteBoard,
   deleteBoardsByWorkspaceId,
+  addBoardMembers,
   getBoardMembers,
 };

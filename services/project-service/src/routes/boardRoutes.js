@@ -12,6 +12,13 @@ router.post(
 );
 router.get("/workspaces/:id/boards", authenticate, boardController.getBoards);
 
+router.post(
+  "/boards/:boardId/members",
+  authenticate,
+  checkRole,
+  boardController.addBoardMembers
+);
+
 router.get(
   "/boards/:boardId/members",
   authenticate,

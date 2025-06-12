@@ -68,6 +68,7 @@
         <template #item="{ element: task }">
           <TaskItem
             :task="task"
+            :boardMembers="boardMembers"
             @complete="onCompleteTask"
             @open-task="onOpenTaskDetail"
           />
@@ -239,6 +240,10 @@ export default {
   props: {
     list: {
       type: Object,
+      required: true,
+    },
+    boardMembers: {
+      type: Array,
       required: true,
     },
   },

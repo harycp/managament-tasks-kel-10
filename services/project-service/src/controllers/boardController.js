@@ -78,6 +78,33 @@ const deleteBoard = async (req, res) => {
   }
 };
 
+const addBoardMembers = async (req, res) => {
+  try {
+    const { boardId } = req.params;
+    const { email, role } = req.body;
+    const token = req.cookies.authToken; // Ambil token dari cookies
+
+    if (!token) {
+      return res
+        .status(401)
+        .json({ error: "Authentication token is missing." });
+    }
+
+    const newMemberData = await boardService.addBoardMembers(
+      boardId,
+      email,
+      role,
+      token
+    );
+
+    res
+      .status(201)
+      .json({ message: "Member added successfully", data: newMemberData });
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
+
 const getBoardMembers = async (req, res) => {
   try {
     const { boardId } = req.params;
@@ -105,5 +132,6 @@ module.exports = {
   getBoardById,
   updateBoard,
   deleteBoard,
+  addBoardMembers,
   getBoardMembers,
 };
