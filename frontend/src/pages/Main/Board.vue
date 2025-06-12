@@ -37,9 +37,28 @@
             </div>
             <button
               @click="isAddMemberModalOpen = true"
-              class="px-3 py-1.5 bg-gray-100 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-200"
+              class="flex items-center gap-4 cursor-pointer px-4 py-2 text-md text-gray-500 hover:text-gray-600 hover:bg-gray-100 rounded-md transition"
             >
-              Invite
+              <svg
+                class="w-5 h-5 text-gray-400 group-hover:text-black"
+                viewBox="0 0 24 24"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                <g
+                  id="SVGRepo_tracerCarrier"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                ></g>
+                <g id="SVGRepo_iconCarrier">
+                  <path
+                    d="M18 2h-6v2h-2v6h2V4h6V2zm0 8h-6v2h6v-2zm0-6h2v6h-2V4zM7 16h2v-2h12v2H9v4h12v-4h2v6H7v-6zM3 8h2v2h2v2H5v2H3v-2H1v-2h2V8z"
+                    fill="#000000"
+                  ></path>
+                </g>
+              </svg>
+              <span> Invite </span>
             </button>
           </div>
         </div>

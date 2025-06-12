@@ -40,7 +40,7 @@
                 type="email"
                 required
                 placeholder="name@example.com"
-                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                class="w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-500"
               />
             </div>
             <div>
@@ -55,7 +55,6 @@
                 class="w-full p-2 border border-gray-300 rounded-md bg-white"
               >
                 <option value="member">Member</option>
-                <option value="admin">Admin</option>
               </select>
             </div>
           </form>
@@ -67,7 +66,7 @@
           <button
             @click="handleInvite"
             :disabled="isLoading"
-            class="inline-flex items-center justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 disabled:bg-blue-300 sm:text-sm"
+            class="bg-gray-600 text-white text-sm font-medium px-4 py-1.5 rounded-md hover:bg-gray-700"
           >
             <span v-if="isLoading">Inviting...</span>
             <span v-else>Send Invite</span>
