@@ -1,6 +1,6 @@
 const { Kafka } = require("kafkajs");
 
-const KAFKA_BROKER = process.env.KAFKA_BROKER || "kafka:9092";
+const KAFKA_BROKER = process.env.KAFKA_BROKER || "kafka:9094";
 
 console.log(KAFKA_BROKER);
 
