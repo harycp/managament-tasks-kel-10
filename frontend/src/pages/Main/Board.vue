@@ -208,12 +208,18 @@ export default {
       this.isLoading = true;
       try {
         const [boardRes, membersRes] = await Promise.all([
-          axios.get(`http://localhost:5003/api/boards/${boardId}`, {
-            withCredentials: true,
-          }),
-          axios.get(`http://localhost:5003/api/boards/${boardId}/members`, {
-            withCredentials: true,
-          }),
+          axios.get(
+            `http://localhost:5000/project-service/api/boards/${boardId}`,
+            {
+              withCredentials: true,
+            }
+          ),
+          axios.get(
+            `http://localhost:5000/project-service/api/boards/${boardId}/members`,
+            {
+              withCredentials: true,
+            }
+          ),
         ]);
 
         this.board = boardRes.data.data;
@@ -234,7 +240,7 @@ export default {
     async handleMemberAdded() {
       try {
         const membersRes = await axios.get(
-          `http://localhost:5003/api/boards/${this.$route.params.boardId}/members`,
+          `http://localhost:5000/project-service/api/boards/${this.$route.params.boardId}/members`,
           { withCredentials: true }
         );
         this.boardMembers = membersRes.data.data;
@@ -246,7 +252,7 @@ export default {
     async handleAddNewList(listName) {
       try {
         const response = await axios.post(
-          `http://localhost:5003/api/boards/${this.$route.params.boardId}/lists`,
+          `http://localhost:5000/project-service/api/boards/${this.$route.params.boardId}/lists`,
           { name: listName },
           { withCredentials: true }
         );
@@ -259,7 +265,7 @@ export default {
     async handleUpdateListName({ listId, newName }) {
       try {
         await axios.put(
-          `http://localhost:5003/api/lists/${listId}`,
+          `http://localhost:5000/project-service/api/lists/${listId}`,
           { name: newName },
           { withCredentials: true }
         );
@@ -279,7 +285,7 @@ export default {
 
       try {
         await axios.delete(
-          `http://localhost:5003/api/lists/${listToDelete.id}`,
+          `http://localhost:5000/project-service/api/lists/${listToDelete.id}`,
           { withCredentials: true }
         );
 
@@ -301,7 +307,7 @@ export default {
 
       try {
         await axios.put(
-          `http://localhost:5003/api/lists/${listId}/position`,
+          `http://localhost:5000/project-service/api/lists/${listId}/position`,
           { newPosition },
           { withCredentials: true }
         );
@@ -315,7 +321,7 @@ export default {
     async handleAddNewTask({ listId, name }) {
       try {
         const response = await axios.post(
-          `http://localhost:5003/api/lists/${listId}/tasks`,
+          `http://localhost:5000/project-service/api/lists/${listId}/tasks`,
           { name },
           { withCredentials: true }
         );
@@ -343,7 +349,7 @@ export default {
       if (!this.board) return;
       try {
         await axios.delete(
-          `http://localhost:5003/api/boards/${this.board.id}`,
+          `http://localhost:5000/project-service/api/boards/${this.board.id}`,
           { withCredentials: true }
         );
 
@@ -375,7 +381,7 @@ export default {
     async handleUpdateTask({ taskId, payload }) {
       try {
         const response = await axios.put(
-          `http://localhost:5003/api/tasks/${taskId}`,
+          `http://localhost:5000/project-service/api/tasks/${taskId}`,
           payload,
           { withCredentials: true }
         );
@@ -399,7 +405,7 @@ export default {
     async handleCompleteTask({ taskId }) {
       try {
         const response = await axios.put(
-          `http://localhost:5003/api/tasks/${taskId}`,
+          `http://localhost:5000/project-service/api/tasks/${taskId}`,
           { completed: true },
           { withCredentials: true }
         );
@@ -422,7 +428,7 @@ export default {
     async handleUpdateTaskPosition({ taskId, newPosition }) {
       try {
         await axios.put(
-          `http://localhost:5003/api/tasks/${taskId}/position`,
+          `http://localhost:5000/project-service/api/tasks/${taskId}/position`,
           { newPosition },
           { withCredentials: true }
         );

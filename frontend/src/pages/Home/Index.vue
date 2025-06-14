@@ -142,7 +142,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5002/api/workspaces",
+          "http://localhost:5000/workspace-service/api/workspaces",
           {
             withCredentials: true,
           }

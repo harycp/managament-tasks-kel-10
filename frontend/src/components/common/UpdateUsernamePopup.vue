@@ -74,7 +74,7 @@ export default {
       this.errorMessage = "";
       try {
         await axios.put(
-          `http://localhost:5001/api/users/${this.user.id}`,
+          `http://localhost:5000/user-service/api/users/${this.user.id}`,
           {
             username: this.username,
           },

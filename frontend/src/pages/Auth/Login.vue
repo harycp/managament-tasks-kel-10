@@ -237,12 +237,15 @@ export default {
 
       if (isValid) {
         try {
-          const response = await fetch("http://localhost:5001/auth/login", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(this.form),
-            credentials: "include",
-          });
+          const response = await fetch(
+            "http://localhost:5000/user-service/auth/login",
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify(this.form),
+              credentials: "include",
+            }
+          );
 
           const data = await response.json();
 
@@ -281,8 +284,8 @@ export default {
     },
     async handleOAuthLogin(provider) {
       const oauthUrls = {
-        google: "http://localhost:5001/auth/google",
-        github: "http://localhost:5001/auth/github",
+        google: "http://localhost:5000/user-service/auth/google",
+        github: "http://localhost:5000/user-service/auth/github",
       };
 
       window.location.href = oauthUrls[provider];
