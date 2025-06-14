@@ -34,6 +34,17 @@ const runWorkspaceConsumer = async () => {
           `[BoardService] Boards deleted for workspace ${workspaceId}`
         );
       }
+
+      if (key === "memberRemovedFromWorkspace") {
+        const { workspaceId, userId } = data;
+        await boardService.removeMemberFromAllBoardsInWorkspace(
+          workspaceId,
+          userId
+        );
+        console.log(
+          `[BoardService] Member ${userId} removed from all boards in workspace ${workspaceId}`
+        );
+      }
     },
   });
 };

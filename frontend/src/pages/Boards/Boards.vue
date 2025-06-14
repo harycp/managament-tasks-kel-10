@@ -7,27 +7,6 @@
     >
       <template #default="{ user }">
         <div class="flex flex-col gap-10 p-6 max-w-6xl mx-auto">
-          <div>
-            <div class="flex items-center gap-2 mb-4">
-              <svg
-                class="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g>
-                  <path
-                    d="M19 3H5v2H3v14h2v2h14v-2h2V5h-2V3zm0 2v14H5V5h14zm-8 2h2v6h4v2h-6V7z"
-                  ></path>
-                </g>
-              </svg>
-              <h3 class="text-lg font-semibold text-gray-800">
-                Recently Viewed Boards
-              </h3>
-            </div>
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
-          </div>
-
           <div v-if="isLoading" class="text-center text-gray-500 py-10">
             Loading your boards...
           </div>
@@ -47,7 +26,7 @@
             <div class="flex items-center justify-between mb-3">
               <div class="flex items-center gap-3">
                 <div
-                  class="w-8 h-8 bg-gray-300 text-white text-sm font-semibold rounded flex items-center justify-center"
+                  class="w-8 h-8 bg-gray-300 text-reatewhite text-sm font-semibold rounded flex items-center justify-center"
                 >
                   {{ workspace.name.charAt(0).toUpperCase() }}
                 </div>
@@ -57,9 +36,16 @@
               </div>
               <div class="flex gap-2 text-sm text-gray-500">
                 <router-link
+                  v-if="workspace.name !== 'Guest Workspace'"
                   :to="`/workspace/${workspace.id}/member`"
                   class="px-3 py-1.5 bg-gray-100 rounded hover:bg-gray-200"
                   >Members</router-link
+                >
+                <router-link
+                  v-if="workspace.name !== 'Guest Workspace'"
+                  :to="`/workspace/${workspace.id}/settings`"
+                  class="px-3 py-1.5 bg-gray-100 rounded hover:bg-gray-200"
+                  >Settings</router-link
                 >
               </div>
             </div>
@@ -79,9 +65,9 @@
                       board.name
                     }}</span>
                     <span class="text-xs text-gray-500"
-                      >Last updated
+                      >Created at
                       {{
-                        formatDistanceToNow(new Date(board.updatedAt), {
+                        formatDistanceToNow(new Date(board.createdAt), {
                           addSuffix: true,
                         })
                       }}</span
@@ -102,6 +88,7 @@
               </div>
 
               <div
+                v-if="workspace.name !== 'Guest Workspace'"
                 @click="openCreateBoard(workspace)"
                 class="px-4 py-3 hover:bg-gray-50 transition cursor-pointer text-gray-600"
               >
@@ -172,7 +159,7 @@ export default {
         const workspacesMap = new Map();
         allBoards.forEach((board) => {
           const ws = board.workspace;
-          console.log(board)
+          console.log(board);
           // if (!ws || !ws.id) return;
 
           // Jika workspace ini belum ada di map, buat entri baru

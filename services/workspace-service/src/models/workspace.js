@@ -47,6 +47,7 @@ const workspace = sequelize.define(
     },
   },
   {
+    onDelete: "CASCADE",
     timestamps: true,
   }
 );

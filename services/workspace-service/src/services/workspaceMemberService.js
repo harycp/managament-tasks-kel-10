@@ -2,6 +2,8 @@ const workspaceMemberModel = require("../models/workspaceMembers");
 const workspaceModel = require("../models/workspace");
 const userService = require("./userServices");
 
+const workspaceEventProducer = require("../kafka/producers/workspaceEventProducer");
+
 const axios = require("axios");
 const USER_SERVICE_URL = "http://localhost:5001/api";
 
@@ -292,6 +294,26 @@ const addMemberById = async (workspaceId, userId, role) => {
   return newMember;
 };
 
+const removeMember = async (workspaceId, userId) => {
+  const result = await workspaceMemberModel.destroy({
+    where: {
+      workspace_id: workspaceId,
+      user_id: userId,
+    },
+  });
+
+  if (result === 0) {
+    throw new Error("Member not found in this workspace.");
+  }
+
+  await workspaceEventProducer.sendMemberRemovedEvent({
+    workspaceId,
+    userId,
+  });
+
+  return result;
+};
+
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,
@@ -300,4 +322,5 @@ module.exports = {
   deleteWorkspaceMember,
   addMember,
   addMemberById,
+  removeMember,
 };

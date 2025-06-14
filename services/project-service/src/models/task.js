@@ -16,6 +16,7 @@ const task = sequelize.define(
         model: "lists",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     assignee_id: {
       type: DataTypes.UUID,

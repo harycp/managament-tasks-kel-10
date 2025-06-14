@@ -1,6 +1,7 @@
 const workspaceModel = require("../models/workspace");
 const workspaceMemberModel = require("../models/workspaceMembers");
 const workspaceEventProducer = require("../kafka/producers/workspaceEventProducer");
+const { Op } = require("sequelize");
 
 const createWorkspace = async (workspaceData, userId) => {
   if (!userId) throw new Error("Unauthorized: User Id is required");
@@ -96,6 +97,37 @@ const deleteWorkspace = async (workspaceID, userID) => {
   return workspace.destroy();
 };
 
+const getWorkspacesForUser = async (userId) => {
+  const memberships = await workspaceMemberModel.findAll({
+    where: { user_id: userId },
+    attributes: ["workspace_id", "role"],
+    raw: true,
+  });
+
+  console.log(memberships);
+
+  if (memberships.length === 0) {
+    return [];
+  }
+
+  const roleMap = new Map(memberships.map((m) => [m.workspace_id, m.role]));
+  const workspaceIds = memberships.map((m) => m.workspace_id);
+
+  const workspaces = await workspaceModel.findAll({
+    where: {
+      id: { [Op.in]: workspaceIds },
+    },
+  });
+
+  const hydratedWorkspaces = workspaces.map((ws) => {
+    const workspaceJson = ws.toJSON();
+    workspaceJson.user_role = roleMap.get(ws.id);
+    return workspaceJson;
+  });
+
+  return hydratedWorkspaces;
+};
+
 module.exports = {
   createWorkspace,
   createDefaultWorkspace,
@@ -103,4 +135,5 @@ module.exports = {
   getWorkspaceById,
   updateWorkspace,
   deleteWorkspace,
+  getWorkspacesForUser,
 };

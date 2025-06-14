@@ -30,7 +30,10 @@
 
       <span class="text-sm text-gray-800 flex-1 mx-2">{{ task.name }}</span>
     </div>
-    <div class="flex justify-end mt-2" v-if="assignee">
+    <div class="flex justify-end mt-4" v-if="assignee">
+      <span class="text-sm text-gray-800 flex-1 mx-7">{{
+        formatDate(task.due_date)
+      }}</span>
       <div
         :title="assignee.name"
         class="w-6 h-6 rounded-full border-2 border-white bg-gray-500 text-white flex items-center justify-center font-semibold text-xs ring-1 ring-gray-300"
@@ -71,6 +74,10 @@ export default {
     },
     openTaskDetail() {
       this.$emit("open-task", this.task);
+    },
+    formatDate(date) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(date).toLocaleDateString("id-ID", options);
     },
   },
 };

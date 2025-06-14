@@ -16,6 +16,7 @@ const list = sequelize.define(
         model: "boards",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     name: {
       type: DataTypes.STRING,

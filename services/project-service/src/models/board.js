@@ -16,6 +16,7 @@ const board = sequelize.define(
         model: "workspaces",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     owner_id: {
       type: DataTypes.UUID,

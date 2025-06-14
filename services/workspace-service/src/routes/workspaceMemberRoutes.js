@@ -48,4 +48,10 @@ router.post(
   workspaceMemberController.addWorkspaceMember
 );
 
+router.delete(
+  "/workspaces/:workspaceId/members/:userId",
+  authenticate,
+  workspaceMemberController.removeMember
+);
+
 module.exports = router;

@@ -11,6 +11,7 @@ const boardMember = sequelize.define(
         model: "boards", // Referensi ke tabel 'boards' di service ini
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     user_id: {
       type: DataTypes.UUID,

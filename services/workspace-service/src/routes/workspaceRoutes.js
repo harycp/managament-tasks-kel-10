@@ -7,6 +7,13 @@ const router = express.Router();
 // API FOR WORKSPACE
 router.post("/workspaces", authenticate, workspaceController.createWorkspace);
 router.get("/workspaces", authenticate, workspaceController.getWorkspaces);
+
+router.get(
+  "/workspaces/me",
+  authenticate,
+  workspaceController.getWorkspacesForUser
+);
+
 router.get(
   "/workspaces/:id",
   authenticate,
@@ -14,7 +21,7 @@ router.get(
 );
 router.put(
   "/workspaces/:id",
-  authenticate,
+  authenticate, 
   workspaceController.updateWorkspace
 );
 

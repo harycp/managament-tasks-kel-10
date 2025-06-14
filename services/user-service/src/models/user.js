@@ -36,10 +36,7 @@ const User = sequelize.define(
       defaultValue: false,
     },
   },
-  {
-    timestamps: true,
-    paranoid: true,
-  }
+  { onDelete: "CASCADE", timestamps: true, paranoid: true }
 );
 
 module.exports = User;

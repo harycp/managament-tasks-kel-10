@@ -72,10 +72,21 @@ const deleteWorkspace = async (req, res) => {
   }
 };
 
+const getWorkspacesForUser = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const workspaces = await workspaceService.getWorkspacesForUser(userId);
+    res.status(200).json({ success: true, data: workspaces });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createWorkspace,
   getWorkspaces,
   getWorkspaceById,
   updateWorkspace,
   deleteWorkspace,
+  getWorkspacesForUser,
 };

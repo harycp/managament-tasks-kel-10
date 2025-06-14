@@ -56,7 +56,8 @@
 
             <!-- Remove Button -->
             <button
-              @click="confirmRemoveMember(member)"
+              v-if="member.role !== 'owner'"
+              @click="promptToRemoveMember(member)"
               class="ml-4 text-red-500 hover:text-red-600"
               title="Remove"
             >
@@ -149,6 +150,15 @@
           </form>
         </div>
       </div>
+      <ConfirmationModal
+        :show="showRemoveConfirmModal"
+        title="Remove Member"
+        :message="removeConfirmationMessage"
+        confirmText="Yes, Remove"
+        cancelText="Cancel"
+        @confirm="executeRemoveMember"
+        @close="closeRemoveModal"
+      />
     </DashMain>
   </section>
 </template>
@@ -157,10 +167,11 @@
 import axios from "axios";
 import DashMain from "../../fragments/DashMain.vue";
 import PrimaryButton from "../../components/common/PrimaryButton.vue";
+import ConfirmationModal from "../../components/common/ConfirmationModal.vue";
 
 export default {
   name: "MemberPage",
-  components: { DashMain, PrimaryButton },
+  components: { DashMain, PrimaryButton, ConfirmationModal },
   data() {
     return {
       name: "Members",
@@ -172,7 +183,15 @@ export default {
         email: "",
         role: "member",
       },
+      showRemoveConfirmModal: false,
+      memberToRemove: null,
     };
+  },
+  computed: {
+    removeConfirmationMessage() {
+      if (!this.memberToRemove) return "";
+      return `Are you sure you want to remove "${this.memberToRemove.name}" from this workspace? This action cannot be undone.`;
+    },
   },
   async created() {
     document.title = "Members | Tuntask";
@@ -222,14 +241,19 @@ export default {
       }
     },
 
-    confirmRemoveMember(member) {
-      if (
-        confirm(
-          `Are you sure you want to remove ${member.name} from this workspace?`
-        )
-      ) {
-        this.handleRemoveMember(member.id);
-      }
+    promptToRemoveMember(member) {
+      this.memberToRemove = member;
+      this.showRemoveConfirmModal = true;
+    },
+
+    closeRemoveModal() {
+      this.showRemoveConfirmModal = false;
+      this.memberToRemove = null;
+    },
+    executeRemoveMember() {
+      if (!this.memberToRemove) return;
+      this.handleRemoveMember(this.memberToRemove.id);
+      this.closeRemoveModal();
     },
 
     async handleRemoveMember(userId) {

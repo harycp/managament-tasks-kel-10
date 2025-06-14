@@ -19,6 +19,7 @@ const workspaceMember = sequelize.define(
         model: "workspaces",
         key: "id",
       },
+      onDelete: "CASCADE",
     },
     user_id: {
       type: DataTypes.UUID,

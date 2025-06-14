@@ -110,6 +110,18 @@ const addWorkspaceMember = async (req, res) => {
   }
 };
 
+const removeMember = async (req, res) => {
+  try {
+    const { workspaceId, userId } = req.params;
+    await workspaceMemberService.removeMember(workspaceId, userId);
+    res
+      .status(200)
+      .json({ success: true, message: "Member removed successfully." });
+  } catch (error) {
+    res.status(400).json({ success: false, message: error.message });
+  }
+};
+
 module.exports = {
   createWorkspaceMember,
   getWorkspaceMembers,
@@ -117,4 +129,5 @@ module.exports = {
   updateWorkspaceMember,
   deleteWorkspaceMember,
   addWorkspaceMember,
+  removeMember,
 };

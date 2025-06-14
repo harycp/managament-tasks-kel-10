@@ -324,7 +324,7 @@ const getBoardsForUser = async (userId, token) => {
     return {
       ...board,
       workspace: workspaceData || {
-        name: "Unknown Workspace",
+        name: "Guest Workspace",
         id: board.workspace_id,
       },
     };
@@ -333,6 +333,45 @@ const getBoardsForUser = async (userId, token) => {
   hydratedBoards.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt));
 
   return hydratedBoards;
+};
+
+const removeMemberFromAllBoardsInWorkspace = async (userId, workspaceId) => {
+  const boardsInWorkspace = await boardModel.findAll({
+    where: { workspace_id: workspaceId },
+    attributes: ["id"],
+    raw: true,
+  });
+
+  if (boardsInWorkspace.length === 0) {
+    console.log(
+      `[BoardService] No boards found for workspace ${workspaceId}, nothing to remove.`
+    );
+    return;
+  }
+  const boardIds = boardsInWorkspace.map((b) => b.id);
+
+  await boardMemberModel.destroy({
+    where: {
+      user_id: userId,
+      board_id: {
+        [Op.in]: boardIds,
+      },
+    },
+  });
+
+  const listsInBoards = await listModel.findAll({
+    where: { board_id: { [Op.in]: boardIds } },
+    attributes: ["id"],
+    raw: true,
+  });
+  const listIds = listsInBoards.map((l) => l.id);
+
+  if (listIds.length > 0) {
+    await taskModel.update(
+      { assignee_id: null },
+      { where: { list_id: { [Op.in]: listIds }, assignee_id: userId } }
+    );
+  }
 };
 
 // Mengekspor semua fungsi agar bisa digunakan di file lain
@@ -347,4 +386,5 @@ module.exports = {
   addBoardMembers,
   getBoardMembers,
   getBoardsForUser,
+  removeMemberFromAllBoardsInWorkspace,
 };

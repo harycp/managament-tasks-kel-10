@@ -40,52 +40,6 @@
               </p>
             </div>
           </div>
-
-          <!-- Recently Viewed Boards -->
-          <div>
-            <div class="flex items-center gap-2 mb-4">
-              <svg
-                class="w-6 h-6"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <g id="SVGRepo_bgCarrier"></g>
-                <g id="SVGRepo_tracerCarrier"></g>
-                <g id="SVGRepo_iconCarrier">
-                  <path
-                    d="M19 3H5v2H3v14h2v2h14v-2h2V5h-2V3zm0 2v14H5V5h14zm-8 2h2v6h4v2h-6V7z"
-                  ></path>
-                </g>
-              </svg>
-              <h3 class="text-lg font-semibold text-gray-800">
-                Recently Viewed Boards
-              </h3>
-            </div>
-
-            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              <div
-                v-for="(board, index) in recentBoards"
-                :key="index"
-                class="p-5 bg-white border border-gray-200 rounded-xl hover:shadow-md transition cursor-pointer"
-              >
-                <div class="flex items-center gap-3 mb-2">
-                  <div
-                    class="w-10 h-10 rounded-md bg-gray-100 text-gray-600 flex items-center justify-center font-semibold text-sm"
-                  >
-                    {{ board.initial }}
-                  </div>
-                  <div>
-                    <p class="text-gray-800 font-medium leading-tight">
-                      {{ board.name }}
-                    </p>
-                    <p class="text-xs text-gray-500">{{ board.workspace }}</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
           <!-- Your Workspace -->
           <div class="mt-10">
             <div class="flex items-center justify-between mb-4">
@@ -181,26 +135,6 @@ export default {
       dashboardLoading: true,
       name: "Home",
       showCreateWorkspace: false,
-      recentBoards: [
-        {
-          name: "Product Roadmap",
-          workspace: "Tuntask Team",
-          initial: "P",
-          isTemplate: false,
-        },
-        {
-          name: "Sprint Planning Q3",
-          workspace: "Development",
-          initial: "S",
-          isTemplate: false,
-        },
-        {
-          name: "Agile Board Template",
-          workspace: "Templates",
-          initial: "A",
-          isTemplate: true,
-        },
-      ],
       workspaces: [],
     };
   },

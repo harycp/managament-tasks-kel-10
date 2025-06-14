@@ -7,7 +7,7 @@
       @toggle-collapse="toggleSidebar"
       :show-logout="false"
     >
-      <nav class="flex-grow">
+      <nav class="flex-grow" v-if="activeWorkspace.user_role === 'owner'">
         <div
           v-if="activeWorkspace"
           class="p-3 border-gray-200 rounded-xl transition"
@@ -34,7 +34,7 @@
       </nav>
 
       <!-- Navigation Menu -->
-      <nav class="flex-grow mt-2">
+      <nav class="flex-grow mt-2" v-if="activeWorkspace.user_role === 'owner'">
         <NavItem
           title="Member"
           :link="`/workspace/${$route.params.workspaceId}/member`"
@@ -98,6 +98,7 @@
           </div>
           <!-- Tombol Tambah Board -->
           <div
+            v-if="activeWorkspace.user_role === 'owner'"
             @click="openCreateBoard(activeWorkspace)"
             class="flex items-center gap-2 px-3 py-2 mt-2 ml-3 text-sm font-medium text-gray-600 bg-gray-100 hover:bg-gray-200 rounded-md cursor-pointer transition"
           >
@@ -232,7 +233,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5002/api/workspaces",
+          "http://localhost:5002/api/workspaces/me",
           {
             withCredentials: true,
           }
@@ -244,7 +245,7 @@ export default {
           workspaces.map(async (workspace) => {
             try {
               const boardRes = await axios.get(
-                `http://localhost:5003/api/workspaces/${workspace.id}/boards`,
+                `http://localhost:5003/api/boards/me`,
                 { withCredentials: true }
               );
               return {
