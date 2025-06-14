@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const USER_SERVICE_URL = "http://localhost:5001/api/users";
+const USER_SERVICE_URL = process.env.USER_SERVICE_URL || "http://localhost:5001/api/users";
 
 const userResponse = async (token, userIds) => {
   try {

@@ -108,7 +108,7 @@ export default defineComponent({
     const logout = async () => {
       try {
         await axios.post(
-          "http://localhost:5001/auth/logout",
+          "http://localhost:5000/user-service/auth/logout",
           {},
           {
             withCredentials: true,

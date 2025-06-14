@@ -1,7 +1,8 @@
-// src/server.js
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const db = require("./models");
 const cookieParser = require("cookie-parser");
 
@@ -11,7 +12,6 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const workspaceEventConsumer = require("./kafka/consumers/workspaceEventConsumer");
 
-dotenv.config();
 
 // Worker
 // require("./workers/boardEventWorker");
@@ -31,7 +31,7 @@ app.use("/api", boardRoutes);
 app.use("/api", listRoutes);
 app.use("/api", taskRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5003;
 
 const startServer = async () => {
   try {

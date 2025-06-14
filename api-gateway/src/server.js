@@ -1,77 +1,65 @@
 const express = require("express");
-const dotenv = require("dotenv");
 const cors = require("cors");
-const axios = require("axios");
+const cookieParser = require("cookie-parser");
+const { createProxyMiddleware } = require("http-proxy-middleware");
+const port = 5000;
+const dotenv = require("dotenv");
 
 dotenv.config();
 
+const user_service = process.env.USER_SERVICE_URL;
+const workspace_service = process.env.WORKSPACE_SERVICE_URL;
+const project_service = process.env.PROJECT_SERVICE_URL;
+
 const app = express();
+app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173", // Ganti sesuai origin frontend
-    credentials: true, // Wajib agar cookie bisa dikirim
+    origin: "http://localhost:5173",
+    credentials: true,
   })
 );
-app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// app.use("/notification/notification-service", notificationService);
-app.use("/project/project-service", async (req, res) => {
-  try {
-    const response = await axios({
-      method: req.method,
-      url: `http://localhost:5001/api${req.url}`, // port sesuai project-service
-      data: req.body,
-      headers: req.headers,
-    });
-    res.status(response.status).json(response.data);
-  } catch (err) {
-    res
-      .status(err.response?.status || 500)
-      .send(err.response?.data || "Internal Server Error");
-  }
+// Log setiap request yang masuk
+app.use((req, res, next) => {
+  console.log(`[Gateway] Proxying request: ${req.method} ${req.originalUrl}`);
+  next();
 });
 
-app.use("/user/user-service", async (req, res) => {
-  try {
-    const response = await axios({
-      method: req.method,
-      url: `http://localhost:5002/api${req.url}`, // port sesuai user-service
-      data: req.body,
-      headers: req.headers,
-    });
-    res.status(response.status).json(response.data);
-  } catch (err) {
-    res
-      .status(err.response?.status || 500)
-      .send(err.response?.data || "Internal Server Error");
-  }
+app.use(
+  "/user-service",
+  createProxyMiddleware({
+    target: user_service || "http://localhost:5001",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/user-service": "",
+    },
+  })
+);
+
+app.use(
+  "/workspace-service",
+  createProxyMiddleware({
+    target: workspace_service || "http://localhost:5002",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/workspace-service": "",
+    },
+  })
+);
+
+app.use(
+  "/project-service",
+  createProxyMiddleware({
+    target: project_service || "http://localhost:5003",
+    changeOrigin: true,
+    pathRewrite: {
+      "^/project-service": "",
+    },
+  })
+);
+
+app.listen(port, () => {
+  console.log(`API Gateway berjalan pada port ${port}`);
 });
-
-app.use("/workspace/workspace-service", async (req, res) => {
-  try {
-    const response = await axios({
-      method: req.method,
-      url: `http://localhost:5000/api${req.url}`, // Ganti dengan URL workspace service
-      data: req.body,
-      headers: req.headers,
-    });
-    res.status(response.status).json(response.data);
-  } catch (err) {
-    res
-      .status(err.response?.status || 500)
-      .send(err.response?.data || "Internal Server Error");
-  }
-});
-
-const PORT = process.env.PORT || 5050;
-
-const startServer = async () => {
-  try {
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-  } catch (error) {
-    console.error("Error connecting to database:", error);
-  }
-};
-
-startServer();

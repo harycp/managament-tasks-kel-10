@@ -1,7 +1,8 @@
-// src/server.js
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const session = require("express-session");
 const cookieParser = require("cookie-parser");
 const passport = require("./config/passport");
@@ -14,7 +15,6 @@ const userRoleRoutes = require("./routes/userRoleRoutes");
 const emailConsumer = require("./kafka/consumers/emailConsumer");
 const db = require("./models");
 
-dotenv.config();
 
 const app = express();
 app.use(

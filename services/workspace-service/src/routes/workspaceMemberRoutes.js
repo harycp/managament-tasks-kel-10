@@ -1,4 +1,4 @@
-const authenticate = require("../../../user-service/src/middleware/authMiddleware");
+const authenticate = require("../middleware/authMiddleware");
 const checkRole = require("../middleware/checkRole");
 
 const workspaceMemberController = require("../controllers/workspaceMemberController");

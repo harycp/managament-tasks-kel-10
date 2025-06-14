@@ -1,4 +1,4 @@
-const authenticate = require("../../../user-service/src/middleware/authMiddleware");
+const authenticate = require("../middleware/authMiddleware");
 
 const express = require("express");
 const workspaceController = require("../controllers/workspaceController");
@@ -21,7 +21,7 @@ router.get(
 );
 router.put(
   "/workspaces/:id",
-  authenticate, 
+  authenticate,
   workspaceController.updateWorkspace
 );
 

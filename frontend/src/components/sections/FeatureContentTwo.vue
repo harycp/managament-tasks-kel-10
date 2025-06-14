@@ -28,7 +28,7 @@
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/trophy.svg"
+                  src="../../assets/PreviewTuntask.png"
                   alt="Building blocks"
                   class="w-6 h-6"
                 />
@@ -48,7 +48,7 @@
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/kolaborasi.svg"
+                  src="../../assets/PreviewTuntask.png"
                   alt="Collaborative tools"
                   class="w-6 h-6"
                 />
@@ -68,7 +68,7 @@
             <div class="flex items-start">
               <div class="flex-shrink-0 mt-1">
                 <img
-                  src="../assets/terpusat.svg"
+                  src="../../assets/PreviewTuntask.png"
                   alt="AI-assisted"
                   class="w-6 h-6"
                 />

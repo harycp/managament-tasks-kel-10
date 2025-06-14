@@ -23,7 +23,7 @@ export default {
 
     const requestResetPassword = async () => {
       try {
-        await axios.post("http://localhost:5001/api/request-reset-password", {
+        await axios.post("http://localhost:5000/user-service/api/request-reset-password", {
           email: email.value,
         });
         alert("Reset link has been sent to your email");
@@ -217,7 +217,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost:5001/auth/register-email",
+            "http://localhost:5000/user-service/auth/register-email",
             {
               email: this.form.email,
             }
@@ -262,8 +262,8 @@ export default {
 
     async handleOAuthLogin(provider) {
       const oauthUrls = {
-        google: "http://localhost:5001/auth/google",
-        github: "http://localhost:5001/auth/github",
+        google: "http://localhost:5000/user-service/auth/google",
+        github: "http://localhost:5000/user-service/auth/github",
       };
 
       window.location.href = oauthUrls[provider];

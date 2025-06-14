@@ -1,9 +1,6 @@
 const { DataTypes } = require("sequelize");
 const sequelize = require("../database");
 
-const user = require("../../../user-service/src/models/user");
-const workspace = require("./workspace");
-
 const workspaceMember = sequelize.define(
   "workspaceMember",
   {

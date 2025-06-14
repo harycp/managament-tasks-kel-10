@@ -134,9 +134,12 @@ export default {
   methods: {
     async fetchUserProfile() {
       try {
-        const response = await axios.get("http://localhost:5001/api/profile", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:5000/user-service/api/profile",
+          {
+            withCredentials: true,
+          }
+        );
         this.user = response.data.data;
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -149,7 +152,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5002/api/workspaces",
+          "http://localhost:5000/workspace-service/api/workspaces",
           {
             withCredentials: true,
           }

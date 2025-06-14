@@ -1,7 +1,8 @@
-// src/server.js
+const dotenv = require("dotenv");
+dotenv.config();
+
 const express = require("express");
 const cors = require("cors");
-const dotenv = require("dotenv");
 const sequelize = require("./database");
 const cookieParser = require("cookie-parser");
 
@@ -13,8 +14,6 @@ const db = require("./models");
 // const boardEventConsumer = require("./kafka/consumers/boardEventConsumer");
 
 const { runMainConsumer } = require("./kafka/consumers/mainConsumer");
-
-dotenv.config();
 
 const app = express();
 
@@ -31,7 +30,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/api", workspaceRoutes);
 app.use("/api", workspaceMemberRoutes);
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5002;
 
 const startServer = async () => {
   try {

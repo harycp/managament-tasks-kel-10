@@ -1,7 +1,8 @@
 // workspaceService.js
 const axios = require("axios");
 
-const WORKSPACE_SERVICE_URL = "http://localhost:5002/api/workspaces";
+const WORKSPACE_SERVICE_URL =
+  process.env.WORKSPACE_SERVICE_URL || "http://localhost:5002/api/workspaces";
 
 const getWorkspaceById = async (workspaceId, token) => {
   try {

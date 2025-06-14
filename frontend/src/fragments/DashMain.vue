@@ -218,9 +218,12 @@ export default {
     },
     async fetchUserProfile() {
       try {
-        const response = await axios.get("http://localhost:5001/api/profile", {
-          withCredentials: true,
-        });
+        const response = await axios.get(
+          "http://localhost:5000/user-service/api/profile",
+          {
+            withCredentials: true,
+          }
+        );
         this.user = response.data.data;
       } catch (error) {
         console.error("Error fetching user profile:", error);
@@ -233,7 +236,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5002/api/workspaces/me",
+          "http://localhost:5000/workspace-service/api/workspaces/me",
           {
             withCredentials: true,
           }
@@ -245,7 +248,7 @@ export default {
           workspaces.map(async (workspace) => {
             try {
               const boardRes = await axios.get(
-                `http://localhost:5003/api/boards/me`,
+                `http://localhost:5000/project-service/api/boards/me`,
                 { withCredentials: true }
               );
               return {
