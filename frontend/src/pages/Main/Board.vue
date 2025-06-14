@@ -60,6 +60,37 @@
               </svg>
               <span> Invite </span>
             </button>
+
+            <div class="relative">
+              <button
+                @click="isBoardMenuOpen = !isBoardMenuOpen"
+                class="text-gray-500 hover:bg-gray-200 rounded-md p-1"
+              >
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                  <path
+                    d="M10 6a2 2 0 110-4 2 2 0 010 4zM10 12a2 2 0 110-4 2 2 0 010 4zM10 18a2 2 0 110-4 2 2 0 010 4z"
+                  ></path>
+                </svg>
+              </button>
+              <transition name="fade">
+                <div
+                  v-if="isBoardMenuOpen"
+                  ref="boardMenu"
+                  class="absolute top-full mt-2 w-48 bg-white border rounded-md shadow-lg z-20"
+                >
+                  <ul>
+                    <li>
+                      <a
+                        @click.prevent="promptToDeleteBoard"
+                        href="#"
+                        class="block px-4 py-2 text-sm text-red-600 hover:bg-red-50"
+                        >Delete Board</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </transition>
+            </div>
           </div>
         </div>
 
@@ -117,17 +148,28 @@
         @close="isAddMemberModalOpen = false"
         @member-added="handleMemberAdded"
       />
+
+      <ConfirmationModal
+        :show="isDeleteConfirmOpen"
+        title="Delete Board"
+        :message="`Are you sure you want to permanently delete the '${board?.name}' board? All of its lists, tasks, and data will be removed forever. This action cannot be undone.`"
+        confirmText="Yes, Delete This Board"
+        @confirm="handleDeleteBoard"
+        @close="isDeleteConfirmOpen = false"
+      />
     </DashMain>
   </section>
 </template>
 
 <script>
 import axios from "axios";
+import { useRouter } from "vue-router";
 import DashMain from "../../fragments/DashMain.vue";
 import AddList from "../../components/board/AddList.vue";
 import List from "../../components/board/List.vue";
 import TaskDetailModal from "../../components/board/TaskDetailModal.vue";
 import AddMemberModal from "../../components/board/AddMemberModal.vue";
+import ConfirmationModal from "../../components/common/ConfirmationModal.vue";
 
 import draggable from "vuedraggable";
 
@@ -140,18 +182,24 @@ export default {
     draggable,
     TaskDetailModal,
     AddMemberModal,
+    ConfirmationModal,
+  },
+  setup() {
+    const router = useRouter();
+    return { router };
   },
   data() {
     return {
-      dashboardLoading: true, // Dari parent
-      isLoading: true, // Loading spesifik untuk konten board
-      // boardId: this.$route.params.boardId,
+      dashboardLoading: true,
+      isLoading: true,
       board: null,
       lists: [],
       boardMembers: [],
       isTaskDetailOpen: false,
       selectedTask: null,
       isAddMemberModalOpen: false,
+      isBoardMenuOpen: false,
+      isDeleteConfirmOpen: false,
     };
   },
   methods: {
@@ -283,6 +331,34 @@ export default {
         }
       } catch (error) {
         console.error("Failed to add new task:", error);
+      }
+    },
+
+    promptToDeleteBoard() {
+      this.isBoardMenuOpen = false; // Tutup menu kecil
+      this.isDeleteConfirmOpen = true; // Buka modal konfirmasi
+    },
+
+    async handleDeleteBoard() {
+      if (!this.board) return;
+      try {
+        await axios.delete(
+          `http://localhost:5003/api/boards/${this.board.id}`,
+          { withCredentials: true }
+        );
+
+        this.isDeleteConfirmOpen = false;
+
+        const workspaceId = this.$route.params.workspaceId;
+        this.router.push(`/workspace/${workspaceId}/boards`);
+      } catch (error) {
+        console.error("Failed to delete board:", error.response?.data);
+        alert(
+          `Failed to delete board: ${
+            error.response?.data?.message || "Please try again."
+          }`
+        );
+        this.isDeleteConfirmOpen = false;
       }
     },
 

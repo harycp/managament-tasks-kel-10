@@ -116,7 +116,7 @@
                 d="M12 4v16m8-8H4"
               />
             </svg>
-            Tambah Board
+            Add New Board
           </div>
         </div>
       </nav>

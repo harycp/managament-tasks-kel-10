@@ -168,13 +168,20 @@ const updateBoard = async (boardId, name) => {
  * const deletedBoard = await deleteBoard(1);
  * console.log(deletedBoard);
  */
-const deleteBoard = async (boardId) => {
-  // Mencari board berdasarkan ID
+
+const deleteBoard = async (boardId, userId) => {
   const board = await boardModel.findByPk(boardId);
+  if (!board) {
+    throw new Error("Board not found.");
+  }
 
-  if (!board) throw new Error("Board not found");
+  if (board.owner_id !== userId) {
+    throw new Error("Forbidden: Only the board owner can delete this board.");
+  }
 
-  return board.destroy();
+  const result = await board.destroy();
+
+  return result;
 };
 
 const deleteBoardsByWorkspaceId = async (workspaceId) => {

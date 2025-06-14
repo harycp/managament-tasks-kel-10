@@ -67,10 +67,10 @@ const updateBoard = async (req, res) => {
 // Fungsi untuk menghapus board berdasarkan ID
 const deleteBoard = async (req, res) => {
   try {
-    const boardId = req.params.id;
+    const { boardId } = req.params;
+    const userId = req.user.id;
 
-    // Hapus board menggunakan service
-    await boardService.deleteBoard(boardId);
+    await boardService.deleteBoard(boardId, userId);
 
     res.status(200).json({ message: "Board deleted", data: true });
   } catch (error) {

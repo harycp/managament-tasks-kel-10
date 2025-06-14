@@ -31,7 +31,7 @@ router.get("/boards/me", authenticate, boardController.getBoardsForUser);
 router.get("/boards/:id", authenticate, boardController.getBoardById);
 router.put("/boards/:id", authenticate, checkRole, boardController.updateBoard);
 router.delete(
-  "/boards/:id",
+  "/boards/:boardId",
   authenticate,
   checkRole,
   boardController.deleteBoard

@@ -26,9 +26,8 @@
         </div>
 
         <p class="mb-6 text-sm text-gray-600">
-          Apakah Anda yakin ingin menghapus workspace ini? Semua proyek dan
-          tugas di dalamnya akan hilang selamanya. Tindakan ini tidak dapat
-          dibatalkan.
+          Are you sure you want to delete this workspace? This action cannot be
+          undone.
         </p>
 
         <div class="flex justify-end gap-4">

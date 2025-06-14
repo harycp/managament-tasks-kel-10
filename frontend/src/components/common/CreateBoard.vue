@@ -78,7 +78,6 @@
               <option value="" disabled>Pilih tipe</option>
               <option value="public">Public</option>
               <option value="private">Private</option>
-              <option value="workspace">Workspace</option>
             </select>
           </div>
 

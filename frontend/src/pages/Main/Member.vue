@@ -4,7 +4,6 @@
       @loaded="(isLoading) => (dashboardLoading = isLoading)"
       :name="name"
       title="Members"
-      v-slot="{ workspace }"
     >
       <div class="flex flex-col gap-8 p-6 max-w-2xl mx-auto">
         <!-- Add Member Button -->
