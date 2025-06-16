@@ -12,7 +12,6 @@ const taskRoutes = require("./routes/taskRoutes");
 
 const workspaceEventConsumer = require("./kafka/consumers/workspaceEventConsumer");
 
-
 // Worker
 // require("./workers/boardEventWorker");
 
@@ -20,7 +19,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: "http://localhost",
     credentials: true,
   })
 );

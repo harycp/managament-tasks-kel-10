@@ -15,11 +15,10 @@ const userRoleRoutes = require("./routes/userRoleRoutes");
 const emailConsumer = require("./kafka/consumers/emailConsumer");
 const db = require("./models");
 
-
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost:5173", // Ganti sesuai origin frontend
+    origin: "http://localhost", // Ganti sesuai origin frontend
     credentials: true, // Wajib agar cookie bisa dikirim
   })
 );

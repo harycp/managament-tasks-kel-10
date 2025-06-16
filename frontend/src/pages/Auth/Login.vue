@@ -238,7 +238,7 @@ export default {
       if (isValid) {
         try {
           const response = await fetch(
-            "http://localhost:5000/user-service/auth/login",
+            "http://localhost/user-service/auth/login",
             {
               method: "POST",
               headers: { "Content-Type": "application/json" },
@@ -284,8 +284,8 @@ export default {
     },
     async handleOAuthLogin(provider) {
       const oauthUrls = {
-        google: "http://localhost:5000/user-service/auth/google",
-        github: "http://localhost:5000/user-service/auth/github",
+        google: "http://localhost/user-service/auth/google",
+        github: "http://localhost/user-service/auth/github",
       };
 
       window.location.href = oauthUrls[provider];

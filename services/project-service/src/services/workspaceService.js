@@ -1,8 +1,7 @@
-// workspaceService.js
 const axios = require("axios");
 
 const WORKSPACE_SERVICE_URL =
-  process.env.WORKSPACE_SERVICE_URL || "http://localhost:5002/api/workspaces";
+  "http://api-gateway-service:5000/workspace-service/api/workspaces";
 
 const getWorkspaceById = async (workspaceId, token) => {
   try {
@@ -10,7 +9,7 @@ const getWorkspaceById = async (workspaceId, token) => {
       `${WORKSPACE_SERVICE_URL}/${workspaceId}`,
       {
         headers: {
-          Cookie: `authToken=${token}`, // ← Kirim cookie secara manual
+          Cookie: `authToken=${token}`,
         },
       }
     );

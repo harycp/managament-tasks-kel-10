@@ -115,7 +115,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/workspace-service/api/workspaces",
+          "http://localhost/workspace-service/api/workspaces",
           {
             withCredentials: true,
           }
@@ -128,7 +128,7 @@ export default {
           workspaces.map(async (workspace) => {
             try {
               const boardRes = await axios.get(
-                `http://localhost:5000/project-service/api/workspaces/${workspace.id}/boards`,
+                `http://localhost/project-service/api/workspaces/${workspace.id}/boards`,
                 {
                   withCredentials: true,
                 }

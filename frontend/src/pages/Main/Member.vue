@@ -207,7 +207,7 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          `http://localhost:5000/workspace-service/api/workspaceMembers/${this.workspaceId}`,
+          `http://localhost/workspace-service/api/workspaceMembers/${this.workspaceId}`,
           { withCredentials: true }
         );
         this.members = response.data.data;
@@ -223,7 +223,7 @@ export default {
       if (!this.newMember.email) return;
       try {
         await axios.post(
-          `http://localhost:5000/workspace-service/api/workspaces/${this.workspaceId}/members`,
+          `http://localhost/workspace-service/api/workspaces/${this.workspaceId}/members`,
           this.newMember,
           { withCredentials: true }
         );
@@ -258,7 +258,7 @@ export default {
     async handleRemoveMember(userId) {
       try {
         await axios.delete(
-          `http://localhost:5000/workspace-service/api/workspaces/${this.workspaceId}/members/${userId}`,
+          `http://localhost/workspace-service/api/workspaces/${this.workspaceId}/members/${userId}`,
           { withCredentials: true }
         );
         await this.fetchMembers(); // Muat ulang daftar member

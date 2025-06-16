@@ -219,7 +219,7 @@ export default {
     async fetchUserProfile() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/user-service/api/profile",
+          "http://localhost/user-service/api/profile",
           {
             withCredentials: true,
           }
@@ -236,7 +236,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost:5000/workspace-service/api/workspaces/me",
+          "http://localhost/workspace-service/api/workspaces/me",
           {
             withCredentials: true,
           }
@@ -248,7 +248,7 @@ export default {
           workspaces.map(async (workspace) => {
             try {
               const boardRes = await axios.get(
-                `http://localhost:5000/project-service/api/boards/me`,
+                `http://localhost/project-service/api/boards/me`,
                 { withCredentials: true }
               );
               return {

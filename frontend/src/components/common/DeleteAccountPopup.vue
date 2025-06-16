@@ -124,7 +124,7 @@ export default {
 
       try {
         const response = await axios.delete(
-          `http://localhost:5000/user-service/api/users/${this.user.id}`,
+          `http://localhost/user-service/api/users/${this.user.id}`,
           { withCredentials: true }
         );
 
@@ -145,7 +145,7 @@ export default {
 
         setTimeout(async () => {
           await axios.post(
-            "http://localhost:5000/user-service/auth/logout",
+            "http://localhost/user-service/auth/logout",
             {},
             { withCredentials: true }
           );
