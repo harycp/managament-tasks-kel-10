@@ -26,7 +26,7 @@ export default {
 
     const resetPassword = async () => {
       try {
-        await axios.post("http://localhost/user-service/api/reset-password", {
+        await axios.post("https://localhost/user-service/api/reset-password", {
           token: route.query.token,
           newPassword: password.value,
         });
@@ -277,7 +277,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost/user-service/auth/reset-password",
+            "https://localhost/user-service/auth/reset-password",
             {
               token: this.$route.query.token,
               newPassword: this.form.confirmPassword,

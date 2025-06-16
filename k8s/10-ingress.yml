@@ -4,6 +4,10 @@ metadata:
   name: main-ingress
 spec:
   ingressClassName: nginx
+  tls:
+    - hosts:
+        - localhost
+      secretName: tuntask-tls-secre
   rules:
     - host: localhost
       http:

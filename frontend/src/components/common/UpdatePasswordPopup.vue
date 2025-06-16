@@ -278,7 +278,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.put(
-            "http://localhost/user-service/api/update-password",
+            "https://localhost/user-service/api/update-password",
             {
               id: this.user.id,
               oldPassword: this.form.oldPassword,

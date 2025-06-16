@@ -128,7 +128,7 @@ export default {
       this.errorMessage = "";
       try {
         await axios.post(
-          "http://localhost/user-service/api/verify-password",
+          "https://localhost/user-service/api/verify-password",
           {
             userId: this.user.id,
             password: this.password,
@@ -146,7 +146,7 @@ export default {
       this.errorMessage = "";
       try {
         await axios.post(
-          "http://localhost/user-service/api/request-otp",
+          "https://localhost/user-service/api/request-otp",
           {
             email: this.user.email,
             newEmail: this.newEmail,
@@ -166,7 +166,7 @@ export default {
       this.errorMessage = "";
       try {
         await axios.post(
-          "http://localhost/user-service/api/update-email",
+          "https://localhost/user-service/api/update-email",
           {
             otp: this.otp,
             email: this.newEmail,

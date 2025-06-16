@@ -192,7 +192,7 @@ export default {
     async updateName() {
       try {
         const response = await axios.put(
-          `http://localhost/user-service/api/users/${this.user.id}`,
+          `https://localhost/user-service/api/users/${this.user.id}`,
           {
             name: this.editedUser.name,
           },

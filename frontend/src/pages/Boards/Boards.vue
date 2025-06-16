@@ -144,7 +144,7 @@ export default {
       this.isLoading = true;
       try {
         const response = await axios.get(
-          "http://localhost/project-service/api/boards/me", // Panggil endpoint baru
+          "https://localhost/project-service/api/boards/me", // Panggil endpoint baru
           { withCredentials: true }
         );
         const allBoards = response.data.data || [];

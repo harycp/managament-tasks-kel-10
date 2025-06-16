@@ -13,7 +13,7 @@ data:
   WORKSPACE_SERVICE_URL: "http://workspace-service:5002"
   PROJECT_SERVICE_URL: "http://project-service:5003"
 
-  RESET_PASSWORD_URL: "http://localhost/reset-password"
-  CONFIRM_EMAIL_URL: "http://localhost/verify-email"
-  GOOGLE_CALLBACK_URL: "http://localhost/user-service/auth/google/callback"
-  GITHUB_CALLBACK_URL: "http://localhost/user-service/auth/github/callback"
+  RESET_PASSWORD_URL: "https://localhost/reset-password"
+  CONFIRM_EMAIL_URL: "https://localhost/verify-email"
+  GOOGLE_CALLBACK_URL: "https://localhost/user-service/auth/google/callback"
+  GITHUB_CALLBACK_URL: "https://localhost/user-service/auth/github/callback"

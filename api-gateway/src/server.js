@@ -15,7 +15,7 @@ const app = express();
 app.use(cookieParser());
 app.use(
   cors({
-    origin: "http://localhost",
+    origin: "https://localhost",
     credentials: true,
   })
 );

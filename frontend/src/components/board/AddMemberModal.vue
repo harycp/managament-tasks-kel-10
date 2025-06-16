@@ -111,7 +111,7 @@ export default {
 
       try {
         await axios.post(
-          `http://localhost/project-service/api/boards/${this.boardId}/members`,
+          `https://localhost/project-service/api/boards/${this.boardId}/members`,
           { email: this.email, role: this.role },
           { withCredentials: true }
         );

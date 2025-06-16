@@ -23,7 +23,7 @@ export default {
 
     const requestResetPassword = async () => {
       try {
-        await axios.post("http://localhost/user-service/api/request-reset-password", {
+        await axios.post("https://localhost/user-service/api/request-reset-password", {
           email: email.value,
         });
         alert("Reset link has been sent to your email");
@@ -170,7 +170,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost/user-service/auth/request-reset-password",
+            "https://localhost/user-service/auth/request-reset-password",
             {
               email: this.form.email,
             }

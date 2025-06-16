@@ -3,7 +3,7 @@ import axios from "axios";
 export const checkAuth = async () => {
   try {
     const response = await axios.get(
-      "http://localhost/user-service/auth/check-auth",
+      "https://localhost/user-service/auth/check-auth",
       {
         withCredentials: true,
       }
@@ -17,7 +17,7 @@ export const checkAuth = async () => {
 export const verifyResetToken = async (token) => {
   try {
     const response = await axios.get(
-      `http://localhost/user-service/auth/verify-reset-token?token=${token}`
+      `https://localhost/user-service/auth/verify-reset-token?token=${token}`
     );
     return response.data.valid;
   } catch (error) {

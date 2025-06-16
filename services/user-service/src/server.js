@@ -18,7 +18,7 @@ const db = require("./models");
 const app = express();
 app.use(
   cors({
-    origin: "http://localhost", // Ganti sesuai origin frontend
+    origin: "https://localhost", // Ganti sesuai origin frontend
     credentials: true, // Wajib agar cookie bisa dikirim
   })
 );

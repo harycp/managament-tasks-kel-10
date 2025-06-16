@@ -246,7 +246,7 @@ export default {
       if (isValid) {
         try {
           const response = await axios.post(
-            "http://localhost/user-service/auth/verify-email",
+            "https://localhost/user-service/auth/verify-email",
             {
               token: this.$route.query.token,
               userData: this.form,

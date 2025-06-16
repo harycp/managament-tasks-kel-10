@@ -202,7 +202,7 @@ export default {
       }
       try {
         const res = await axios.get(
-          `http://localhost/workspace-service/api/workspaces/${this.workspaceId}`,
+          `https://localhost/workspace-service/api/workspaces/${this.workspaceId}`,
           {
             withCredentials: true,
           }
@@ -225,7 +225,7 @@ export default {
       }
       try {
         await axios.put(
-          `http://localhost/workspace-service/api/workspaces/${this.workspaceId}`, // Gunakan computed property
+          `https://localhost/workspace-service/api/workspaces/${this.workspaceId}`, // Gunakan computed property
           this.form,
           {
             withCredentials: true,
@@ -263,7 +263,7 @@ export default {
 
       try {
         const response = await axios.delete(
-          `http://localhost/workspace-service/api/workspaces/${this.workspaceId}`,
+          `https://localhost/workspace-service/api/workspaces/${this.workspaceId}`,
           { withCredentials: true }
         );
 

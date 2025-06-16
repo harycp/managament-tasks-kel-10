@@ -169,7 +169,7 @@ export default {
         };
 
         const response = await axios.post(
-          "http://localhost/workspace-service/api/workspaces",
+          "https://localhost/workspace-service/api/workspaces",
           {
             ...payload,
           },

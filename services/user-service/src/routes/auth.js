@@ -24,13 +24,13 @@ router.get(
     const token = req.user.token;
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: false, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
+      secure: true, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
       sameSite: "Lax",
-      domain: "localhost",
+      // domain: "localhost",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("http://localhost/h");
+    res.redirect("https://localhost/h");
   }
 );
 
@@ -47,13 +47,13 @@ router.get(
     const token = req.user.token;
     res.cookie("authToken", token, {
       httpOnly: true,
-      secure: false, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
+      secure: true, // Gunakan secure=true jika di production (HTTPS) pake NODE_ENV PRODUCTION
       sameSite: "Lax",
-      domain: "localhost",
+      // domain: "localhost",
       maxAge: 7 * 24 * 60 * 60 * 1000,
     });
 
-    res.redirect("http://localhost/h");
+    res.redirect("https://localhost/h");
   }
 );
 

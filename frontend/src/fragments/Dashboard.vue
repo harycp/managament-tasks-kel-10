@@ -135,7 +135,7 @@ export default {
     async fetchUserProfile() {
       try {
         const response = await axios.get(
-          "http://localhost/user-service/api/profile",
+          "https://localhost/user-service/api/profile",
           {
             withCredentials: true,
           }
@@ -152,7 +152,7 @@ export default {
     async fetchWorkspaces() {
       try {
         const response = await axios.get(
-          "http://localhost/workspace-service/api/workspaces",
+          "https://localhost/workspace-service/api/workspaces",
           {
             withCredentials: true,
           }

@@ -6,7 +6,7 @@ spec:
   selector:
     app: frontend # <-- Sesuaikan selector agar cocok dengan label di Deployment
   ports:
-    - name: http
+    - name: https
       protocol: TCP
       port: 80
       targetPort: 80
@@ -23,7 +23,7 @@ spec:
   template:
     metadata:
       labels:
-        app: frontend 
+        app: frontend
     spec:
       containers:
         - name: frontend

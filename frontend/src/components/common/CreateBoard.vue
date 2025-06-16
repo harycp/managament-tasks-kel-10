@@ -145,7 +145,7 @@ export default {
         };
 
         const response = await axios.post(
-          `http://localhost/project-service/api/workspaces/${this.workspace.id}/boards`,
+          `https://localhost/project-service/api/workspaces/${this.workspace.id}/boards`,
           {
             ...payload,
           },
