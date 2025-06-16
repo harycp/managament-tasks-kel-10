@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: app-config
+data:
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  REDIS_HOST: "redis-service"
+  REDIS_PORT: "6379"
+  KAFKA_BROKER: "kafka-service:9094" # Gunakan port internal
+
+  # Alamat untuk komunikasi antar-backend
+  USER_SERVICE_URL: "http://user-service:5001"
+  WORKSPACE_SERVICE_URL: "http://workspace-service:5002"
+  PROJECT_SERVICE_URL: "http://project-service:5003"
+
+  # URL yang diakses dari browser, sekarang menunjuk ke localhost (via Ingress)
+  RESET_PASSWORD_URL: "http://localhost/reset-password"
+  CONFIRM_EMAIL_URL: "http://localhost/verify-email"
+  GOOGLE_CALLBACK_URL: "http://localhost/auth/google/callback"
+  GITHUB_CALLBACK_URL: "http://localhost/auth/github/callback"
