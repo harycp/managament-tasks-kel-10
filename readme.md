@@ -104,6 +104,13 @@ Untuk simulasi deployment di lingkungan yang lebih kompleks.
     docker build -t frontend:latest -f ./frontend/Dockerfile ./frontend
     ```
 
+2.  **Install Ingress dan Apply di Kubernetes**
+    Untuk membuat ingress bisa dijalankan, kita harus download file eksternalnya terlebih dahulu, caranya dengan jalankan command ini diterminal direktori root project :
+
+```bash
+ kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.10.1/deploy/static/provider/cloud/deploy.yaml
+```
+
 2.  **Generate Sertifikat SSL Lokal (HTTPS)**
     Untuk mengaktifkan akses HTTPS, buat sertifikat _self-signed_. Buka **Git Bash** di direktori root proyek dan jalankan:
 
