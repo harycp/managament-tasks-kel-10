@@ -311,6 +311,7 @@ export default {
           { newPosition },
           { withCredentials: true }
         );
+
       } catch (error) {
         console.error("Failed to update list position:", error);
         const item = this.lists.splice(newIndex, 1)[0];

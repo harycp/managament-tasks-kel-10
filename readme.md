@@ -230,9 +230,7 @@ task-management/
 ├── services/                 # Direktori untuk semua microservices backend
 │   ├── user-service/         # Mengelola data user, autentikasi, dan otorisasi
 │   ├── workspace-service/    # Mengelola workspace dan keanggotaan tim
-│   ├── board-service/        # Mengelola board proyek
 │   ├── project-service/      # Mengelola tugas (tasks), list, label, dan komentar
-│   └── notification-service/ # Mengelola notifikasi real-time (jika ada)
 │
 ├── frontend/                 # Aplikasi Frontend yang dibangun dengan Vue.js
 │

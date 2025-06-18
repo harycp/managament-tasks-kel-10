@@ -77,6 +77,7 @@ const getLists = async (boardId) => {
   const board = await boardModel.findByPk(boardId, {
     include: [{ model: listModel, as: "lists" }],
   });
+  
   if (!board) throw new Error("Board not found");
 
   return {
